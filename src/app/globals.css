@@ -42,7 +42,7 @@ nav.stuck{background:rgba(255,255,255,.92);backdrop-filter:blur(28px);border-col
 .sdot.on{width:20px;border-radius:100px;background:var(--o);}
 
 /* HERO STAGE */
-.hero-stage{position:relative;width:100%;max-width:1300px;margin:0 auto;padding:0 52px;height:560px;z-index:5;margin-top:20px;opacity:0;animation:fadeUp .9s .5s cubic-bezier(.22,1,.36,1) forwards;}
+.hero-stage{position:relative;width:100%;max-width:1300px;margin:0 auto;padding:0 52px;height:560px;z-index:5;margin-top:60px;opacity:0;animation:fadeUp .9s .5s cubic-bezier(.22,1,.36,1) forwards;}
 
 /* DASHBOARD */
 #dash-wrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:68%;max-width:780px;z-index:10;will-change:transform;}
@@ -205,3 +205,52 @@ footer{padding:38px 52px;border-top:1px solid var(--g2);display:flex;align-items
 .rvy{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1);}
 .rvy.vis{opacity:1;transform:translateY(0);}
 .rd1{transition-delay:.08s;}.rd2{transition-delay:.16s;}.rd3{transition-delay:.24s;}.rd4{transition-delay:.32s;}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+  .s-intro { grid-template-columns: 1fr; gap: 32px; }
+  .sp { max-width: 100%; align-self: start; }
+  .f-grid { grid-template-columns: repeat(2, 1fr); }
+  .prod-grid { grid-template-columns: 1fr; gap: 48px; }
+  .s-logos { padding: 40px 32px; }
+  .s-features { padding: 80px 32px; }
+  .s-product { padding: 80px 32px; }
+  .s-cta { padding: 80px 32px; }
+  footer { flex-wrap: wrap; gap: 24px; padding: 32px; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 16px; }
+  .logo { font-size: 16px; gap: 6px; }
+  .logo-mark { width: 22px; height: 22px; }
+  .nav-mid { display: none; }
+  .nav-r { gap: 6px; }
+  .btn-nav-ghost, .btn-nav-cta { padding: 7px 12px; font-size: 11px; }
+  
+  .hero { min-height: auto; padding-bottom: 60px; }
+  .hero-text { padding: 32px 20px 0; margin-bottom: 60px; }
+  .hero-text h1 { font-size: 32px; letter-spacing: -1px; }
+  .hero-text p { font-size: 15px; }
+  .hero-stage { padding: 0 16px; height: 400px; margin-top: 80px; }
+  
+  #dash-wrap { width: 100%; top: 40%; }
+  #phone-wrap { display: none; }
+  #robot-wrap { width: 18%; top: -5%; left: 0%; }
+  #cctv-wrap { width: 15%; top: -10%; right: 0%; }
+  #report-card { right: 2%; bottom: -10%; transform: scale(0.8); }
+  #stack-wrap, #orb-wrap { display: none; }
+
+  .f-grid { grid-template-columns: 1fr; }
+  .pv-mets { grid-template-columns: repeat(2, 1fr); }
+  
+  .cta-h { font-size: 32px; }
+  .cta-acts { flex-direction: column; width: 100%; max-width: 300px; margin: 0 auto 36px; }
+  .cta-acts button { width: 100%; }
+  
+  footer { flex-direction: column; align-items: flex-start; }
+}
+
+@media (pointer: coarse) {
+  #crsr, #crsr-ring { display: none !important; }
+  body { cursor: auto; }
+}
