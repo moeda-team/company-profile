@@ -1,7 +1,9 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const nav = document.getElementById("nav");
     const handler = () => nav?.classList.toggle("stuck", window.scrollY > 30);
@@ -19,14 +21,19 @@ export default function Navbar() {
         </svg>
         Hompimpa
       </a>
-      <ul className="nav-mid">
-        <li><a href="#">Solutions</a></li>
-        <li><a href="#">Features</a></li>
-        <li><a href="#">Pricing</a></li>
+      <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+        <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+        <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+        <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+      </button>
+      <ul className={`nav-mid ${menuOpen ? "nav-mid-open" : ""}`}>
+        <li><a href="#hero" onClick={() => setMenuOpen(false)}>Home</a></li>
+        <li><a href="#about" onClick={() => setMenuOpen(false)}>About</a></li>
+        <li><a href="#portfolio" onClick={() => setMenuOpen(false)}>Portfolio</a></li>
+        <li><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a></li>
       </ul>
       <div className="nav-r">
-        <button className="btn-nav-ghost">Sign in</button>
-        <button className="btn-nav-cta">Contact Sales</button>
+        <button className="btn-nav-cta">Get Started</button>
       </div>
     </nav>
   );

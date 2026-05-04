@@ -1,7 +1,6 @@
 import Cursor from "@/components/Cursor";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import LogoBar from "@/components/LogoBar";
 import Features from "@/components/Features";
 import Product from "@/components/Product";
 import CTA from "@/components/CTA";
@@ -13,7 +12,6 @@ export default function Home() {
       <Cursor />
       <Navbar />
       <Hero />
-      <LogoBar />
       <Features />
       <Product />
       <CTA />
