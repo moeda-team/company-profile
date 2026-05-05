@@ -232,7 +232,7 @@ nav.stuck {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 40px 52px 0;
   flex: 1;
@@ -372,8 +372,10 @@ nav.stuck {
 
 /* ===== FEATURES ===== */
 .s-features {
-  padding: 72px 52px 64px;
+  padding: 64px 52px;
   background: var(--w);
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .s-intro {
   text-align: left;
@@ -404,6 +406,8 @@ nav.stuck {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
+  max-width: 1400px;
+  margin: 0 auto;
   background: var(--g3);
   border: 1px solid var(--g3);
   border-radius: 16px;
@@ -509,6 +513,8 @@ nav.stuck {
   padding: 64px 52px;
   background: var(--w);
   border-top: 1px solid var(--g2);
+  max-width: 1400px;
+  margin: 0 auto;
 }
 .product-header {
   margin-bottom: 44px;
@@ -708,7 +714,7 @@ footer {
   padding: 44px 52px 32px;
 }
 .footer-inner {
-  max-width: 1300px;
+  max-width: 1400px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1.1fr 1.8fr 1.2fr;
@@ -812,7 +818,7 @@ footer {
     padding: 32px 28px 0;
   }
   .s-features {
-    padding: 72px 28px 64px;
+    padding: 64px 28px;
   }
   .s-product {
     padding: 64px 28px;
@@ -917,7 +923,7 @@ footer {
   }
 
   .s-features {
-    padding: 56px 18px 48px;
+    padding: 56px 18px;
   }
   .services-grid {
     grid-template-columns: 1fr;
