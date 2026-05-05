@@ -27,11 +27,16 @@ export default function Navbar() {
         <img className="logo-mark" src="/images/logo.png" alt="Hompimpa Logo" />
         Hompimpa
       </a>
-      <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
-        <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-        <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-        <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
-      </button>
+      <div className="nav-mobile-actions">
+        <button className="btn-nav-cta-mobile" onClick={() => scrollToSection("contact")}>
+          Get Started
+        </button>
+        <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+          <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+          <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+          <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
+        </button>
+      </div>
       <ul className={`nav-mid ${menuOpen ? "nav-mid-open" : ""}`}>
         <li>
           <a
@@ -76,6 +81,11 @@ export default function Navbar() {
           >
             Contact
           </a>
+        </li>
+        <li className="nav-mid-cta">
+          <button className="btn-nav-cta" onClick={() => scrollToSection("contact")}>
+            Get Started
+          </button>
         </li>
       </ul>
       <div className="nav-r">
