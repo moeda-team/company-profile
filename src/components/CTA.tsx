@@ -15,8 +15,10 @@ export default function CTA() {
             for scale, and supported for the long run.&quot;
           </p>
         </div>
+        <img className="cta-arrow" src="/images/others/arrow-ornament.jpg" alt="Arrow" />
         <div className="cta-right">
           <div className="cta-card">
+            <img className="cta-shade" src="/images/others/shade-connect.png" alt="" />
             <h3 className="cta-card-title">Build Your Custom Business System Today</h3>
             <p className="cta-card-desc">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
