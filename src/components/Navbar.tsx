@@ -11,6 +11,16 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 60;
+      const top = element.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
+    setMenuOpen(false);
+  };
+
   return (
     <nav id="nav">
       <a className="logo" href="#">
@@ -24,28 +34,54 @@ export default function Navbar() {
       </button>
       <ul className={`nav-mid ${menuOpen ? "nav-mid-open" : ""}`}>
         <li>
-          <a href="#hero" onClick={() => setMenuOpen(false)}>
+          <a
+            href="#hero"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("hero");
+            }}
+          >
             Home
           </a>
         </li>
         <li>
-          <a href="#about" onClick={() => setMenuOpen(false)}>
+          <a
+            href="#about"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("about");
+            }}
+          >
             About
           </a>
         </li>
         <li>
-          <a href="#portfolio" onClick={() => setMenuOpen(false)}>
+          <a
+            href="#portfolio"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("portfolio");
+            }}
+          >
             Portfolio
           </a>
         </li>
         <li>
-          <a href="#contact" onClick={() => setMenuOpen(false)}>
+          <a
+            href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("contact");
+            }}
+          >
             Contact
           </a>
         </li>
       </ul>
       <div className="nav-r">
-        <button className="btn-nav-cta">Get Started</button>
+        <button className="btn-nav-cta" onClick={() => scrollToSection("contact")}>
+          Get Started
+        </button>
       </div>
     </nav>
   );

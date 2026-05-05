@@ -4,15 +4,15 @@ import ScrollReveal from "./ScrollReveal";
 
 const projects = [
   {
-    title: "RANDAI QUIZ",
+    title: "EMPATRIMA",
     description: "An educational quiz game for schools, communities, and corporate teams.",
-    image: "/images/randai-quiz.png",
+    image: "/images/contents/empatrima.png",
     tag: "Education",
   },
   {
     title: "POS - Moeda",
     description: "A point of sale system built for small to medium restaurants and cafes.",
-    image: "/images/pos-moeda.png",
+    image: "/images/contents/pos.png",
     tag: "Retail",
   },
 ];
@@ -36,7 +36,7 @@ export default function Product() {
         {projects.map((p, i) => (
           <div key={i} className="project-card">
             <div className="project-image-wrap">
-              <Image src={p.image} alt={p.title} width={600} height={400} className="project-image" />
+              <Image src={p.image} alt={p.title} width={600} height={500} className="project-image" />
               <div className="project-tag">{p.tag}</div>
             </div>
             <div className="project-info">

@@ -5,11 +5,7 @@ export default function Footer() {
         {/* Brand */}
         <div className="footer-brand">
           <a className="logo" href="#">
-            <svg className="logo-mark" viewBox="0 0 28 28" fill="none">
-              <polygon points="14,1 27,8 27,20 14,27 1,20 1,8" fill="rgba(255,106,0,.1)" stroke="#FF6A00" strokeWidth="1.5"/>
-              <polygon points="14,7 21,11 21,17 14,21 7,17 7,11" fill="#FF6A00" opacity=".55"/>
-              <polygon points="14,10.5 18,12.8 18,15.2 14,17.5 10,15.2 10,12.8" fill="#FF6A00"/>
-            </svg>
+            <img className="logo-mark" src="/images/logo.png" alt="Hompimpa Logo" />
             Hompimpa
           </a>
           <div className="footer-copy">©2026 Hompimpa. All rights reserved.</div>
@@ -40,8 +36,10 @@ export default function Footer() {
           <div className="footer-col-title">Stay Updated</div>
           <p className="footer-newsletter-desc">Get insights & updates about AI and digital solutions.</p>
           <div className="footer-email-wrap">
-            <input type="email" placeholder="Enter your email" className="footer-email-input"/>
-            <button className="footer-email-btn" aria-label="Subscribe">→</button>
+            <input type="email" placeholder="Enter your email" className="footer-email-input" />
+            <button className="footer-email-btn" aria-label="Subscribe">
+              →
+            </button>
           </div>
         </div>
       </div>
