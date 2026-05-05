@@ -52,6 +52,38 @@ export default function Hero() {
     };
   }, []);
 
+  useEffect(() => {
+    const cctv = document.getElementById("cctv-wrap");
+    const drone = document.getElementById("drone-wrap");
+    const heroImg = document.getElementById("hero-img-wrap");
+
+    console.log("Elements found:", { cctv: !!cctv, drone: !!drone, heroImg: !!heroImg });
+
+    if (!cctv || !drone || !heroImg) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+
+      const offsetX = (clientX - centerX) / centerX;
+      const offsetY = (clientY - centerY) / centerY;
+
+      const cctvTransform = `translate(${offsetX * 20}px, ${offsetY * 15}px)`;
+      const droneTransform = `translate(${offsetX * -30}px, ${offsetY * -20}px)`;
+      const heroTransform = `translate(${offsetX * -15}px, ${offsetY * -10}px)`;
+
+      cctv.style.transform = cctvTransform;
+      drone.style.transform = droneTransform;
+      heroImg.style.transform = heroTransform;
+
+      console.log("Transforms applied:", { cctvTransform, droneTransform, heroTransform });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
     <section className="hero" id="hero">
       <canvas id="hero-canvas" ref={canvasRef} />
@@ -117,11 +149,15 @@ export default function Hero() {
       </div>
       {/* CCTV Camera - top right */}
       <div className="hero-deco hero-cctv">
-        <Image src="/images/others/cctv.png" alt="CCTV Camera" width={200} height={180} />
+        <div id="cctv-wrap" className="hero-deco-inner">
+          <Image src="/images/others/cctv.png" alt="CCTV Camera" width={200} height={180} />
+        </div>
       </div>
       {/* Drone - middle left */}
       <div className="hero-deco hero-drone">
-        <Image src="/images/others/drone.png" alt="Drone" width={400} height={380} />
+        <div id="drone-wrap" className="hero-deco-inner">
+          <Image src="/images/others/drone.png" alt="Drone" width={400} height={380} />
+        </div>
       </div>
 
       <div className="hero-inner">
@@ -138,7 +174,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="hero-mockups">
+        <div id="hero-img-wrap" className="hero-mockups">
           <Image
             src="/images/contents/hero.png"
             alt="Hompimpa Platform"
