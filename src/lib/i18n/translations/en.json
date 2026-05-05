@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "getStarted": "Get Started"
+  },
+  "hero": {
+    "titlePart1": "Scalable AI & Automation",
+    "titleConnector": "for",
+    "titlePart2": "Real-World Operations",
+    "subtitle": "Reduce downtime, automate inspections, and improve project visibility.",
+    "ctaPrimary": "Get Your Proposal >",
+    "ctaSecondary": "See Our Work >"
+  },
+  "features": {
+    "title": "Built for Real-World Impact",
+    "subtitle": "From intelligent automation to scalable system development and reliable support, we help businesses streamline operations and maximize performance.",
+    "services": {
+      "ai": {
+        "title": "Automate Field Operation with AI",
+        "lines": ["AI-Driven predictive analytics", "Real-time task scheduling", "Automated field reporting"],
+        "benefits": ["Predictive analytics & reports", "Reduce human errors", "Boost operational efficiency"]
+      },
+      "web": {
+        "title": "Custom Website & Mobile App Development",
+        "lines": ["User-friendly UI/UX design", "High performance & mobile-first", "Cross-platform development"],
+        "benefits": ["Scalable & scalable solutions for your success", "High ROI solutions", "Fast & clean development"]
+      },
+      "support": {
+        "title": "Maintenance & Technical Support",
+        "lines": ["ERP system maintenance", "IT infrastructure setup", "Long-term technical support"],
+        "benefits": ["Business performance tuning", "Continuous updates & expert", "Proactive issue maintenance"]
+      }
+    },
+    "benefitsTitle": "Benefits"
+  },
+  "product": {
+    "title": "Our Project",
+    "subtitle": "We build integrated systems that simplify complex processes, enhance productivity, and create smooth, reliable experiences for both businesses and users.",
+    "projects": {
+      "empatrima": {
+        "title": "EMPATRIMA",
+        "description": "An educational quiz game for schools, communities, and corporate teams.",
+        "tag": "Education"
+      },
+      "pos": {
+        "title": "POS - Moeda",
+        "description": "A point of sale system built for small to medium restaurants and cafes.",
+        "tag": "Retail"
+      }
+    },
+    "readMore": "Read More →"
+  },
+  "cta": {
+    "title": "Why Work With Hompimpa?",
+    "subtitle": "We help businesses transform complex operations into efficient, automated systems—powered by AI, built for scale, and supported for the long run.",
+    "cardTitle": "Build Your Custom Business System Today",
+    "cardDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+    "button": "Let's Connect →"
+  },
+  "footer": {
+    "copyright": "©2026 Hompimpa. All rights reserved.",
+    "company": "Company",
+    "services": "Services",
+    "contact": "Contact",
+    "stayUpdated": "Stay Updated",
+    "newsletterDesc": "Get insights & updates about AI and digital solutions.",
+    "emailPlaceholder": "Enter your email",
+    "links": {
+      "about": "About",
+      "socialMedia": "Social Media",
+      "webDevelopment": "Web Development",
+      "mobileApp": "Mobile App",
+      "aiAutomation": "AI & Automation"
+    }
+  }
+}

@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -163,14 +165,14 @@ export default function Hero() {
       <div className="hero-inner">
         <div className="hero-text">
           <h1>
-            Scalable AI & Automation
+            {t("hero.titlePart1")}
             <br />
-            Systems for <span className="hero-highlight">Real-World Operations</span>
+            {t("hero.titleConnector")} <span className="hero-highlight">{t("hero.titlePart2")}</span>
           </h1>
-          <p>&quot;Reduce downtime, automate inspections, and improve project visibility.&quot;</p>
+          <p>&quot;{t("hero.subtitle")}&quot;</p>
           <div className="hero-ctas">
-            <button className="btn-hero">Get Your Proposal &gt;</button>
-            <button className="btn-hero-ghost">See Our Work &gt;</button>
+            <button className="btn-hero">{t("hero.ctaPrimary")}</button>
+            <button className="btn-hero-ghost">{t("hero.ctaSecondary")}</button>
           </div>
         </div>
 

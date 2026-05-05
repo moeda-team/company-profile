@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const nav = document.getElementById("nav");
@@ -28,8 +30,11 @@ export default function Navbar() {
         Hompimpa
       </a>
       <div className="nav-mobile-actions">
+        <button className="btn-lang-mobile" onClick={() => setLanguage(language === "en" ? "id" : "en")}>
+          {language === "en" ? "ID" : "EN"}
+        </button>
         <button className="btn-nav-cta-mobile" onClick={() => scrollToSection("contact")}>
-          Get Started
+          {t("nav.getStarted")}
         </button>
         <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
           <span className={`hamburger-line ${menuOpen ? "open" : ""}`} />
@@ -46,7 +51,7 @@ export default function Navbar() {
               scrollToSection("hero");
             }}
           >
-            Home
+            {t("nav.home")}
           </a>
         </li>
         <li>
@@ -57,7 +62,7 @@ export default function Navbar() {
               scrollToSection("about");
             }}
           >
-            About
+            {t("nav.about")}
           </a>
         </li>
         <li>
@@ -68,7 +73,7 @@ export default function Navbar() {
               scrollToSection("portfolio");
             }}
           >
-            Portfolio
+            {t("nav.portfolio")}
           </a>
         </li>
         <li>
@@ -79,18 +84,21 @@ export default function Navbar() {
               scrollToSection("contact");
             }}
           >
-            Contact
+            {t("nav.contact")}
           </a>
         </li>
         <li className="nav-mid-cta">
           <button className="btn-nav-cta" onClick={() => scrollToSection("contact")}>
-            Get Started
+            {t("nav.getStarted")}
           </button>
         </li>
       </ul>
       <div className="nav-r">
+        <button className="btn-lang" onClick={() => setLanguage(language === "en" ? "id" : "en")}>
+          {language === "en" ? "ID" : "EN"}
+        </button>
         <button className="btn-nav-cta" onClick={() => scrollToSection("contact")}>
-          Get Started
+          {t("nav.getStarted")}
         </button>
       </div>
     </nav>

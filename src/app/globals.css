@@ -157,6 +157,44 @@ nav.stuck {
   box-shadow: 0 6px 18px rgba(255, 106, 0, 0.35);
 }
 
+/* Language toggle buttons */
+.btn-lang {
+  font-family: "Geist", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1.5px solid var(--g3);
+  background: transparent;
+  color: var(--g6);
+  cursor: pointer;
+  transition: all 0.22s;
+  margin-right: 10px;
+}
+.btn-lang:hover {
+  border-color: var(--o);
+  color: var(--o);
+  background: var(--o3);
+}
+.btn-lang-mobile {
+  display: none;
+  font-family: "Geist", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: 1.5px solid var(--g3);
+  background: transparent;
+  color: var(--g6);
+  cursor: pointer;
+  transition: all 0.22s;
+}
+.btn-lang-mobile:hover {
+  border-color: var(--o);
+  color: var(--o);
+  background: var(--o3);
+}
+
 /* Mobile actions container */
 .nav-mobile-actions {
   display: none;
@@ -939,6 +977,9 @@ footer {
   }
   .btn-nav-cta-mobile {
     display: none;
+  }
+  .btn-lang-mobile {
+    display: block;
   }
   .nav-hamburger {
     display: flex;

@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "home": "Beranda",
+    "about": "Tentang",
+    "portfolio": "Portofolio",
+    "contact": "Kontak",
+    "getStarted": "Mulai Sekarang"
+  },
+  "hero": {
+    "titlePart1": "Sistem AI & Otomasi Skalabel",
+    "titleConnector": "untuk",
+    "titlePart2": "Operasi Dunia Nyata",
+    "subtitle": "Kurangi downtime, otomatisasi inspeksi, dan tingkatkan visibilitas proyek.",
+    "ctaPrimary": "Dapatkan Proposal Anda >",
+    "ctaSecondary": "Lihat Karya Kami >"
+  },
+  "features": {
+    "title": "Dibangun untuk Dampak Dunia Nyata",
+    "subtitle": "Dari otomasi cerdas hingga pengembangan sistem skalabel dan dukungan yang andal, kami membantu bisnis merampingkan operasi dan memaksimalkan kinerja.",
+    "services": {
+      "ai": {
+        "title": "Otomatisasi Operasi Lapangan dengan AI",
+        "lines": ["Analitik prediktif berbasis AI", "Penjadwalan tugas real-time", "Pelaporan lapangan otomatis"],
+        "benefits": [
+          "Analitik prediktif & laporan",
+          "Mengurangi kesalahan manusia",
+          "Meningkatkan efisiensi operasional"
+        ]
+      },
+      "web": {
+        "title": "Pengembangan Website & Aplikasi Mobile Kustom",
+        "lines": ["Desain UI/UX yang ramah pengguna", "Performa tinggi & mobile-first", "Pengembangan lintas platform"],
+        "benefits": ["Solusi skalabel untuk kesuksesan Anda", "Solusi ROI tinggi", "Pengembangan cepat & bersih"]
+      },
+      "support": {
+        "title": "Pemeliharaan & Dukungan Teknis",
+        "lines": ["Pemeliharaan sistem ERP", "Pengaturan infrastruktur IT", "Dukungan teknis jangka panjang"],
+        "benefits": ["Penyetelan kinerja bisnis", "Pembaruan berkelanjutan & ahli", "Pemeliharaan masalah proaktif"]
+      }
+    },
+    "benefitsTitle": "Manfaat"
+  },
+  "product": {
+    "title": "Proyek Kami",
+    "subtitle": "Kami membangun sistem terintegrasi yang menyederhanakan proses kompleks, meningkatkan produktivitas, dan menciptakan pengalaman yang lancar dan andal untuk bisnis dan pengguna.",
+    "projects": {
+      "empatrima": {
+        "title": "EMPATRIMA",
+        "description": "Game kuis edukatif untuk sekolah, komunitas, dan tim korporat.",
+        "tag": "Pendidikan"
+      },
+      "pos": {
+        "title": "POS - Moeda",
+        "description": "Sistem point of sale yang dibangun untuk restoran dan kafe kecil hingga menengah.",
+        "tag": "Ritel"
+      }
+    },
+    "readMore": "Baca Selengkapnya →"
+  },
+  "cta": {
+    "title": "Mengapa Bekerja dengan Hompimpa?",
+    "subtitle": "Kami membantu bisnis mengubah operasi kompleks menjadi sistem otomatis yang efisien—didukung AI, dibangun untuk skala, dan didukung untuk jangka panjang.",
+    "cardTitle": "Bangun Sistem Bisnis Kustom Anda Hari Ini",
+    "cardDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+    "button": "Mari Terhubung →"
+  },
+  "footer": {
+    "copyright": "©2026 Hompimpa. Hak cipta dilindungi.",
+    "company": "Perusahaan",
+    "services": "Layanan",
+    "contact": "Kontak",
+    "stayUpdated": "Tetap Update",
+    "newsletterDesc": "Dapatkan wawasan & pembaruan tentang AI dan solusi digital.",
+    "emailPlaceholder": "Masukkan email Anda",
+    "links": {
+      "about": "Tentang",
+      "socialMedia": "Media Sosial",
+      "webDevelopment": "Pengembangan Web",
+      "mobileApp": "Aplikasi Mobile",
+      "aiAutomation": "AI & Otomasi"
+    }
+  }
+}
