@@ -630,7 +630,7 @@ nav.stuck {
   grid-template-columns: 1fr auto 1.1fr;
   gap: 24px;
   align-items: center;
-  max-width: 1000px;
+  max-width: 1300px;
   margin: 0 auto;
 }
 .cta-h {
@@ -690,10 +690,11 @@ nav.stuck {
   z-index: 1;
 }
 .cta-arrow {
-  width: 120px;
+  width: 300px;
   height: auto;
   align-self: flex-end;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
+  margin-right: 25px;
 }
 .cta-shade {
   position: absolute;
