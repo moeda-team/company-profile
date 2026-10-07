@@ -1,4 +1,73 @@
 {
+  "home": {
+    "nav": {
+      "label": "Main navigation",
+      "services": "Services",
+      "work": "Work",
+      "contact": "Contact",
+      "cta": "Start a project",
+      "switchLanguage": "Switch to Indonesian",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu"
+    },
+    "hero": {
+      "eyebrow": "Available for digital projects",
+      "line1": "We engineer",
+      "line2": "ideas into",
+      "line3": "digital momentum.",
+      "description": "Hompimpa builds digital products, AI automation, and reliable systems for real-world operations.",
+      "primary": "Build with us",
+      "secondary": "See our work",
+      "dashboardTitle": "Product overview",
+      "dashboardStatus": "In progress",
+      "plan": "Plan",
+      "discover": "Discover",
+      "build": "Build",
+      "create": "Create",
+      "progress": "From idea to launch",
+      "bottomLabel": "What we do",
+      "bottomText": "AI & automation · Digital products · Technical support"
+    },
+    "services": {
+      "eyebrow": "What we do",
+      "title": "From first sketch to a working product.",
+      "description": "We design and build practical digital solutions that help teams work more efficiently."
+    },
+    "work": {
+      "eyebrow": "Selected work",
+      "title": "Built for real-world use.",
+      "description": "A look at digital products we have built for learning and commerce."
+    },
+    "contact": {
+      "eyebrow": "Have a project in mind?",
+      "title": "Let's build what's next.",
+      "description": "Tell us what you are working on. We will help shape the right digital solution for your team.",
+      "whatsapp": "Chat on WhatsApp",
+      "emailPrompt": "Prefer email? Write to"
+    },
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "projectType": "Project type",
+      "chooseType": "Choose a service",
+      "other": "Other / not sure yet",
+      "budget": "Estimated budget (optional)",
+      "budgetPlaceholder": "Your estimate, if known",
+      "details": "Tell us about your project",
+      "detailsPlaceholder": "Your goals, timeline, or anything helpful",
+      "submit": "Send via WhatsApp",
+      "notSpecified": "Not specified",
+      "messageIntro": "Hello Hompimpa, I would like to discuss a project."
+    },
+    "footer": {
+      "description": "Digital products, AI automation, and reliable systems for real-world operations.",
+      "company": "Explore",
+      "connect": "Connect",
+      "rights": "All rights reserved.",
+      "backToTop": "Back to top"
+    }
+  },
   "nav": {
     "home": "Home",
     "about": "About",

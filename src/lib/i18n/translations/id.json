@@ -1,4 +1,73 @@
 {
+  "home": {
+    "nav": {
+      "label": "Navigasi utama",
+      "services": "Layanan",
+      "work": "Karya",
+      "contact": "Kontak",
+      "cta": "Mulai proyek",
+      "switchLanguage": "Ganti ke bahasa Inggris",
+      "openMenu": "Buka menu",
+      "closeMenu": "Tutup menu"
+    },
+    "hero": {
+      "eyebrow": "Siap untuk proyek digital",
+      "line1": "Kami wujudkan",
+      "line2": "ide menjadi",
+      "line3": "kemajuan digital.",
+      "description": "Hompimpa membangun produk digital, otomasi AI, dan sistem andal untuk kebutuhan operasional nyata.",
+      "primary": "Bangun bersama",
+      "secondary": "Lihat karya",
+      "dashboardTitle": "Gambaran produk",
+      "dashboardStatus": "Dalam proses",
+      "plan": "Rencana",
+      "discover": "Temukan",
+      "build": "Bangun",
+      "create": "Ciptakan",
+      "progress": "Dari ide hingga peluncuran",
+      "bottomLabel": "Keahlian kami",
+      "bottomText": "AI & otomasi · Produk digital · Dukungan teknis"
+    },
+    "services": {
+      "eyebrow": "Layanan kami",
+      "title": "Dari sketsa awal menjadi produk nyata.",
+      "description": "Kami merancang dan membangun solusi digital praktis yang membantu tim bekerja lebih efisien."
+    },
+    "work": {
+      "eyebrow": "Pilihan karya",
+      "title": "Dibangun untuk kebutuhan nyata.",
+      "description": "Beberapa produk digital yang kami bangun untuk pembelajaran dan perdagangan."
+    },
+    "contact": {
+      "eyebrow": "Punya ide proyek?",
+      "title": "Mari bangun langkah berikutnya.",
+      "description": "Ceritakan kebutuhan Anda. Kami akan membantu merancang solusi digital yang tepat untuk tim Anda.",
+      "whatsapp": "Chat di WhatsApp",
+      "emailPrompt": "Lebih suka email? Tulis ke"
+    },
+    "form": {
+      "name": "Nama",
+      "namePlaceholder": "Nama Anda",
+      "email": "Email",
+      "projectType": "Jenis proyek",
+      "chooseType": "Pilih layanan",
+      "other": "Lainnya / belum yakin",
+      "budget": "Perkiraan anggaran (opsional)",
+      "budgetPlaceholder": "Perkiraan Anda, jika ada",
+      "details": "Ceritakan proyek Anda",
+      "detailsPlaceholder": "Tujuan, jadwal, atau informasi lain",
+      "submit": "Kirim lewat WhatsApp",
+      "notSpecified": "Belum ditentukan",
+      "messageIntro": "Halo Hompimpa, saya ingin berdiskusi tentang sebuah proyek."
+    },
+    "footer": {
+      "description": "Produk digital, otomasi AI, dan sistem andal untuk kebutuhan operasional nyata.",
+      "company": "Jelajahi",
+      "connect": "Hubungi",
+      "rights": "Hak cipta dilindungi.",
+      "backToTop": "Kembali ke atas"
+    }
+  },
   "nav": {
     "home": "Beranda",
     "about": "Tentang",

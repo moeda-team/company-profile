@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
 import { LanguageProvider } from "@/lib/i18n/LanguageContext";
 
 export const metadata: Metadata = {
-  title: "Hompimpa — AI Facility Intelligence",
-  description: "Monitor, analyze, and optimize your facilities in real-time with Hompimpa's advanced AI dashboard.",
+  title: "Hompimpa — Digital Products, AI & Automation",
+  description: "Hompimpa builds digital products, AI automation, and reliable systems for real-world operations.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
