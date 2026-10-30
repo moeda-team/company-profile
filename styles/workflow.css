@@ -1,0 +1,358 @@
+/* ─────────────────────────────────────────────────────────────────
+   Workflow Section
+   ───────────────────────────────────────────────────────────────── */
+
+/* ── Section shell ─────────────────────────────────────────────── */
+.workflow-section {
+  position: relative;
+  width: 100%;
+  /* background-color (not the background shorthand) so GSAP's pin-spacer,
+     which inherits/duplicates the section's box, resolves the same value */
+  background-color: #ffffff;
+  /* clip horizontal overflow so the sliding track never causes a scrollbar */
+  overflow: hidden;
+}
+
+/* GSAP wraps the pinned section in a spacer div of the same size while it's
+   pinned. If left transparent, the page background can flash through in
+   the instant before/after the pin engages — force it to match. */
+.pin-spacer {
+  background-color: #ffffff;
+}
+
+/* Thin white overlay that masks the section on first entry and fades out
+   once — see useWorkflowAnimation's setupEntryOverlay(). */
+.workflow-entry-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background-color: #ffffff;
+  pointer-events: none;
+}
+
+/* Soft ambient blobs */
+.workflow-section::before,
+.workflow-section::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+}
+.workflow-section::before {
+  top: -15%;
+  left: -5%;
+  width: 55%;
+  height: 70%;
+  background: radial-gradient(ellipse at center,
+    rgba(37, 99, 235, 0.05) 0%, transparent 65%);
+}
+.workflow-section::after {
+  bottom: -15%;
+  right: -5%;
+  width: 50%;
+  height: 65%;
+  background: radial-gradient(ellipse at center,
+    rgba(59, 130, 246, 0.04) 0%, transparent 65%);
+}
+
+/* ── Desktop two-column grid ───────────────────────────────────── */
+.workflow-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 35% 65%;
+  min-height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ── LEFT sticky panel ─────────────────────────────────────────── */
+.workflow-left {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 3rem 4rem 0;
+  will-change: transform;
+}
+
+.workflow-label {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2563eb;
+  margin-bottom: 2.5rem;
+}
+
+/* Mobile-only label — hidden by default, shown < 1024 px */
+.workflow-label--mobile {
+  display: none;
+}
+
+/* ── Steps list ────────────────────────────────────────────────── */
+.workflow-steps {
+  display: flex;
+  flex-direction: column;
+}
+
+.workflow-step {
+  display: flex;
+  /* stretch (not flex-start): lets .step-spine grow to match
+     .step-content's full height, so the connector line (flex: 1 below)
+     reaches exactly down to the next dot instead of stopping short. */
+  align-items: stretch;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  /* default: not yet reached. Opacity is driven by GSAP (cumulative reveal)
+     once JS takes over — this is only the pre-hydration / no-JS fallback. */
+  opacity: 0.35;
+}
+
+/* First step starts active — matches the reveal state applied on mount,
+   before any scroll has occurred. */
+.workflow-step[data-step="0"] {
+  opacity: 1;
+}
+
+/* ── Spine: dot + connector ────────────────────────────────────── */
+.step-spine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 20px;
+  padding-top: 3px;
+}
+
+.step-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  border: 2px solid #e2e8f0;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: background 0.35s, border-color 0.35s, box-shadow 0.35s;
+}
+.step-dot.active {
+  background: #2563eb;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.18);
+}
+.step-dot.completed {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.step-connector {
+  width: 2px;
+  flex: 1;
+  min-height: 36px;
+  background: #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+.step-connector-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;           /* animated by GSAP */
+  background: #2563eb;
+}
+
+/* ── Step text ──────────────────────────────────────────────────── */
+.step-content {
+  flex: 1;
+  padding-bottom: 0.25rem;
+}
+
+.step-number {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.2rem;
+}
+.step-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.35rem;
+  transition: color 0.3s;
+}
+.step-description {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.65;
+  /* Always laid out — visibility is opacity-only (no height/collapse) so
+     revealing a step never shifts the steps below it. */
+}
+
+/* Active step accent */
+.workflow-step.is-active .step-number { color: #2563eb; }
+.workflow-step.is-active .step-title  { color: #1d4ed8; }
+
+/* ── RIGHT artwork area ────────────────────────────────────────── */
+.workflow-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden; /* clip slides sliding in/out vertically */
+}
+
+/* Stacked slides — GSAP sets translateY + opacity on .artwork-slide to
+   swap the active illustration in sync with the active step. */
+.artwork-track {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.artwork-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2.5rem;
+  transform-origin: center center;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+}
+
+.artwork-card {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 3 / 2;
+}
+
+/* Inner wrapper — carries the idle floating micro-animation, kept
+   separate from .artwork-slide so it doesn't fight the GSAP step
+   transition tween (which animates .artwork-slide's own y/opacity). */
+.artwork-image-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.understand-scene-3d {
+  width: 100%;
+  height: 100%;
+}
+.understand-scene-3d canvas {
+  display: block;
+}
+
+/* Scroll-scrubbed image-sequence canvas (Understand / Execute slides) */
+.frame-sequence-canvas {
+  width: 100%;
+  height: 100%;
+}
+.frame-sequence-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+}
+
+/* Understand / Execute / Deliver — green-screen removed in JS (chromaKey);
+   no extra color grading here so spill-suppressed edges don't get pushed
+   further off. */
+
+.artwork-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 16px;
+  /* The source clip has a solid black background (mp4/H.264 can't carry
+     real alpha transparency). "screen" blending drops pure-black pixels
+     against the section's white backdrop, so black reads as transparent
+     while the bright/colored scene content stays visible. Works because
+     .workflow-section is white — see note in useWorkflowAnimation.ts if
+     the section background ever changes. */
+  mix-blend-mode: screen;
+}
+
+/* ── Tablet (640–1023 px) ───────────────────────────────────────── */
+@media (max-width: 1023px) {
+  .workflow-inner {
+    grid-template-columns: 1fr;
+    padding: 0 1.5rem;
+  }
+
+  /* Order: label → artwork (sticky on top) → steps */
+  .workflow-label--mobile {
+    display: block;
+    order: 1;
+    text-align: center;
+    margin: 3.5rem 0 1.25rem;
+  }
+  .workflow-label--desktop {
+    display: none;
+  }
+
+  .workflow-left {
+    order: 3;
+    position: relative;
+    height: auto;
+    top: unset;
+    padding: 1.5rem 0 3rem;
+  }
+
+  /* Artwork sits ABOVE the steps and stays pinned (sticky) below the
+     fixed navbar while the steps scroll underneath it — the per-step
+     ScrollTriggers keep cross-fading / scrubbing the visible slide. */
+  .workflow-right {
+    order: 2;
+    position: sticky;
+    top: 4rem; /* clears the fixed navbar (h-16 = 4rem below lg) */
+    z-index: 2;
+    background-color: #ffffff;
+    height: 55vw;
+    min-height: 300px;
+    max-height: 480px;
+    /* soft edge so steps sliding underneath read as intentional */
+    box-shadow: 0 14px 18px -16px rgba(15, 23, 42, 0.14);
+  }
+
+  .artwork-track {
+    height: 100%;
+  }
+
+  .artwork-slide {
+    padding: 1.5rem;
+  }
+
+  .artwork-card {
+    max-width: 100%;
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* ── Mobile (< 640 px) ─────────────────────────────────────────── */
+@media (max-width: 639px) {
+  .workflow-label--mobile { margin: 3rem 0 1rem; }
+
+  .workflow-left { padding: 1.25rem 0 2.5rem; }
+
+  .step-title { font-size: 1.05rem; }
+
+  .workflow-right {
+    height: 72vw;
+    max-height: 340px;
+  }
+
+  .artwork-slide { padding: 1rem 0.5rem; }
+}

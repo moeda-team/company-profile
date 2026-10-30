@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="915" viewBox="0 0 1560 915" role="img" aria-labelledby="ttl dsc">
+<title id="ttl">Diagram BPMN proses Polsia</title>
+<desc id="dsc">Pool Polsia dengan lima lane: User, Chat Agent, Task System, Specialized Agents, dan Verifikasi &amp; Rilis. User memasukkan ide, chat agent menantang dan memvalidasi ide lalu provision infrastruktur, task system dipicu timer tiap malam dan mendistribusikan task ke agent spesialis secara paralel, hasilnya diverifikasi model kedua sebelum dirilis, lalu dikompilasi jadi daily report untuk user.</desc>
+<style>
+  .box{fill:var(--surface-1,#fff);stroke:var(--border-strong,#c5c1b8);stroke-width:1.5}
+  .acc{fill:var(--bg-accent,#f0ebe0);stroke:var(--border-accent,#b8a06a);stroke-width:1.5}
+  .ev{fill:var(--surface-1,#fff);stroke:var(--border-strong,#c5c1b8);stroke-width:2}
+  .evend{fill:var(--surface-1,#fff);stroke:var(--border-strong,#c5c1b8);stroke-width:4}
+  .gw{fill:var(--surface-1,#fff);stroke:var(--border-strong,#c5c1b8);stroke-width:1.5}
+  .lanebg{fill:var(--surface-2,#faf9f7)}
+  .sep{stroke:var(--border,#e3e0d9);stroke-width:1}
+  .pool{fill:none;stroke:var(--border-strong,#c5c1b8);stroke-width:1.5}
+  .t{font:600 12.5px ui-sans-serif,system-ui,-apple-system,sans-serif;fill:var(--text-primary,#1c1b19);text-anchor:middle}
+  .s{font:400 10.5px ui-sans-serif,system-ui,-apple-system,sans-serif;fill:var(--text-secondary,#6d6a63);text-anchor:middle}
+  .lane{font:600 11px ui-sans-serif,system-ui,-apple-system,sans-serif;fill:var(--text-secondary,#6d6a63);letter-spacing:.09em;text-anchor:middle}
+  .pl{font:600 12px ui-sans-serif,system-ui,-apple-system,sans-serif;fill:var(--text-primary,#1c1b19);letter-spacing:.12em;text-anchor:middle}
+  .fl{fill:none;stroke:var(--border-strong,#b9b5ab);stroke-width:1.5;marker-end:url(#ah)}
+  .fln{fill:none;stroke:var(--border-strong,#b9b5ab);stroke-width:1.5}
+  .lbl{font:400 10px ui-sans-serif,system-ui,-apple-system,sans-serif;fill:var(--text-secondary,#6d6a63);text-anchor:middle}
+  .gsym{font:400 20px ui-sans-serif,system-ui,sans-serif;fill:var(--text-secondary,#6d6a63);text-anchor:middle}
+</style>
+<defs>
+  <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M0,1 L9,5 L0,9 z" fill="var(--border-strong,#b9b5ab)"/>
+  </marker>
+</defs>
+
+<!-- pool + lanes -->
+<rect x="20" y="20" width="1520" height="840" class="pool" rx="4"/>
+<rect x="20" y="20" width="38" height="840" class="lanebg"/>
+<rect x="58" y="20" width="50" height="840" class="lanebg"/>
+<line x1="58" y1="20" x2="58" y2="860" class="sep"/>
+<line x1="108" y1="20" x2="108" y2="860" class="sep"/>
+<line x1="58" y1="160" x2="1540" y2="160" class="sep"/>
+<line x1="58" y1="340" x2="1540" y2="340" class="sep"/>
+<line x1="58" y1="500" x2="1540" y2="500" class="sep"/>
+<line x1="58" y1="710" x2="1540" y2="710" class="sep"/>
+<text class="pl" transform="translate(39,440) rotate(-90)">POLSIA</text>
+<text class="lane" transform="translate(83,90) rotate(-90)">USER</text>
+<text class="lane" transform="translate(83,250) rotate(-90)">CHAT AGENT</text>
+<text class="lane" transform="translate(83,420) rotate(-90)">TASK SYSTEM</text>
+<text class="lane" transform="translate(83,605) rotate(-90)">AGENT SPESIALIS</text>
+<text class="lane" transform="translate(83,785) rotate(-90)">VERIFIKASI &amp; RILIS</text>
+
+<!-- ============ LANE 1: USER ============ -->
+<circle cx="145" cy="90" r="20" class="ev"/>
+<text class="lbl" x="145" y="132">mulai</text>
+<rect x="185" y="58" width="130" height="64" rx="6" class="box"/>
+<text class="t" x="250" y="94">Input ide bisnis</text>
+
+<rect x="990" y="58" width="140" height="64" rx="6" class="box"/>
+<text class="t" x="1060" y="86">Baca daily</text>
+<text class="t" x="1060" y="102">report</text>
+
+<path d="M1196,66 L1244,90 L1196,114 L1148,90 Z" class="gw"/>
+<text class="t" x="1220" y="94" style="font-size:11px">?</text>
+<text class="lbl" x="1220" y="140">Iterasi?</text>
+
+<circle cx="1310" cy="90" r="19" class="evend"/>
+<text class="lbl" x="1310" y="132">selesai</text>
+
+<!-- ============ LANE 2: CHAT AGENT ============ -->
+<rect x="355" y="218" width="140" height="64" rx="6" class="box"/>
+<text class="t" x="425" y="243">Analisis &amp;</text>
+<text class="t" x="425" y="259">tantang ide</text>
+<text class="s" x="425" y="274">push back kalau lemah</text>
+
+<path d="M531,250 L555,226 L579,250 L555,274 Z" class="gw"/>
+<text class="lbl" x="555" y="300">Ide layak?</text>
+
+<rect x="615" y="210" width="170" height="80" rx="6" class="box"/>
+<text class="t" x="700" y="240">Provision infra</text>
+<text class="t" x="700" y="256">+ susun roadmap</text>
+<text class="s" x="700" y="272">repo, DB, Stripe, ads</text>
+
+<rect x="990" y="218" width="140" height="64" rx="6" class="box"/>
+<text class="t" x="1060" y="243">Kompilasi</text>
+<text class="t" x="1060" y="259">daily report</text>
+<text class="s" x="1060" y="274">mekanik retensi</text>
+
+<!-- ============ LANE 3: TASK SYSTEM ============ -->
+<circle cx="815" cy="420" r="20" class="acc"/>
+<circle cx="815" cy="420" r="14" fill="none" stroke="var(--border-accent,#b8a06a)" stroke-width="1.2"/>
+<path d="M815,413 L815,420 L820,424" fill="none" stroke="var(--text-primary,#1c1b19)" stroke-width="1.4" stroke-linecap="round"/>
+<text class="lbl" x="815" y="462">tiap malam</text>
+
+<rect x="845" y="385" width="130" height="70" rx="6" class="box"/>
+<text class="t" x="910" y="414">Dispatch task</text>
+<text class="s" x="910" y="430">scope + tool</text>
+<text class="s" x="910" y="444">+ budget cap</text>
+
+<path d="M986,420 L1010,396 L1034,420 L1010,444 Z" class="gw"/>
+<text class="gsym" x="1010" y="428">+</text>
+<text class="lbl" x="1010" y="472">paralel</text>
+
+<!-- ============ LANE 4: AGENT SPESIALIS ============ -->
+<rect x="1125" y="508" width="150" height="56" rx="6" class="box"/>
+<text class="t" x="1200" y="532">Engineering</text>
+<text class="s" x="1200" y="548">kode &amp; deploy</text>
+
+<rect x="1125" y="576" width="150" height="56" rx="6" class="box"/>
+<text class="t" x="1200" y="600">Marketing &amp; Ads</text>
+<text class="s" x="1200" y="616">konten, email, iklan</text>
+
+<rect x="1125" y="644" width="150" height="56" rx="6" class="box"/>
+<text class="t" x="1200" y="668">Support &amp; Riset</text>
+<text class="s" x="1200" y="684">tiket, kompetitor</text>
+
+<path d="M1301,604 L1325,580 L1349,604 L1325,628 Z" class="gw"/>
+<text class="gsym" x="1325" y="612">+</text>
+
+<!-- ============ LANE 5: VERIFIKASI & RILIS ============ -->
+<rect x="1325" y="745" width="165" height="80" rx="6" class="acc"/>
+<text class="t" x="1407" y="775">Verifikasi silang</text>
+<text class="t" x="1407" y="791">(model kedua)</text>
+<text class="s" x="1407" y="807">verifier ≠ generator</text>
+
+<path d="M1241,785 L1265,761 L1289,785 L1265,809 Z" class="gw"/>
+<text class="lbl" x="1265" y="735">Lolos?</text>
+
+<rect x="990" y="753" width="140" height="64" rx="6" class="box"/>
+<text class="t" x="1060" y="778">Rilis &amp; simpan</text>
+<text class="t" x="1060" y="794">ke memory</text>
+
+<!-- ============ SEQUENCE FLOWS ============ -->
+<!-- start -> input -->
+<path d="M165,90 L179,90" class="fl"/>
+<!-- input -> analisis -->
+<path d="M315,90 L335,90 L335,250 L349,250" class="fl"/>
+<!-- analisis -> gateway -->
+<path d="M495,250 L525,250" class="fl"/>
+<!-- gateway ya -> provision -->
+<path d="M579,250 L609,250" class="fl"/>
+<text class="lbl" x="594" y="242">ya</text>
+<!-- gateway tidak -> back to input -->
+<path d="M555,226 L555,142 L250,142 L250,128" class="fl"/>
+<text class="lbl" x="400" y="136">tidak — minta revisi ide</text>
+<!-- provision -> timer -->
+<path d="M785,250 L815,250" class="fln"/>
+<path d="M815,40 L815,394" class="fl"/>
+<!-- timer -> dispatch -->
+<path d="M835,420 L839,420" class="fl"/>
+<!-- dispatch -> split -->
+<path d="M975,420 L980,420" class="fl"/>
+<!-- split -> agents -->
+<path d="M1034,420 L1085,420 L1085,536 L1119,536" class="fl"/>
+<path d="M1085,604 L1119,604" class="fl"/>
+<path d="M1085,604 L1085,672 L1119,672" class="fl"/>
+<!-- agents -> join -->
+<path d="M1275,536 L1300,536 L1300,598" class="fl"/>
+<path d="M1275,604 L1295,604" class="fl"/>
+<path d="M1275,672 L1300,672 L1300,610" class="fl"/>
+<!-- join -> verifikasi -->
+<path d="M1325,628 L1325,700 L1407,700 L1407,739" class="fl"/>
+<!-- verifikasi -> lolos? -->
+<path d="M1325,785 L1295,785" class="fl"/>
+<!-- lolos ya -> rilis -->
+<path d="M1241,785 L1136,785" class="fl"/>
+<text class="lbl" x="1188" y="777">ya</text>
+<!-- lolos tidak -> rework ke dispatch -->
+<path d="M1265,809 L1265,843 L910,843 L910,461" class="fl"/>
+<text class="lbl" x="1075" y="837">tidak — rework</text>
+<!-- rilis -> kompilasi report -->
+<path d="M1060,753 L1060,288" class="fl"/>
+<!-- kompilasi -> baca report -->
+<path d="M1060,218 L1060,128" class="fl"/>
+<!-- baca -> gateway iterasi -->
+<path d="M1130,90 L1142,90" class="fl"/>
+<!-- iterasi ya -> balik ke timer -->
+<path d="M1220,66 L1220,40 L821,40" class="fln"/>
+<text class="lbl" x="1010" y="34">iterasi — siklus malam berikutnya</text>
+<!-- iterasi tidak -> end -->
+<path d="M1244,90 L1285,90" class="fl"/>
+<text class="lbl" x="1264" y="82">selesai</text>
+
+<!-- legend -->
+<rect x="20" y="878" width="14" height="12" rx="3" class="acc"/>
+<text class="s" x="120" y="888" style="text-anchor:start">Lapisan kontrol: timer async + verifikasi model kedua — dua titik yang menahan biaya dan error. Sisanya alur netral.</text>
+<text class="s" x="42" y="888" style="text-anchor:start">= kontrol</text>
+</svg>
