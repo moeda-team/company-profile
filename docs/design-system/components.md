@@ -42,7 +42,7 @@ The contact panel sits beside the large invitation copy on desktop and stacks be
 - **Book a call:** calendar date selection, available time slots, name, email, and a topic choice.
 - **Send a brief:** name, email, company, need categories, budget, timeline, and project details.
 
-The card uses a cool gray surface, segmented tabs, rounded controls, and a full-width blue submit action. Confirmation replaces the forms while preserving the card layout.
+The card uses a cool gray surface, segmented tabs, rounded controls, and a full-width blue submit action. In “Book a call,” choosing a day collapses the calendar into a selected-date summary and reveals time slots. Choosing a time collapses the slots into a selected-time summary and reveals the contact fields. Each summary can be selected to revise that choice. Card height stays fixed at `560px` across both tabs on desktop and `660px` on small screens, including during booking step changes. Its content area scrolls if needed. Confirmation replaces the form with a response state.
 
 The current calendar and form confirmations are front-end demo behavior in `src/main.ts`. There is no availability API, email delivery, or booking integration connected yet.
 
