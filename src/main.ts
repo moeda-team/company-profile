@@ -225,6 +225,7 @@ app.innerHTML = `
                   <fieldset><legend>What is the call about?</legend><div class="contact-chips">
                     <label><input type="radio" name="topic" value="Strategy" checked><span>Strategy</span></label><label><input type="radio" name="topic" value="Design"><span>Design</span></label><label><input type="radio" name="topic" value="Technology"><span>Technology</span></label><label><input type="radio" name="topic" value="Not sure yet"><span>Not sure yet</span></label>
                   </div></fieldset>
+                  <label>Attachments (optional)<span class="contact-file-control"><input id="contact-call-attachments" type="file" name="attachments" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg" multiple><span class="contact-file-pick" aria-hidden="true">Choose files</span><span class="contact-file-name" id="contact-call-attachment-name" aria-live="polite">No file chosen</span></span></label>
                 </div>
                 <p class="contact-error" id="contact-err-call" role="alert"></p>
                 <button class="contact-submit" type="submit">Confirm booking <span aria-hidden="true">↗</span></button>
@@ -235,10 +236,12 @@ app.innerHTML = `
                   <div class="contact-two"><label>Name<input name="name" required autocomplete="name" placeholder="Your name"></label><label>Email<input name="email" type="email" required autocomplete="email" placeholder="you@company.com"></label></div>
                   <label>Company<input name="company" autocomplete="organization" placeholder="Optional"></label>
                   <fieldset><legend>What do you need?</legend><div class="contact-chips">
-                    <label><input type="checkbox" name="need" value="Strategy"><span>Strategy</span></label><label><input type="checkbox" name="need" value="Design"><span>Design</span></label><label><input type="checkbox" name="need" value="Web or app"><span>Web or app</span></label><label><input type="checkbox" name="need" value="Integrations"><span>Integrations</span></label>
+                    <label><input type="checkbox" name="need" value="Design"><span>Design</span></label><label><input type="checkbox" name="need" value="Web or app"><span>Web or app</span></label><label><input type="checkbox" name="need" value="Integrations"><span>Integrations</span></label><label><input id="contact-other-need-toggle" type="checkbox" name="need" value="Other" aria-controls="contact-other-need-field"><span>Other</span></label>
                   </div></fieldset>
-                  <div class="contact-two"><label>Budget<select name="budget"><option>Not sure yet</option><option>Under $5k</option><option>$5k to $15k</option><option>$15k to $50k</option><option>$50k+</option></select></label><label>Timeline<select name="timeline"><option>Flexible</option><option>Within 1 month</option><option>1 to 3 months</option><option>3+ months</option></select></label></div>
+                  <label id="contact-other-need-field" hidden>Please tell us what you need<input id="contact-other-need" name="needOther" placeholder="Describe your need"></label>
+                  <label>Timeline<select name="timeline"><option>As soon as possible</option><option>Within 2 weeks</option><option>Within 1 month</option><option>1 to 3 months</option><option>3 to 6 months</option><option>6+ months</option><option>Flexible</option><option>Not sure yet</option></select></label>
                   <label>Project details<textarea name="message" required placeholder="What problem are you trying to solve?"></textarea></label>
+                  <label>Attachments (optional)<span class="contact-file-control"><input id="contact-attachments" type="file" name="attachments" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg" multiple><span class="contact-file-pick" aria-hidden="true">Choose files</span><span class="contact-file-name" id="contact-attachment-name" aria-live="polite">No file chosen</span></span></label>
                 </div>
                 <p class="contact-error" id="contact-err-brief" role="alert"></p><button class="contact-submit" type="submit">Send brief <span aria-hidden="true">↗</span></button>
               </form>
@@ -280,7 +283,14 @@ if (contactRoot) {
   const times = ["09:00", "10:30", "13:00", "14:30", "16:00", "17:00"];
   const callForm = $contact<HTMLFormElement>("#contact-p-call");
   const briefForm = $contact<HTMLFormElement>("#contact-p-brief");
+  const briefAttachmentInput = $contact<HTMLInputElement>("#contact-attachments");
+  const briefAttachmentName = $contact<HTMLElement>("#contact-attachment-name");
+  const callAttachmentInput = $contact<HTMLInputElement>("#contact-call-attachments");
+  const callAttachmentName = $contact<HTMLElement>("#contact-call-attachment-name");
   const callFields = $contact<HTMLElement>("#contact-call-fields");
+  const otherNeedToggle = $contact<HTMLInputElement>("#contact-other-need-toggle");
+  const otherNeedField = $contact<HTMLElement>("#contact-other-need-field");
+  const otherNeedInput = $contact<HTMLInputElement>("#contact-other-need");
   const dateContent = $contact<HTMLElement>("#contact-date-content");
   const timeStage = $contact<HTMLElement>("#contact-time-stage");
   const timeContent = $contact<HTMLElement>("#contact-time-content");
@@ -356,6 +366,32 @@ if (contactRoot) {
     tab.addEventListener("click", () => showTab(index));
     tab.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight" || event.key === "ArrowLeft") { const next = 1 - index; showTab(next); tabs[next].focus(); }
+    });
+  });
+  const setupAttachment = (input: HTMLInputElement, output: HTMLElement, form: HTMLFormElement) => {
+    const update = () => {
+      const files = input.files;
+      output.textContent = !files?.length
+      ? "No file chosen"
+      : files.length === 1
+        ? files[0].name
+        : `${files.length} files chosen`;
+    };
+    input.addEventListener("change", update);
+    form.addEventListener("reset", () => { window.setTimeout(update); });
+  };
+  setupAttachment(briefAttachmentInput, briefAttachmentName, briefForm);
+  setupAttachment(callAttachmentInput, callAttachmentName, callForm);
+  otherNeedToggle.addEventListener("change", () => {
+    otherNeedField.hidden = !otherNeedToggle.checked;
+    otherNeedInput.required = otherNeedToggle.checked;
+    if (!otherNeedToggle.checked) otherNeedInput.value = "";
+  });
+  briefForm.addEventListener("reset", () => {
+    window.setTimeout(() => {
+      otherNeedField.hidden = true;
+      otherNeedInput.required = false;
+      otherNeedInput.value = "";
     });
   });
   const finish = (title: string, message: string) => {

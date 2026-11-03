@@ -39,12 +39,12 @@ Use a two-column set of editorial cards. Each card combines a small index, abstr
 
 The contact panel sits beside the large invitation copy on desktop and stacks below it on compact screens. It has two accessible tabs:
 
-- **Book a call:** calendar date selection, available time slots, name, email, and a topic choice.
-- **Send a brief:** name, email, company, need categories, budget, timeline, and project details.
+- **Book a call:** calendar date selection, available time slots, name, email, a topic choice, and optional file attachments.
+- **Send a brief:** name, email, company, need categories (including a free-text “Other” choice), timeline, project details, and optional file attachments. Both forms use a custom file control that centers its empty or selected-file status.
 
-The card uses a cool gray surface, segmented tabs, rounded controls, and a full-width blue submit action. In “Book a call,” choosing a day collapses the calendar into a selected-date summary and reveals time slots. Choosing a time collapses the slots into a selected-time summary and reveals the contact fields. Each summary can be selected to revise that choice. Card height stays fixed at `560px` across both tabs on desktop and `660px` on small screens, including during booking step changes. Its content area scrolls if needed. Confirmation replaces the form with a response state.
+The card uses a cool gray surface, segmented tabs, rounded controls, and a full-width blue submit action. In “Book a call,” choosing a day collapses the calendar into a selected-date summary and reveals time slots. Choosing a time collapses the slots into a selected-time summary and reveals the contact fields. Each summary can be selected to revise that choice. Card height stays fixed at `640px` across both tabs on desktop and `680px` on small screens, including during booking step changes. The brief form uses compact field spacing so all fields fit without an inner scroll area. Confirmation replaces the form with a response state.
 
-The current calendar and form confirmations are front-end demo behavior in `src/main.ts`. There is no availability API, email delivery, or booking integration connected yet.
+The current calendar, file attachment field, and form confirmations are front-end demo behavior in `src/main.ts`. There is no availability API, file upload, email delivery, or booking integration connected yet.
 
 ## Footer
 
