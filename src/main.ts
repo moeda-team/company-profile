@@ -69,7 +69,7 @@ app.innerHTML = `
 
       <div class="hero-inner container">
         <div class="hero-copy">
-          <p class="eyebrow hero-eyebrow">Digital systems for real business</p>
+          <p class="eyebrow hero-eyebrow">Digital solutions for real business</p>
           <h1 id="hero-title"><span>We build what your </span><span class="text-blue">business needs.</span></h1>
         </div>
       </div>
