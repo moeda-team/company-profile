@@ -201,8 +201,17 @@ app.innerHTML = `
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-top"><a class="wordmark" href="#top">NODEWORKS<span>.</span></a><p>Digital systems for real business.</p><a href="#top">Back to top ${arrow}</a></div>
-      <div class="container footer-bottom"><span>© ${new Date().getFullYear()} Nodeworks. Concept website.</span><span>Strategy · Design · Technology</span></div>
+      <div class="container footer-cta">
+        <h2>Got a system<br />that needs to<br />work harder?</h2>
+        <div class="footer-cta-copy"><p>Tell us what is slowing the business down. We will tell you what we would build.</p><a class="footer-project-link" href="#contact">Start a project <span aria-hidden="true">→</span></a></div>
+      </div>
+      <div class="container footer-links">
+        <p class="footer-tagline">Digital systems for real business.</p>
+        <div class="footer-link-group"><h3>Services</h3><a href="#services">Strategy</a><a href="#services">Design</a><a href="#services">Technology</a></div>
+        <div class="footer-link-group"><h3>Studio</h3><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+        <div class="footer-link-group"><h3>Connect</h3><a href="mailto:hello@nodeworks.studio">Email</a><a href="https://www.linkedin.com/">LinkedIn</a><a href="https://github.com/">GitHub</a></div>
+      </div>
+      <div class="container footer-bottom"><span>© ${new Date().getFullYear()} Nodeworks. Concept website.</span><a href="#top">Back to top ↑</a></div>
     </footer>
   </div>
 
