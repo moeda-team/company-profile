@@ -15,7 +15,8 @@
   --contact-ink: #1b2a6b;
   --contact-muted: #5d668f;
   --contact-accent: #98a6d6;
-  --contact-heading: #d6d6d6;
+  --contact-heading: #ffffff;
+  --contact-heading-accent: #c3caea;
   --contact-paper: #e6e8f0;
   --contact-paper-border: #d5d9e6;
   --condensed: 'Barlow Condensed', Impact, 'Arial Narrow', sans-serif;
@@ -263,20 +264,6 @@ svg { width: 20px; height: 20px; flex: none; }
 .work-section { padding: 48px 0 118px; background: #fff; }
 .section-heading { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(175px, .48fr) auto; align-items: center; gap: 45px; }
 .work-heading { margin-bottom: 31px; }
-.section-title-wrap { display: flex; align-items: flex-start; gap: 19px; min-width: 0; }
-.section-number {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 7px;
-  color: var(--blue);
-  font-family: var(--condensed);
-  font-size: 25px;
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-}
-.section-number i { width: 20px; height: 1px; background: currentColor; }
 .section-heading h2,
 .approach-sticky h2 {
   margin: 0;
@@ -394,9 +381,8 @@ svg { width: 20px; height: 20px; flex: none; }
   pointer-events: none;
 }
 .services-top { position: relative; display: grid; grid-template-columns: 1.55fr .45fr; align-items: end; gap: 50px; margin-bottom: 72px; }
-.section-number-light { color: #93b1ff; }
 .eyebrow-light { color: #a9c1ff; }
-.services-top .eyebrow { margin: 26px 0 15px; }
+.services-top .eyebrow { margin: 0 0 15px; }
 .services-top h2,
 .contact-section h2 {
   margin: 0;
@@ -446,7 +432,7 @@ svg { width: 20px; height: 20px; flex: none; }
 .approach-section { padding: 128px 0 126px; background: #f5f8fe; }
 .approach-layout { display: grid; grid-template-columns: minmax(0, .93fr) minmax(0, 1fr); gap: clamp(65px, 9vw, 145px); }
 .approach-sticky { position: sticky; top: 90px; height: max-content; }
-.approach-sticky .eyebrow { margin: 32px 0 18px; }
+.approach-sticky .eyebrow { margin: 0 0 18px; }
 .approach-sticky h2 { max-width: 580px; font-size: clamp(59px, 5.5vw, 84px); line-height: .86; }
 .approach-sticky h2 span { color: var(--blue); }
 .approach-sticky > p:not(.eyebrow) { max-width: 440px; margin: 30px 0 33px; color: #5d6f9b; font-size: 17px; line-height: 1.55; }
@@ -500,7 +486,7 @@ svg { width: 20px; height: 20px; flex: none; }
 .contact-eyebrow,.contact-step { color: var(--contact-accent); font-family: var(--condensed); font-size: 17px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
 .contact-eyebrow { margin: 0 0 18px; }
 .contact-section h2 { margin: 0; color: var(--contact-heading); font-family: var(--condensed); font-size: clamp(64px, 9.5vw, 138px); font-weight: 800; line-height: .86; text-transform: uppercase; }
-.contact-section h2 span { display: block; color: var(--contact-accent); }
+.contact-section h2 span { display: block; color: var(--contact-heading-accent); }
 .contact-lead { max-width: 38ch; margin: 32px 0 0; color: #c3caea; font-size: 17px; line-height: 1.55; }
 .contact-direct { display: grid; gap: 14px; max-width: 360px; margin-top: auto; padding-top: 40px; }
 .contact-direct a { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-top: 1px solid #ffffff33; color: var(--contact-heading); font-size: 15px; transition: color .2s,padding .2s; }
@@ -621,9 +607,6 @@ svg { width: 20px; height: 20px; flex: none; }
   .button-text { padding: 0 1px; }
   .work-section { padding: 50px 0 80px; }
   .section-heading { display: block; }
-  .section-title-wrap { align-items: flex-start; gap: 12px; }
-  .section-number { margin-top: 4px; gap: 8px; font-size: 19px; }
-  .section-number i { width: 14px; }
   .section-heading h2 { font-size: clamp(45px, 12vw, 60px); }
   .work-heading { margin-bottom: 25px; }
   .work-heading .inline-link { margin-top: 15px; }
@@ -637,7 +620,7 @@ svg { width: 20px; height: 20px; flex: none; }
   .project-title { font-size: 30px; }
   .services-section { padding: 82px 0 90px; }
   .services-top { margin-bottom: 36px; }
-  .services-top .eyebrow { margin: 24px 0 13px; }
+  .services-top .eyebrow { margin: 0 0 13px; }
   .services-top h2 { font-size: clamp(60px, 13vw, 80px); }
   .services-top > p { font-size: 16px; }
   .service-grid { display: block; }
@@ -646,7 +629,7 @@ svg { width: 20px; height: 20px; flex: none; }
   .service-symbol { margin-bottom: 34px; }
   .service-card h3 { font-size: 35px; }
   .approach-section { padding: 86px 0; }
-  .approach-sticky .eyebrow { margin: 27px 0 15px; }
+  .approach-sticky .eyebrow { margin: 0 0 15px; }
   .approach-sticky h2 { font-size: clamp(55px, 12.2vw, 73px); }
   .approach-sticky > p:not(.eyebrow) { margin: 24px 0 24px; font-size: 16px; }
   .approach-steps { display: block; padding-top: 0; }

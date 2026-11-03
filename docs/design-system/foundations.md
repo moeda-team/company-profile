@@ -15,7 +15,7 @@ The main site palette is bright blue, deep navy, and cool pale blue. Use blue fo
 | Approach surface | `#f5f8fe` | Alternating section background |
 | Footer surface | `#f1f3f8` | Footer background |
 
-The contact area has its own darker palette to distinguish the conversion section. These values are defined as `--contact-*` properties in `src/style.css`: `#2542b0` (background/action), `#1b3191` (hover), `#1b2a6b` (form ink), `#5d668f` (form muted text), `#d6d6d6` (main type), `#98a6d6` (accent), `#e6e8f0` (form card), and `#d5d9e6` (form borders). Keep the contact palette scoped to the contact components.
+The contact area has its own darker palette to distinguish the conversion section. These values are defined as `--contact-*` properties in `src/style.css`: `#2542b0` (background/action), `#1b3191` (hover), `#1b2a6b` (form ink), `#5d668f` (form muted text), `#ffffff` (main heading), `#c3caea` (heading accent), `#98a6d6` (other accents), `#e6e8f0` (form card), and `#d5d9e6` (form borders). Keep the contact palette scoped to the contact components.
 
 ## Typography
 
@@ -54,7 +54,8 @@ Current global custom properties in `src/style.css`:
 --contact-ink: #1b2a6b;
 --contact-muted: #5d668f;
 --contact-accent: #98a6d6;
---contact-heading: #d6d6d6;
+--contact-heading: #ffffff;
+--contact-heading-accent: #c3caea;
 --contact-paper: #e6e8f0;
 --contact-paper-border: #d5d9e6;
 --condensed: 'Barlow Condensed', Impact, 'Arial Narrow', sans-serif;

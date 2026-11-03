@@ -15,9 +15,9 @@ The page is rendered from the template in `src/main.ts`; styling lives in `src/s
 - The interactive 3D studio is the dominant visual. Place its controls close to the canvas and retain the “drag to explore” affordance on pointer layouts.
 - Provide a filled primary action and a quieter secondary action beneath the scene.
 
-## Section headings and numbering
+## Section headings
 
-Sections after the hero use numbered labels (`01`–`04`) with a small rule. Display headings use Barlow Condensed and uppercase treatment; short supporting copy stays in DM Sans.
+Section titles are unnumbered. Display headings use Barlow Condensed and uppercase treatment; short supporting copy stays in DM Sans. Numbering inside individual service stages, approach steps, and project cards remains part of those component patterns.
 
 ## Selected work cards
 

@@ -95,10 +95,7 @@ app.innerHTML = `
       <section class="work-section section" id="work" aria-labelledby="work-heading">
         <div class="container">
           <div class="section-heading work-heading reveal">
-            <div class="section-title-wrap">
-              <span class="section-number">01 <i></i></span>
-              <h2 id="work-heading">Selected works</h2>
-            </div>
+            <h2 id="work-heading">Selected works</h2>
             <p class="section-intro">A preview of what’s in progress.<br />Full case studies coming soon.</p>
             <span class="work-availability">Coming soon</span>
           </div>
@@ -129,7 +126,6 @@ app.innerHTML = `
         <div class="container">
           <div class="services-top reveal">
             <div>
-              <span class="section-number section-number-light">02 <i></i></span>
               <p class="eyebrow eyebrow-light">What we do</p>
               <h2 id="services-heading">Complex challenges.<br /><em>Clear solutions.</em></h2>
             </div>
@@ -164,7 +160,6 @@ app.innerHTML = `
       <section class="approach-section section" id="about" aria-labelledby="approach-heading">
         <div class="container approach-layout">
           <div class="approach-sticky reveal">
-            <span class="section-number">03 <i></i></span>
             <p class="eyebrow">How we think</p>
             <h2 id="approach-heading">Built for the way business <span>actually moves.</span></h2>
             <p>Great digital products are never isolated screens. They connect people, decisions, and operations in a way that makes the whole business stronger.</p>
@@ -182,7 +177,7 @@ app.innerHTML = `
       <section class="insights-section section" id="insights" aria-labelledby="insights-heading">
         <div class="container">
           <div class="section-heading insights-heading reveal">
-            <div class="section-title-wrap"><span class="section-number">04 <i></i></span><h2 id="insights-heading">Ideas in motion</h2></div>
+            <h2 id="insights-heading">Ideas in motion</h2>
             <p class="section-intro">A few principles behind the way<br />we make digital work harder.</p>
           </div>
           <div class="insight-grid">
