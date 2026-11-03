@@ -193,30 +193,163 @@ app.innerHTML = `
       </section>
 
       <section class="contact-section" id="contact" aria-labelledby="contact-heading">
-        <div class="container contact-layout reveal">
-          <div><span class="eyebrow eyebrow-light">Have a challenge in mind?</span><h2 id="contact-heading">Let's build<br /><span>what's next.</span></h2></div>
-          <div class="contact-side"><p>Tell us what you are working on. The best ideas usually start with a conversation.</p><a class="contact-button" href="mailto:hello@nodeworks.studio?subject=Let%27s%20build%20something">Start a conversation ${arrow}</a><span>Concept contact address for this design demo</span></div>
+        <div class="contact-wrap">
+          <div class="contact-copy">
+            <p class="contact-eyebrow">Have a challenge in mind?</p>
+            <h2 id="contact-heading">Let’s build <span>what’s next.</span></h2>
+            <p class="contact-lead">Tell us what you are working on. The best ideas usually start with a conversation.</p>
+            <div class="contact-direct">
+              <a href="mailto:hello@nodeworks.studio">hello@nodeworks.studio <small>Email</small></a>
+              <a href="https://www.linkedin.com/">Nodeworks on LinkedIn <small>Message</small></a>
+              <a href="mailto:hello@nodeworks.studio?subject=Company%20profile">Download company profile <small>PDF</small></a>
+            </div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-tabs" role="tablist" aria-label="How to reach us">
+              <button class="contact-tab" role="tab" id="contact-t-call" aria-controls="contact-p-call" aria-selected="true">Book a call</button>
+              <button class="contact-tab" role="tab" id="contact-t-brief" aria-controls="contact-p-brief" aria-selected="false" tabindex="-1">Send a brief</button>
+            </div>
+            <div class="contact-stack">
+              <form class="contact-panel" id="contact-p-call" role="tabpanel" aria-labelledby="contact-t-call" novalidate>
+                <div class="contact-step">1. Pick a day <em>30-minute intro call</em></div>
+                <div class="contact-cal-head"><button type="button" class="contact-nav" id="contact-prev" aria-label="Previous month">‹</button><strong id="contact-month"></strong><button type="button" class="contact-nav" id="contact-next" aria-label="Next month">›</button></div>
+                <div class="contact-dow" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+                <div class="contact-days" id="contact-days"></div>
+                <div class="contact-step contact-step-time">2. Pick a time</div>
+                <div class="contact-slots" id="contact-slots"><p class="contact-hint">Choose a day to see open times.</p></div>
+                <p class="contact-tz" id="contact-tz"></p>
+                <div class="contact-fields">
+                  <div class="contact-two"><label>Name<input name="name" required autocomplete="name" placeholder="Your name"></label><label>Email<input name="email" type="email" required autocomplete="email" placeholder="you@company.com"></label></div>
+                  <fieldset><legend>What is the call about?</legend><div class="contact-chips">
+                    <label><input type="radio" name="topic" value="Strategy" checked><span>Strategy</span></label><label><input type="radio" name="topic" value="Design"><span>Design</span></label><label><input type="radio" name="topic" value="Technology"><span>Technology</span></label><label><input type="radio" name="topic" value="Not sure yet"><span>Not sure yet</span></label>
+                  </div></fieldset>
+                </div>
+                <p class="contact-summary" id="contact-summary" aria-live="polite"></p><p class="contact-error" id="contact-err-call" role="alert"></p>
+                <button class="contact-submit" type="submit">Confirm booking <span aria-hidden="true">↗</span></button>
+              </form>
+              <form class="contact-panel" id="contact-p-brief" role="tabpanel" aria-labelledby="contact-t-brief" hidden novalidate>
+                <div class="contact-step">Tell us about it <em>We reply within max 2 working days</em></div>
+                <div class="contact-fields contact-fields-grow">
+                  <div class="contact-two"><label>Name<input name="name" required autocomplete="name" placeholder="Your name"></label><label>Email<input name="email" type="email" required autocomplete="email" placeholder="you@company.com"></label></div>
+                  <label>Company<input name="company" autocomplete="organization" placeholder="Optional"></label>
+                  <fieldset><legend>What do you need?</legend><div class="contact-chips">
+                    <label><input type="checkbox" name="need" value="Strategy"><span>Strategy</span></label><label><input type="checkbox" name="need" value="Design"><span>Design</span></label><label><input type="checkbox" name="need" value="Web or app"><span>Web or app</span></label><label><input type="checkbox" name="need" value="Integrations"><span>Integrations</span></label>
+                  </div></fieldset>
+                  <div class="contact-two"><label>Budget<select name="budget"><option>Not sure yet</option><option>Under $5k</option><option>$5k to $15k</option><option>$15k to $50k</option><option>$50k+</option></select></label><label>Timeline<select name="timeline"><option>Flexible</option><option>Within 1 month</option><option>1 to 3 months</option><option>3+ months</option></select></label></div>
+                  <label>Project details<textarea name="message" required placeholder="What problem are you trying to solve?"></textarea></label>
+                </div>
+                <p class="contact-error" id="contact-err-brief" role="alert"></p><button class="contact-submit" type="submit">Send brief <span aria-hidden="true">↗</span></button>
+              </form>
+              <div class="contact-panel contact-done" id="contact-done" hidden><h3 id="contact-done-title">Request received</h3><p id="contact-done-text"></p><button type="button" id="contact-again">Make another request</button></div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-cta">
-        <h2>Got a system<br />that needs to<br />work harder?</h2>
-        <div class="footer-cta-copy"><p>Tell us what is slowing the business down. We will tell you what we would build.</p><a class="footer-project-link" href="#contact">Start a project <span aria-hidden="true">→</span></a></div>
-      </div>
       <div class="container footer-links">
         <div class="footer-brand"><a class="footer-brand-link" href="#top" aria-label="Nodeworks home"><img src="${import.meta.env.BASE_URL}nodeworks-mark.svg" width="44" height="44" alt="" /><span>Nodeworks</span></a><p class="footer-tagline">We design and build digital solutions that help real businesses work smarter, move faster, and grow with confidence.</p></div>
         <div class="footer-link-group"><h3>Services</h3><a href="#services">Strategy</a><a href="#services">Design</a><a href="#services">Technology</a></div>
         <div class="footer-link-group"><h3>Studio</h3><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div>
         <div class="footer-link-group"><h3>Connect</h3><a href="mailto:hello@nodeworks.studio">Email</a><a href="https://www.linkedin.com/">LinkedIn</a><a href="https://github.com/">GitHub</a></div>
       </div>
-      <div class="container footer-bottom"><span>© ${new Date().getFullYear()} Nodeworks. Concept website.</span><a href="#top">Back to top ↑</a></div>
+      <div class="container footer-bottom"><span>© ${new Date().getFullYear()} Nodeworks.</span><a href="#top">Back to top ↑</a></div>
     </footer>
   </div>
 
 
 `;
+
+// Contact section: local scheduling demo and project brief interaction.
+const contactRoot = document.querySelector<HTMLElement>(".contact-section");
+if (contactRoot) {
+  const $contact = <T extends HTMLElement>(selector: string) =>
+    contactRoot.querySelector<T>(selector)!;
+  const monthFormat = new Intl.DateTimeFormat("en", { month: "long", year: "numeric" });
+  const dayFormat = new Intl.DateTimeFormat("en", { weekday: "long", day: "numeric", month: "long" });
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  $contact("#contact-tz").textContent = `Times shown in your timezone: ${timezone.replaceAll("_", " ")}`;
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+  let viewedMonth = new Date(monthStart);
+  let selectedDate: Date | null = null;
+  let selectedTime: string | null = null;
+  const times = ["09:00", "10:30", "13:00", "14:30", "16:00", "17:00"];
+  const callForm = $contact<HTMLFormElement>("#contact-p-call");
+  const briefForm = $contact<HTMLFormElement>("#contact-p-brief");
+  const tabs = [$contact<HTMLButtonElement>("#contact-t-call"), $contact<HTMLButtonElement>("#contact-t-brief")];
+  const panels = [callForm, briefForm];
+  const renderCalendar = () => {
+    $contact("#contact-month").textContent = monthFormat.format(viewedMonth);
+    $contact<HTMLButtonElement>("#contact-prev").disabled = viewedMonth <= monthStart;
+    const first = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth(), 1);
+    const total = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() + 1, 0).getDate();
+    const grid = $contact("#contact-days"); grid.replaceChildren();
+    for (let i = 0; i < (first.getDay() + 6) % 7; i++) {
+      const blank = document.createElement("span"); blank.className = "contact-blank"; grid.append(blank);
+    }
+    for (let n = 1; n <= total; n++) {
+      const date = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth(), n);
+      const button = document.createElement("button");
+      button.type = "button"; button.className = "contact-day"; button.textContent = String(n);
+      button.disabled = date <= today || date.getDay() === 0 || date.getDay() === 6;
+      button.setAttribute("aria-pressed", String(!!selectedDate && +selectedDate === +date));
+      button.setAttribute("aria-label", dayFormat.format(date));
+      if (+date === +today) button.classList.add("today");
+      button.addEventListener("click", () => { selectedDate = date; selectedTime = null; renderCalendar(); renderTimes(); updateSummary(); });
+      grid.append(button);
+    }
+  };
+  const renderTimes = () => {
+    const grid = $contact("#contact-slots"); grid.replaceChildren();
+    if (!selectedDate) { const hint = document.createElement("p"); hint.className = "contact-hint"; hint.textContent = "Choose a day to see open times."; grid.append(hint); return; }
+    times.forEach((time, index) => {
+      const button = document.createElement("button"); button.type = "button"; button.className = "contact-slot"; button.textContent = time;
+      button.disabled = (selectedDate!.getDate() * 7 + index * 3) % 5 === 0;
+      button.setAttribute("aria-pressed", String(selectedTime === time));
+      button.addEventListener("click", () => { selectedTime = time; renderTimes(); updateSummary(); }); grid.append(button);
+    });
+  };
+  const updateSummary = () => { $contact("#contact-summary").textContent = selectedDate && selectedTime ? `Your call: ${dayFormat.format(selectedDate)} at ${selectedTime}` : ""; };
+  $contact("#contact-prev").addEventListener("click", () => { viewedMonth = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() - 1, 1); renderCalendar(); });
+  $contact("#contact-next").addEventListener("click", () => { viewedMonth = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() + 1, 1); renderCalendar(); });
+  const showTab = (index: number) => {
+    tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; panels[i].hidden = i !== index; });
+    $contact("#contact-done").hidden = true; $contact(".contact-tabs").hidden = false;
+  };
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => showTab(index));
+    tab.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") { const next = 1 - index; showTab(next); tabs[next].focus(); }
+    });
+  });
+  const finish = (title: string, message: string) => {
+    panels.forEach((panel) => { panel.hidden = true; });
+    $contact(".contact-tabs").hidden = true;
+    $contact("#contact-done-title").textContent = title;
+    $contact("#contact-done-text").textContent = message;
+    $contact("#contact-done").hidden = false;
+  };
+  $contact("#contact-again").addEventListener("click", () => {
+    panels.forEach((panel) => panel.reset()); selectedDate = null; selectedTime = null;
+    renderCalendar(); renderTimes(); updateSummary(); showTab(0);
+  });
+  callForm.addEventListener("submit", (event) => {
+    event.preventDefault(); const data = new FormData(callForm); const email = String(data.get("email") ?? "");
+    const error = $contact("#contact-err-call");
+    if (!selectedDate || !selectedTime) { error.textContent = "Pick a day and a time first."; return; }
+    if (!callForm.checkValidity()) { error.textContent = "Add your name and a valid email."; return; }
+    error.textContent = ""; finish("You’re booked", `${dayFormat.format(selectedDate)} at ${selectedTime} (${timezone}). A calendar invite is on its way to ${email}.`);
+  });
+  briefForm.addEventListener("submit", (event) => {
+    event.preventDefault(); const data = new FormData(briefForm);
+    const error = $contact("#contact-err-brief");
+    if (!briefForm.checkValidity()) { error.textContent = "Add your name, a valid email and a few details."; return; }
+    error.textContent = ""; finish("Brief received", `Thanks ${String(data.get("name")).split(" ")[0]}. We will reply to ${String(data.get("email"))} within 2 working days.`);
+  });
+  renderCalendar(); renderTimes();
+}
 
 const canvas = document.querySelector<HTMLCanvasElement>(".hero-canvas");
 if (!canvas) throw new Error("Hero canvas not found");
