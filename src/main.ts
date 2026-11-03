@@ -192,7 +192,11 @@ app.innerHTML = `
           <div class="contact-copy">
             <p class="contact-eyebrow">Have a challenge in mind?</p>
             <h2 id="contact-heading">Let’s build <span>what’s next.</span></h2>
-            <p class="contact-lead">Tell us what you are working on, what is getting in the way, and where you want to go. Whether you have a clear brief or just an early idea, we can help shape the next step. The best ideas usually start with a conversation.</p>
+            <p class="contact-lead">Tell us what you’re working on, what you want to improve, and where you hope to go. Whether you have a detailed brief or just an early idea, we’ll help you work out a clear next step.</p>
+            <div class="contact-direct">
+              <a href="mailto:admin@nodeworks.co.id">admin@nodeworks.co.id <small>Email</small></a>
+              <a href="https://www.linkedin.com/">Nodeworks on LinkedIn <small>Message</small></a>
+            </div>
           </div>
           <div class="contact-card">
             <div class="contact-card-header">

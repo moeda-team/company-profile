@@ -37,7 +37,7 @@ Use a two-column set of editorial cards. Each card combines a small index, abstr
 
 ## Contact form card
 
-The contact panel sits beside the large invitation copy on desktop and stacks below it on compact screens. It has two accessible tabs:
+The contact panel sits beside an invitation and direct email/LinkedIn links on desktop; the left column matches the card height. On compact screens the content stacks naturally. It has two accessible tabs:
 
 - **Book a call:** calendar date selection, available time slots, name, email, a topic choice, and optional file attachments.
 - **Send a brief:** name, email, company, need categories (including a free-text “Other” choice), timeline, project details, and optional file attachments. Both forms use a custom file control that centers its empty or selected-file status.
