@@ -451,13 +451,16 @@ function finishLoading(state: "ready" | "error") {
     loadingScreen.remove();
   };
   loadingScreen.addEventListener("transitionend", removeLoadingScreen);
-  window.setTimeout(() => {
+  const revealSite = () => {
     loadingScreen.classList.add("is-hidden");
     document.body.classList.remove("site-loading");
     if (siteShell) siteShell.inert = false;
     syncScrollLock();
-  }, state === "ready" ? 350 : 150);
-  window.setTimeout(() => loadingScreen.remove(), 1200);
+    if (document.hidden) loadingScreen.remove();
+  };
+  if (document.hidden) revealSite();
+  else window.setTimeout(revealSite, state === "ready" ? 350 : 150);
+  if (!document.hidden) window.setTimeout(() => loadingScreen.remove(), 1200);
 }
 
 function updateLoading(progress: number, state: "loading" | "ready" | "error" = "loading") {

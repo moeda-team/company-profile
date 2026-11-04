@@ -226,9 +226,9 @@ export function mountFactoryScene(
           canvas.dataset.modelLoaded = 'true';
           canvas.dataset.modelState = 'ready';
           cancelStory = mountOfficeStory({ camera, canvas, draw, stage, targets: storyTargets, ledLights: storyLEDs });
-          // Match the supplied loading reference: reveal only after the browser
-          // has had two animation frames to present the first rendered scene.
-          requestAnimationFrame(() => requestAnimationFrame(() => onProgress(100, 'ready')));
+          // The renderer has submitted the first complete scene. The overlay
+          // owns the short presentation delay and fade on visible tabs.
+          onProgress(100, 'ready');
         });
       }).catch(error => {
         if (disposed) return;
