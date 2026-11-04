@@ -1,4 +1,4 @@
-Nodeworks — Asset 22: Laptop (Code)
+Nodeworks - Asset 22: Laptop (Code)
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Laptop terpisah: bodi abu gelap, bingkai layar graphite, keyboard,

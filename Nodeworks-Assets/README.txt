@@ -1,4 +1,4 @@
-NODEWORKS — COMPLETE ASSET PACK 01–42
+NODEWORKS - COMPLETE ASSET PACK 01–42
 
 Berisi seluruh 42 aset yang sudah dibuat dalam percakapan ini.
 Setiap folder mempertahankan isi paket individual: GLB, preview,

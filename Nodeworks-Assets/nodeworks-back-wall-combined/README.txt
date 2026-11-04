@@ -1,4 +1,4 @@
-NODEWORKS — DINDING BELAKANG GABUNGAN
+NODEWORKS - DINDING BELAKANG GABUNGAN
 
 Satu file GLB berisi dinding belakang dan perlengkapan yang berada pada
 rak/kabinet di screenshot: rak kiri-kanan tiga tingkat, kabinet bawah,

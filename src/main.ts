@@ -5,6 +5,7 @@ import "lenis/dist/lenis.css";
 import { mountFactoryScene } from "./scene";
 import { whenScrollIdle } from "./scroll-idle";
 import "./style.css";
+import { getAvailableSlots, submitContact, type AvailableSlot } from "./contact-api";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -207,6 +208,7 @@ app.innerHTML = `
             </div>
             <div class="contact-stack" id="contact-stack">
               <form class="contact-panel" id="contact-p-call" role="tabpanel" aria-labelledby="contact-t-call" novalidate>
+                <div hidden aria-hidden="true"><label>Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
                 <div class="contact-stage" id="contact-date-stage">
                   <div class="contact-step"><span>1. Pick a day</span><em>30-minute intro call</em></div>
                   <button class="contact-stage-summary" id="contact-date-summary" type="button" hidden></button>
@@ -229,12 +231,12 @@ app.innerHTML = `
                   <fieldset><legend>What is the call about?</legend><div class="contact-chips">
                     <label><input type="radio" name="topic" value="Strategy" checked><span>Strategy</span></label><label><input type="radio" name="topic" value="Design"><span>Design</span></label><label><input type="radio" name="topic" value="Technology"><span>Technology</span></label><label><input type="radio" name="topic" value="Not sure yet"><span>Not sure yet</span></label>
                   </div></fieldset>
-                  <label>Attachments (optional)<span class="contact-file-control"><input id="contact-call-attachments" type="file" name="attachments" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg" multiple><span class="contact-file-pick" aria-hidden="true">Choose files</span><span class="contact-file-name" id="contact-call-attachment-name" aria-live="polite">No file chosen</span></span></label>
                 </div>
                 <p class="contact-error" id="contact-err-call" role="alert"></p>
                 <button class="contact-submit" type="submit">Confirm booking <span aria-hidden="true">↗</span></button>
               </form>
               <form class="contact-panel" id="contact-p-brief" role="tabpanel" aria-labelledby="contact-t-brief" hidden novalidate>
+                <div hidden aria-hidden="true"><label>Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
                 <div class="contact-step">Tell us about it <em>We reply within max 2 working days</em></div>
                 <div class="contact-fields contact-fields-grow">
                   <div class="contact-two"><label>Name<input name="name" required autocomplete="name" placeholder="Your name"></label><label>Email<input name="email" type="email" required autocomplete="email" placeholder="you@company.com"></label></div>
@@ -245,7 +247,6 @@ app.innerHTML = `
                   <label id="contact-other-need-field" hidden>Please tell us what you need<input id="contact-other-need" name="needOther" placeholder="Describe your need"></label>
                   <label>Timeline<select name="timeline"><option>As soon as possible</option><option>Within 2 weeks</option><option>Within 1 month</option><option>1 to 3 months</option><option>3 to 6 months</option><option>6+ months</option><option>Flexible</option><option>Not sure yet</option></select></label>
                   <label>Project details<textarea name="message" required placeholder="What problem are you trying to solve?"></textarea></label>
-                  <label>Attachments (optional)<span class="contact-file-control"><input id="contact-attachments" type="file" name="attachments" accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg" multiple><span class="contact-file-pick" aria-hidden="true">Choose files</span><span class="contact-file-name" id="contact-attachment-name" aria-live="polite">No file chosen</span></span></label>
                 </div>
                 <p class="contact-error" id="contact-err-brief" role="alert"></p><button class="contact-submit" type="submit">Send brief <span aria-hidden="true">↗</span></button>
               </form>
@@ -270,7 +271,7 @@ app.innerHTML = `
 
 `;
 
-// Contact section: local scheduling demo and project brief interaction.
+// Contact section: live booking availability and contact submissions.
 const contactRoot = document.querySelector<HTMLElement>(".contact-section");
 if (contactRoot) {
   const $contact = <T extends HTMLElement>(selector: string) =>
@@ -278,19 +279,16 @@ if (contactRoot) {
   const monthFormat = new Intl.DateTimeFormat("en", { month: "long", year: "numeric" });
   const dayFormat = new Intl.DateTimeFormat("en", { weekday: "long", day: "numeric", month: "long" });
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  $contact("#contact-tz").textContent = `Times shown in your timezone: ${timezone.replaceAll("_", " ")}`;
+  $contact("#contact-tz").textContent = "Times shown in Asia/Jakarta";
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
   let viewedMonth = new Date(monthStart);
   let selectedDate: Date | null = null;
   let selectedTime: string | null = null;
-  const times = ["09:00", "10:30", "13:00", "14:30", "16:00", "17:00"];
+  let availableSlots: AvailableSlot[] = [];
+  let loadingSlots = false;
   const callForm = $contact<HTMLFormElement>("#contact-p-call");
   const briefForm = $contact<HTMLFormElement>("#contact-p-brief");
-  const briefAttachmentInput = $contact<HTMLInputElement>("#contact-attachments");
-  const briefAttachmentName = $contact<HTMLElement>("#contact-attachment-name");
-  const callAttachmentInput = $contact<HTMLInputElement>("#contact-call-attachments");
-  const callAttachmentName = $contact<HTMLElement>("#contact-call-attachment-name");
   const callFields = $contact<HTMLElement>("#contact-call-fields");
   const otherNeedToggle = $contact<HTMLInputElement>("#contact-other-need-toggle");
   const otherNeedField = $contact<HTMLElement>("#contact-other-need-field");
@@ -317,21 +315,36 @@ if (contactRoot) {
       const date = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth(), n);
       const button = document.createElement("button");
       button.type = "button"; button.className = "contact-day"; button.textContent = String(n);
-      button.disabled = date <= today || date.getDay() === 0 || date.getDay() === 6;
+      const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(n).padStart(2, "0")}`;
+      const hasAvailableSlots = availableSlots.some((slot) => slot.startsAt.startsWith(key) && slot.available);
+      button.disabled = loadingSlots || date < today || !hasAvailableSlots;
       button.setAttribute("aria-pressed", String(!!selectedDate && +selectedDate === +date));
-      button.setAttribute("aria-label", dayFormat.format(date));
+      button.setAttribute("aria-label", `${dayFormat.format(date)}, ${hasAvailableSlots ? "available" : "unavailable"}`);
+      if (!hasAvailableSlots) button.title = "No available times";
       if (+date === +today) button.classList.add("today");
-      button.addEventListener("click", () => { selectedDate = date; selectedTime = null; dateExpanded = false; timeExpanded = true; renderCalendar(); renderTimes(); updateBookingSteps(); });
+      button.addEventListener("click", () => { selectedDate = date; selectedTime = null; dateExpanded = false; timeExpanded = true; renderCalendar(); renderTimes(); updateBookingSteps(); void loadMonth(); });
       grid.append(button);
     }
   };
   const renderTimes = () => {
     const grid = $contact("#contact-slots"); grid.replaceChildren();
     if (!selectedDate) return;
-    times.forEach((time, index) => {
+    if (loadingSlots) {
+      const hint = document.createElement("p"); hint.className = "contact-hint"; hint.textContent = "Checking available times…"; grid.append(hint);
+      return;
+    }
+    const key = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
+    const times = availableSlots.filter((slot) => slot.startsAt.startsWith(key));
+    if (!times.length) {
+      const hint = document.createElement("p"); hint.className = "contact-hint"; hint.textContent = "No times are available on this day."; grid.append(hint);
+    }
+    times.forEach((slot) => {
+      const time = slot.startsAt.slice(11, 16);
       const button = document.createElement("button"); button.type = "button"; button.className = "contact-slot"; button.textContent = time;
-      button.disabled = (selectedDate!.getDate() * 7 + index * 3) % 5 === 0;
+      button.disabled = !slot.available;
+      button.setAttribute("aria-label", `${time}, ${slot.available ? "available" : "unavailable"}`);
       button.setAttribute("aria-pressed", String(selectedTime === time));
+      if (!slot.available) button.title = "This time is unavailable";
       button.addEventListener("click", () => { selectedTime = time; timeExpanded = false; renderTimes(); updateBookingSteps(); }); grid.append(button);
     });
   };
@@ -360,8 +373,30 @@ if (contactRoot) {
     renderTimes(); updateBookingSteps();
   });
   timeSummary.addEventListener("click", () => { timeExpanded = true; updateBookingSteps(); });
-  $contact("#contact-prev").addEventListener("click", () => { viewedMonth = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() - 1, 1); renderCalendar(); });
-  $contact("#contact-next").addEventListener("click", () => { viewedMonth = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() + 1, 1); renderCalendar(); });
+  let availabilityRequest = 0;
+  const loadMonth = async () => {
+    const requestId = ++availabilityRequest;
+    const month = `${viewedMonth.getFullYear()}-${String(viewedMonth.getMonth() + 1).padStart(2, "0")}`;
+    loadingSlots = true; renderCalendar();
+    try {
+      const slots = await getAvailableSlots(month);
+      if (requestId !== availabilityRequest) return;
+      availableSlots = slots;
+      if (selectedDate) {
+        const key = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
+        if (!availableSlots.some((slot) => slot.startsAt.startsWith(key) && slot.available)) selectedTime = null;
+      }
+      $contact("#contact-err-call").textContent = "";
+    } catch (error) {
+      if (requestId !== availabilityRequest) return;
+      availableSlots = [];
+      $contact("#contact-err-call").textContent = error instanceof Error ? error.message : "Could not load available times.";
+    } finally {
+      if (requestId === availabilityRequest) { loadingSlots = false; renderCalendar(); renderTimes(); updateBookingSteps(); }
+    }
+  };
+  $contact("#contact-prev").addEventListener("click", () => { viewedMonth = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() - 1, 1); selectedDate = null; selectedTime = null; renderCalendar(); updateBookingSteps(); void loadMonth(); });
+  $contact("#contact-next").addEventListener("click", () => { viewedMonth = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() + 1, 1); selectedDate = null; selectedTime = null; renderCalendar(); updateBookingSteps(); void loadMonth(); });
   const showTab = (index: number) => {
     tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; panels[i].hidden = i !== index; });
     $contact("#contact-done").hidden = true; $contact(".contact-card-header").hidden = false;
@@ -372,20 +407,6 @@ if (contactRoot) {
       if (event.key === "ArrowRight" || event.key === "ArrowLeft") { const next = 1 - index; showTab(next); tabs[next].focus(); }
     });
   });
-  const setupAttachment = (input: HTMLInputElement, output: HTMLElement, form: HTMLFormElement) => {
-    const update = () => {
-      const files = input.files;
-      output.textContent = !files?.length
-      ? "No file chosen"
-      : files.length === 1
-        ? files[0].name
-        : `${files.length} files chosen`;
-    };
-    input.addEventListener("change", update);
-    form.addEventListener("reset", () => { window.setTimeout(update); });
-  };
-  setupAttachment(briefAttachmentInput, briefAttachmentName, briefForm);
-  setupAttachment(callAttachmentInput, callAttachmentName, callForm);
   otherNeedToggle.addEventListener("change", () => {
     otherNeedField.hidden = !otherNeedToggle.checked;
     otherNeedInput.required = otherNeedToggle.checked;
@@ -407,22 +428,37 @@ if (contactRoot) {
   };
   $contact("#contact-again").addEventListener("click", () => {
     panels.forEach((panel) => panel.reset()); selectedDate = null; selectedTime = null; dateExpanded = true; timeExpanded = true;
-    renderCalendar(); renderTimes(); updateBookingSteps(); showTab(0);
+    renderCalendar(); renderTimes(); updateBookingSteps(); showTab(0); void loadMonth();
   });
-  callForm.addEventListener("submit", (event) => {
+  callForm.addEventListener("submit", async (event) => {
     event.preventDefault(); const data = new FormData(callForm); const email = String(data.get("email") ?? "");
     const error = $contact("#contact-err-call");
     if (!selectedDate || !selectedTime) { error.textContent = "Pick a day and a time first."; return; }
     if (!callForm.checkValidity()) { error.textContent = "Add your name and a valid email."; return; }
-    error.textContent = ""; finish("You’re booked", `${dayFormat.format(selectedDate)} at ${selectedTime} (${timezone}). A calendar invite is on its way to ${email}.`);
+    const day = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
+    const selectedSlot = availableSlots.find((slot) => slot.startsAt.startsWith(`${day}T${selectedTime}`) && slot.available);
+    if (!selectedSlot) { error.textContent = "That time is no longer available. Please choose another."; await loadMonth(); return; }
+    try {
+      await submitContact("booking", { name: String(data.get("name") ?? ""), email, startsAt: selectedSlot.startsAt, timezone, topic: String(data.get("topic") ?? ""), website: String(data.get("website") ?? "") });
+      error.textContent = ""; finish("You’re booked", `${dayFormat.format(selectedDate)} at ${selectedTime} (Asia/Jakarta). We’ll be in touch at ${email}.`);
+    } catch (submissionError) { error.textContent = submissionError instanceof Error ? submissionError.message : "Could not submit your booking."; if (error.textContent.includes("already booked")) await loadMonth(); }
   });
-  briefForm.addEventListener("submit", (event) => {
+  briefForm.addEventListener("submit", async (event) => {
     event.preventDefault(); const data = new FormData(briefForm);
     const error = $contact("#contact-err-brief");
     if (!briefForm.checkValidity()) { error.textContent = "Add your name, a valid email and a few details."; return; }
-    error.textContent = ""; finish("Brief received", `Thanks ${String(data.get("name")).split(" ")[0]}. We will reply to ${String(data.get("email"))} within 2 working days.`);
+    try {
+      await submitContact("brief", {
+        name: String(data.get("name") ?? ""), email: String(data.get("email") ?? ""),
+        company: String(data.get("company") ?? ""), need: data.getAll("need").map(String),
+        needOther: String(data.get("needOther") ?? ""), timeline: String(data.get("timeline") ?? ""),
+        message: String(data.get("message") ?? ""),
+        website: String(data.get("website") ?? ""),
+      });
+      error.textContent = ""; finish("Brief received", `Thanks ${String(data.get("name")).split(" ")[0]}. We will reply to ${String(data.get("email"))} within 2 working days.`);
+    } catch (submissionError) { error.textContent = submissionError instanceof Error ? submissionError.message : "Could not submit your brief."; }
   });
-  renderCalendar(); renderTimes(); updateBookingSteps();
+  renderCalendar(); renderTimes(); updateBookingSteps(); void loadMonth();
 }
 
 const canvas = document.querySelector<HTMLCanvasElement>(".hero-canvas");

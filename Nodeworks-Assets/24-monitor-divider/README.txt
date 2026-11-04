@@ -1,4 +1,4 @@
-Nodeworks — Asset 24: Monitor / Divider
+Nodeworks - Asset 24: Monitor / Divider
 
 Rekonstruksi 3D berdasarkan referensi, belum persis 1:1.
 Panel putih polos dengan sudut membulat, tepi bevel, dua kaki pendek

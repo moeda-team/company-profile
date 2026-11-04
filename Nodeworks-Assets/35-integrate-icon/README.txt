@@ -1,4 +1,4 @@
-Nodeworks — Asset 35: Integrate Icon
+Nodeworks - Asset 35: Integrate Icon
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Panel putih persegi dengan sudut membulat dan bevel. Simbol integrasi

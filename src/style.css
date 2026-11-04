@@ -585,6 +585,7 @@ svg { width: 20px; height: 20px; flex: none; }
 .contact-slots { display: grid; grid-template-columns: repeat(6,1fr); gap: 5px; }
 .contact-slot { padding: 8px 0; border: 1px solid var(--contact-paper-border); border-radius: 9px; color: var(--contact-ink); background: #f1f2f7; font-size: 12px; cursor: pointer; }
 .contact-slot:disabled { color: #a3a9c4; text-decoration: line-through; cursor: not-allowed; }
+.contact-slot:disabled::after { content: 'Unavailable'; display: block; font-size: 9px; line-height: 1.1; text-decoration: none; }
 .contact-hint,.contact-tz { color: var(--contact-muted); font-size: 12px; }
 .contact-hint { grid-column: 1/-1; padding: 7px 0; }
 .contact-tz { margin: 6px 0 0; font-size: 11px; }

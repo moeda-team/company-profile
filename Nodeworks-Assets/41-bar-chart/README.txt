@@ -1,4 +1,4 @@
-Nodeworks — Asset 41: Bar Chart
+Nodeworks - Asset 41: Bar Chart
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Empat batang biru bersudut membulat dengan tinggi bertahap dan dasar

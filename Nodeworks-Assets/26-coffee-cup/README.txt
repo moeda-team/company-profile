@@ -1,4 +1,4 @@
-Nodeworks — Asset 26: Coffee Cup
+Nodeworks - Asset 26: Coffee Cup
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Gelas putih tanpa gagang, sedikit meruncing ke bawah, dengan bibir

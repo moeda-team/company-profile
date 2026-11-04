@@ -1,4 +1,4 @@
-Nodeworks — Asset 36: Problem Icon
+Nodeworks - Asset 36: Problem Icon
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Panel putih persegi bersudut membulat, lingkaran biru dengan tepi bevel,

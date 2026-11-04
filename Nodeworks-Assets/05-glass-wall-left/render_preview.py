@@ -21,6 +21,6 @@ ground.visual=trimesh.visual.TextureVisuals(material=trimesh.visual.material.PBR
 r=pyrender.OffscreenRenderer(1300,1300)
 color,_=r.render(sc,flags=pyrender.RenderFlags.NONE)
 im=Image.fromarray(color);d=ImageDraw.Draw(im);f='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
-d.text((50,38),'05 / GLASS WALL — LEFT',font=ImageFont.truetype(f,30),fill='#10234a')
+d.text((50,38),'05 / GLASS WALL - LEFT',font=ImageFont.truetype(f,30),fill='#10234a')
 d.text((50,85),'Nodeworks · Reference-based 3D reconstruction',font=ImageFont.truetype(f,19),fill='#67748e')
 im.save(p/'05-nodeworks-glass-wall-left-preview.png');r.delete()

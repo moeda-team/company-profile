@@ -1,4 +1,4 @@
-Nodeworks — Asset 21: Person Working (Right)
+Nodeworks - Asset 21: Person Working (Right)
 
 Rekonstruksi 3D berdasarkan gambar referensi; bukan salinan persis 1:1.
 Paket mencakup karakter perempuan duduk dengan rambut diikat, kursi putih-biru, dan laptop layar dashboard.

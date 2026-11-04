@@ -1,4 +1,4 @@
-Nodeworks — Asset 25: Document Box
+Nodeworks - Asset 25: Document Box
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Empat map/binder berdiri: biru, putih, putih, biru. Tiap binder memiliki

@@ -1,4 +1,4 @@
-Nodeworks — Asset 20: Person Working (Left)
+Nodeworks - Asset 20: Person Working (Left)
 
 Rekonstruksi 3D berdasarkan gambar referensi; bukan salinan persis 1:1.
 Paket mencakup karakter pria duduk, kursi putih-biru, dan laptop layar kode.

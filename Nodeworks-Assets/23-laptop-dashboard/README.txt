@@ -1,4 +1,4 @@
-Nodeworks — Asset 23: Laptop (Dashboard)
+Nodeworks - Asset 23: Laptop (Dashboard)
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Laptop terpisah dengan bodi abu gelap, bingkai graphite, keyboard,

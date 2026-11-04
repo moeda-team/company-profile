@@ -1,4 +1,4 @@
-Nodeworks — Asset 28: Pen Holder
+Nodeworks - Asset 28: Pen Holder
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Wadah putih berbentuk persegi dengan tepi membulat dan rongga terbuka.

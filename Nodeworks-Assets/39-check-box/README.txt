@@ -1,4 +1,4 @@
-Nodeworks — Asset 39: Check Box
+Nodeworks - Asset 39: Check Box
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Kotak biru bersudut membulat dan tepi bevel dengan tanda centang putih.

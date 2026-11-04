@@ -1,4 +1,4 @@
-Nodeworks — Asset 38: Arrow
+Nodeworks - Asset 38: Arrow
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Panah ke kanan dengan bingkai biru bersudut membulat dan bagian tengah

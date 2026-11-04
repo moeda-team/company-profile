@@ -1,4 +1,4 @@
-Nodeworks — Asset 27: Notebook
+Nodeworks - Asset 27: Notebook
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Buku catatan tertutup dengan sampul putih bersudut membulat, lapisan

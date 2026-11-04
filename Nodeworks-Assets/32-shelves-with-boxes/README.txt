@@ -1,4 +1,4 @@
-Nodeworks — Asset 32: Shelves with Boxes
+Nodeworks - Asset 32: Shelves with Boxes
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Rak putih dengan dua tingkat, panel belakang pucat, bingkai atas dan

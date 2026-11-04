@@ -1,4 +1,4 @@
-Nodeworks — Asset 29: Plant (Square Pot)
+Nodeworks - Asset 29: Plant (Square Pot)
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Pot putih persegi dengan sudut membulat, rongga terbuka, tanah gelap,

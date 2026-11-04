@@ -1,4 +1,4 @@
-Nodeworks — Asset 31: Storage Boxes
+Nodeworks - Asset 31: Storage Boxes
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Dua kotak tertutup: kotak biru lebih besar dan kotak putih lebih kecil.

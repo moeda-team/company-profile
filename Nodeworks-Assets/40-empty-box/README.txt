@@ -1,4 +1,4 @@
-Nodeworks — Asset 40: Empty Box
+Nodeworks - Asset 40: Empty Box
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Kotak kosong bersudut membulat dengan garis tepi abu tipis dan bagian

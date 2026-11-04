@@ -70,7 +70,11 @@ export function mountOfficeStory({ camera, canvas, draw, ledLights, stage, targe
     wrapper.dataset.storyBubble = scene.key;
     const bubble = document.createElement('div');
     bubble.className = 'scene-story-bubble';
-    bubble.innerHTML = `<span class="scene-story-status"></span><span>${scene.copy}</span>`;
+    const status = document.createElement('span');
+    status.className = 'scene-story-status';
+    const copy = document.createElement('span');
+    copy.textContent = scene.copy;
+    bubble.append(status, copy);
     wrapper.append(bubble);
     layer.append(wrapper);
     return { wrapper, bubble };

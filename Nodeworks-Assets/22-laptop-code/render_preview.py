@@ -21,6 +21,6 @@ sc.add(pyrender.Mesh.from_trimesh(ground))
 r=pyrender.OffscreenRenderer(1300,1300)
 color,_=r.render(sc,flags=pyrender.RenderFlags.SHADOWS_DIRECTIONAL)
 im=Image.fromarray(color);d=ImageDraw.Draw(im);f='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
-d.text((50,38),'22 / LAPTOP — CODE',font=ImageFont.truetype(f,30),fill='#10234a')
+d.text((50,38),'22 / LAPTOP - CODE',font=ImageFont.truetype(f,30),fill='#10234a')
 d.text((50,85),'Nodeworks · Reference-based 3D reconstruction',font=ImageFont.truetype(f,19),fill='#67748e')
 im.save(p/'22-nodeworks-laptop-code-preview.png');r.delete()

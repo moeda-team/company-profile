@@ -1,4 +1,4 @@
-Nodeworks — Asset 42: Logo (Nodeworks)
+Nodeworks - Asset 42: Logo (Nodeworks)
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Logo terdiri dari emblem persegi biru bersudut membulat, simbol enam

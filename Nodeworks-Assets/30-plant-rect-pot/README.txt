@@ -1,4 +1,4 @@
-Nodeworks — Asset 30: Plant (Rect Pot)
+Nodeworks - Asset 30: Plant (Rect Pot)
 
 Rekonstruksi 3D berdasarkan gambar referensi, belum persis 1:1.
 Pot putih persegi panjang dengan sudut membulat, rongga terbuka,
