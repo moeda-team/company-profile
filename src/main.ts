@@ -2,7 +2,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
-import { mountFactoryScene } from "./scene";
 import { whenScrollIdle } from "./scroll-idle";
 import "./style.css";
 import { getAvailableSlots, submitContact, type AvailableSlot } from "./contact-api";
@@ -10,7 +9,6 @@ import { getAvailableSlots, submitContact, type AvailableSlot } from "./contact-
 gsap.registerPlugin(ScrollTrigger);
 
 const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg>`;
-const downArrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v16m-7-7 7 7 7-7"/></svg>`;
 
 type ProjectKey = "operations" | "dashboard" | "location";
 type Project = {
@@ -53,42 +51,52 @@ app.innerHTML = `
       <header class="site-header container">
         <a class="wordmark" href="#top" aria-label="Nodeworks home"><img src="${import.meta.env.BASE_URL}nodeworks-mark.svg" width="44" height="44" alt="" />Nodeworks</a>
         <nav class="desktop-nav" aria-label="Main navigation">
-          <a href="#work" class="active">Work</a>
-          <a href="#services">Services</a>
+          <a href="#top" class="active">Home</a>
+          <a href="#services">Solutions</a>
+          <a href="#work">Works</a>
           <a href="#about">About</a>
-          <a href="#insights">Insights</a>
+          <a href="#contact">Contact</a>
         </nav>
-        <a class="header-cta" href="#contact">Let's talk ${arrow}</a>
+        <a class="header-cta" href="#contact">Build Your System ${arrow}</a>
         <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
           <span></span><span></span>
         </button>
       </header>
 
       <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
-        <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#insights">Insights</a><a href="#contact">Let's talk ${arrow}</a>
+        <a href="#top">Home</a><a href="#services">Solutions</a><a href="#work">Works</a><a href="#about">About</a><a href="#contact">Build Your System ${arrow}</a>
       </nav>
 
-      <div class="hero-inner container">
+      <div class="hero-content container">
         <div class="hero-copy">
-          <p class="eyebrow hero-eyebrow">Digital solutions for real business</p>
-          <h1 id="hero-title"><span>We build what your </span><span class="text-blue">business needs.</span></h1>
+          <p class="eyebrow hero-eyebrow">Software development partner</p>
+          <h1 id="hero-title"><span class="hero-title-line">Build</span> <span class="hero-title-line">Your System</span> <span class="hero-title-line">with <span class="text-blue">Nodeworks.</span></span></h1>
+          <p class="hero-description">Membantu bisnis dan instansi membangun solusi digital yang tepat, terukur, dan siap berkembang.</p>
+          <a class="hero-brief-cta" href="#contact">
+            <span class="hero-brief-icon" aria-hidden="true">&lt;/&gt;</span>
+            <span>Ceritakan kebutuhan Anda</span>
+            <span class="hero-brief-arrow">${arrow}</span>
+          </a>
+          <dl class="hero-stats" aria-label="Nodeworks highlights">
+            <div><dt>50+</dt><dd>Project Delivered</dd></div>
+            <div><dt>99%</dt><dd>On-Time Delivery</dd></div>
+            <div><dt>24/7</dt><dd>Technical Support</dd></div>
+          </dl>
         </div>
-      </div>
-      <div class="hero-stage">
-        <div class="hero-orbits" aria-hidden="true"></div>
-        <div class="hero-scene" role="group" aria-label="Interactive Nodeworks 3D studio">
-          <canvas class="hero-canvas" tabindex="0" role="img" aria-label="3D studio. Drag or use arrow keys to rotate. Press Home to reset the view."></canvas>
+        <div class="hero-stage">
+          <div class="hero-orbits" aria-hidden="true"></div>
+          <div class="hero-visual">
+            <img
+              class="hero-asset"
+              src="${import.meta.env.BASE_URL}images/work/nodeworks_blue_diorama.svg"
+              width="1368"
+              height="938"
+              fetchpriority="high"
+              decoding="async"
+              alt="Nodeworks software company office diorama"
+            />
+          </div>
         </div>
-        <div class="scene-controls" role="group" aria-label="3D view controls">
-          <span class="scene-drag-hint">Drag to explore</span><span class="scene-touch-hint">Explore in 3D</span>
-          <button type="button" data-scene-view="left" aria-label="Rotate studio left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m14 7-5 5 5 5"/></svg></button>
-          <button type="button" data-scene-view="reset" aria-label="Reset studio view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 11a8 8 0 1 1 1 5M4 5v6h6"/></svg></button>
-          <button type="button" data-scene-view="right" aria-label="Rotate studio right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m10 7 5 5-5 5"/></svg></button>
-        </div>
-      </div>
-      <div class="hero-actions">
-        <a class="button button-primary" href="#work">Explore our work ${arrow}</a>
-        <a class="button button-text" href="#services">What we do ${downArrow}</a>
       </div>
     </section>
 
@@ -461,9 +469,8 @@ if (contactRoot) {
   renderCalendar(); renderTimes(); updateBookingSteps(); void loadMonth();
 }
 
-const canvas = document.querySelector<HTMLCanvasElement>(".hero-canvas");
-if (!canvas) throw new Error("Hero canvas not found");
-const cleanups: Array<() => void> = [];
+const heroAsset = document.querySelector<HTMLImageElement>(".hero-asset");
+if (!heroAsset) throw new Error("Hero asset not found");
 const loadingScreen = document.querySelector<HTMLElement>(".loading-screen");
 const loadingBar = loadingScreen?.querySelector<HTMLElement>(".loading-screen__track span");
 const loadingStatus = loadingScreen?.querySelector<HTMLElement>(".loading-screen__status");
@@ -511,6 +518,17 @@ function updateLoading(progress: number, state: "loading" | "ready" | "error" = 
 
 // Never let a device or network failure trap visitors behind the initial gate.
 const loadingFallback = window.setTimeout(() => finishLoading("error"), 30000);
+
+const handleHeroReady = () => updateLoading(100, "ready");
+const handleHeroError = () => updateLoading(100, "error");
+updateLoading(40);
+if (heroAsset.complete) {
+  if (heroAsset.naturalWidth > 0) handleHeroReady();
+  else handleHeroError();
+} else {
+  heroAsset.addEventListener("load", handleHeroReady, { once: true });
+  heroAsset.addEventListener("error", handleHeroError, { once: true });
+}
 
 const menuToggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
 const mobileNav = document.querySelector<HTMLElement>(".mobile-nav");
@@ -588,7 +606,7 @@ document.addEventListener("click", onAnchorClick);
 
 if (!reduceMotion) {
   gsap.fromTo(
-    ".hero-eyebrow, #hero-title, .hero-description, .hero-actions",
+    ".hero-eyebrow, #hero-title, .hero-description, .hero-brief-cta, .hero-stats",
     { autoAlpha: 0, y: 30 },
     {
       autoAlpha: 1,
@@ -600,7 +618,7 @@ if (!reduceMotion) {
     },
   );
   gsap.fromTo(
-    ".hero-scene",
+    ".hero-visual",
     { autoAlpha: 0, y: 18 },
     { autoAlpha: 1, y: 0, duration: 1.35, ease: "power2.out", delay: 0.15 },
   );
@@ -647,7 +665,7 @@ document
 
 window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
 
-// Model framing can resize the hero after its GLBs load or the viewport changes.
+// Keep smooth-scroll measurements aligned with the responsive hero asset.
 let cancelLayoutRefresh = () => {};
 const heroLayoutObserver = new ResizeObserver(() => {
   cancelLayoutRefresh();
@@ -658,16 +676,11 @@ const heroLayoutObserver = new ResizeObserver(() => {
 });
 heroLayoutObserver.observe(document.querySelector(".hero")!);
 
-// The hero is the only WebGL canvas; project previews are static local images.
-const cancelSceneInitialization = whenScrollIdle(() =>
-  cleanups.push(mountFactoryScene(canvas, updateLoading)),
-);
-
 import.meta.hot?.dispose(() => {
-  cancelSceneInitialization();
   cancelLayoutRefresh();
   heroLayoutObserver.disconnect();
-  cleanups.forEach((cleanup) => cleanup());
+  heroAsset.removeEventListener("load", handleHeroReady);
+  heroAsset.removeEventListener("error", handleHeroError);
   gsap.ticker.remove(tickSmoothScroll);
   document.removeEventListener("click", onAnchorClick);
   lenis?.destroy();
