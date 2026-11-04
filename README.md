@@ -28,7 +28,13 @@ See [`.env.example`](.env.example):
 | --- | --- | --- |
 | `VITE_API_BASE_URL` | Origin used for API requests | `http://localhost:8080` |
 
-Vite embeds this value into the frontend at build time. Set it to the deployed backend origin in the production build environment; production builds require HTTPS. The generated Content Security Policy permits connections only to that origin. Configure the backend's `CORS_ORIGIN` to the exact origin serving this frontend.
+Vite embeds this value into the frontend at build time. On the VPS deployment it defaults to `/`, so browser API requests use the website origin and Nginx proxies `/api/` to the backend on the shared Docker network. If using a separate backend origin, set it to the deployed HTTPS origin in the build environment. The generated Content Security Policy permits connections only to the configured origin. Configure the backend's `CORS_ORIGIN` to the exact origin serving this frontend.
+
+## Deploy with GitHub Actions
+
+The [deploy workflow](.github/workflows/deploy.yml) builds a production image, sends it over SSH, and starts [Compose](compose.yaml) on the VPS. It runs on pushes to `main` or manually. Configure GitHub repository secrets `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY` (the private deployment key), and `VPS_SSH_KNOWN_HOSTS` (the VPS SSH host-key line, checked against a trusted fingerprint). The optional GitHub repository variable `VITE_API_BASE_URL` defaults to `/` so API traffic uses the shared-network proxy. Other optional variables are `VPS_PORT` (default `22`) and `VPS_PLATFORM` (default `linux/amd64`; use `linux/arm64` for an ARM VPS). Vite embeds `VITE_API_BASE_URL` during the image build, so a runtime `.env` file would not change the served frontend.
+
+Install Docker Engine and Compose v2 on the VPS and give the SSH user access to Docker. The workflow creates `~/company-profile/frontend` and the shared `nodeworks` Docker network. The web container is bound to `127.0.0.1:8081` on the VPS. Point your HTTPS reverse proxy's website virtual host to that address, and configure the backend's `CORS_ORIGIN` to the website's exact HTTPS origin. Nginx serves the built static files and forwards `/api/` requests to `api:8080` on the shared network. Deploy the backend before testing forms and booking availability.
 
 ## Contact and booking integration
 

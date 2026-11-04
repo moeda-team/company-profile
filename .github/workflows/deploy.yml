@@ -1,0 +1,59 @@
+name: Deploy frontend to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-frontend
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+      VPS_SSH_KNOWN_HOSTS: ${{ secrets.VPS_SSH_KNOWN_HOSTS }}
+      VPS_PORT: ${{ vars.VPS_PORT || '22' }}
+      VPS_PLATFORM: ${{ vars.VPS_PLATFORM || 'linux/amd64' }}
+      VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL || '/' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$VPS_HOST" && test -n "$VPS_USER" && test -n "$VPS_SSH_KEY" && test -n "$VPS_SSH_KNOWN_HOSTS"
+          umask 077
+          printf '%s\n' "$VPS_SSH_KEY" > "$RUNNER_TEMP/vps_key"
+          printf '%s\n' "$VPS_SSH_KNOWN_HOSTS" > "$RUNNER_TEMP/vps_known_hosts"
+          ssh -i "$RUNNER_TEMP/vps_key" -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/vps_known_hosts" -p "$VPS_PORT" "$VPS_USER@$VPS_HOST" 'docker info >/dev/null'
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$VITE_API_BASE_URL"
+          docker buildx build --platform "$VPS_PLATFORM" --load --build-arg "VITE_API_BASE_URL=$VITE_API_BASE_URL" -t "company-fe-service:$GITHUB_SHA" .
+
+      - name: Transfer and start
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="$VPS_USER@$VPS_HOST"
+          ssh_options=(-i "$RUNNER_TEMP/vps_key" -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/vps_known_hosts" -p "$VPS_PORT")
+          docker save "company-fe-service:$GITHUB_SHA" | gzip | ssh "${ssh_options[@]}" "$target" 'gunzip | docker load'
+          ssh "${ssh_options[@]}" "$target" 'docker network create nodeworks >/dev/null 2>&1 || docker network inspect nodeworks >/dev/null'
+          ssh "${ssh_options[@]}" "$target" 'mkdir -p company-profile/frontend'
+          scp -i "$RUNNER_TEMP/vps_key" -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/vps_known_hosts" -P "$VPS_PORT" compose.yaml "$target:company-profile/frontend/compose.yaml"
+          ssh "${ssh_options[@]}" "$target" "IMAGE_TAG=$GITHUB_SHA docker compose -f company-profile/frontend/compose.yaml -p nodeworks-frontend up -d --wait"
