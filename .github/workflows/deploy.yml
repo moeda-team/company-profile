@@ -28,12 +28,24 @@ jobs:
 
       - name: Configure SSH
         shell: bash
+        env:
+          VPS_SSH_PASSPHRASE: ${{ secrets.VPS_SSH_PASSPHRASE }}
         run: |
           set -euo pipefail
           test -n "$VPS_HOST" && test -n "$VPS_USER" && test -n "$VPS_SSH_KEY" && test -n "$VPS_SSH_KNOWN_HOSTS"
           umask 077
           printf '%s\n' "$VPS_SSH_KEY" > "$RUNNER_TEMP/vps_key"
           printf '%s\n' "$VPS_SSH_KNOWN_HOSTS" > "$RUNNER_TEMP/vps_known_hosts"
+          eval "$(ssh-agent -a "$RUNNER_TEMP/vps_agent.sock" -s)"
+          printf 'SSH_AUTH_SOCK=%s\n' "$SSH_AUTH_SOCK" >> "$GITHUB_ENV"
+          if [ -n "$VPS_SSH_PASSPHRASE" ]; then
+            printf '%s\n' '#!/bin/sh' 'printf "%s\n" "$VPS_SSH_PASSPHRASE"' > "$RUNNER_TEMP/vps_askpass"
+            chmod 700 "$RUNNER_TEMP/vps_askpass"
+            DISPLAY=:0 SSH_ASKPASS="$RUNNER_TEMP/vps_askpass" SSH_ASKPASS_REQUIRE=force setsid -w ssh-add "$RUNNER_TEMP/vps_key" </dev/null
+            rm "$RUNNER_TEMP/vps_askpass"
+          else
+            ssh-add "$RUNNER_TEMP/vps_key" </dev/null
+          fi
           ssh -i "$RUNNER_TEMP/vps_key" -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$RUNNER_TEMP/vps_known_hosts" -p "$VPS_PORT" "$VPS_USER@$VPS_HOST" 'docker info >/dev/null'
 
       - uses: docker/setup-qemu-action@v3
