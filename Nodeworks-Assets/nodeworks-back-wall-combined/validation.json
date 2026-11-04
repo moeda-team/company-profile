@@ -1,0 +1,36 @@
+{
+  "mesh_count": 59,
+  "triangles": 102840,
+  "size_bytes": 2611636,
+  "dimensions_m": [
+    4.880000114440918,
+    2.7174999713897705,
+    0.559000000357628
+  ],
+  "bounds": [
+    [
+      -2.440000057220459,
+      -7.684658270478599e-18,
+      -0.4214999973773956
+    ],
+    [
+      2.440000057220459,
+      2.7174999713897705,
+      0.1375000029802324
+    ]
+  ],
+  "finite_vertices": true,
+  "valid_face_indices": true,
+  "external_textures": false,
+  "animation": false,
+  "main_wall_size_m": [
+    4.8,
+    2.7,
+    0.105
+  ],
+  "glb_header_valid": true,
+  "gltf_meshes": 59,
+  "gltf_materials": 25,
+  "gltf_external_buffers": false,
+  "preview_images_verified": true
+}

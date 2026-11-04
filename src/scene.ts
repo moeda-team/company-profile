@@ -2,17 +2,26 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
-import { loadOffice } from './office';
+import { loadOffice, type OfficeStoryTargets } from './office';
+import { mountOfficeStory } from './office-story';
 import { whenScrollIdle } from './scroll-idle';
 
-export function mountFactoryScene(canvas: HTMLCanvasElement) {
+type SceneLoadState = 'loading' | 'ready' | 'error';
+
+export function mountFactoryScene(
+  canvas: HTMLCanvasElement,
+  onProgress: (progress: number, state?: SceneLoadState) => void = () => {},
+) {
+  onProgress(2);
   let renderer: THREE.WebGLRenderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
   } catch {
     canvas.dataset.webglUnavailable = 'true';
+    onProgress(100, 'error');
     return () => undefined;
   }
+  onProgress(5);
   renderer.setClearColor(0xffffff, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -60,10 +69,12 @@ export function mountFactoryScene(canvas: HTMLCanvasElement) {
     light.shadow.normalBias = .025;
     scene.add(light, light.target);
   }
+  const storyLEDs: THREE.PointLight[] = [];
   for (const x of [-4.4, 4.4]) {
     const led = new THREE.PointLight(0x168dff, 6, 3, 2);
     led.position.set(x, .32, 4.9);
     scene.add(led);
+    storyLEDs.push(led);
   }
 
   // No perpetual render loop: a static assembly redraws only when its view changes.
@@ -88,6 +99,7 @@ export function mountFactoryScene(canvas: HTMLCanvasElement) {
   let environment: THREE.WebGLRenderTarget | undefined;
   let cancelPreparation = () => {};
   let cancelFirstRender = () => {};
+  let cancelStory = () => {};
   let framingPoints: THREE.Vector3[] = [];
   for (const x of [-8, 8]) for (const y of [0, 6.7]) for (const z of [-5, 5]) {
     framingPoints.push(new THREE.Vector3(x, y, z));
@@ -159,7 +171,8 @@ export function mountFactoryScene(canvas: HTMLCanvasElement) {
     if (stage.style.height !== `${requiredHeight}px`) stage.style.height = `${requiredHeight}px`;
     const width = Math.max(1, canvas.clientWidth);
     const height = Math.max(1, canvas.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.6));
+    const pixelRatioCap = window.innerWidth <= 900 ? 1.25 : 1.4;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, pixelRatioCap));
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     fitView(direction);
@@ -187,12 +200,13 @@ export function mountFactoryScene(canvas: HTMLCanvasElement) {
   };
   canvas.addEventListener('keydown', onKeyDown);
 
-  function prepare() {
+  function prepare(storyTargets: OfficeStoryTargets) {
     if (disposed || preparing) return;
     preparing = true;
     framingPoints = scene.getObjectByName('Nodeworks / supplied asset assembly')!.userData.framingPoints;
     resize();
     canvas.dataset.sceneState = 'preparing';
+    onProgress(90);
     cancelPreparation = whenScrollIdle(() => {
       const room = new RoomEnvironment();
       const generator = new THREE.PMREMGenerator(renderer);
@@ -211,10 +225,15 @@ export function mountFactoryScene(canvas: HTMLCanvasElement) {
           canvas.dataset.sceneState = 'ready';
           canvas.dataset.modelLoaded = 'true';
           canvas.dataset.modelState = 'ready';
+          cancelStory = mountOfficeStory({ camera, canvas, draw, stage, targets: storyTargets, ledLights: storyLEDs });
+          // Match the supplied loading reference: reveal only after the browser
+          // has had two animation frames to present the first rendered scene.
+          requestAnimationFrame(() => requestAnimationFrame(() => onProgress(100, 'ready')));
         });
       }).catch(error => {
         if (disposed) return;
         canvas.dataset.sceneState = 'error';
+        onProgress(100, 'error');
         console.error('Unable to prepare the 3D scene.', error);
       });
     });
@@ -222,13 +241,20 @@ export function mountFactoryScene(canvas: HTMLCanvasElement) {
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
   resize();
-  const cancelOffice = loadOffice(scene, canvas, prepare);
+  const cancelOffice = loadOffice(
+    scene,
+    canvas,
+    prepare,
+    progress => onProgress(5 + progress * 80),
+    () => onProgress(100, 'error'),
+  );
   document.addEventListener('visibilitychange', draw);
 
   return () => {
     disposed = true;
     cancelPreparation();
     cancelFirstRender();
+    cancelStory();
     cancelOffice();
     observer.disconnect();
     controls.removeEventListener('change', updateViewState);

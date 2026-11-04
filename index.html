@@ -10,8 +10,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      body.site-loading { margin: 0; overflow: hidden; }
+      .loading-screen { position: fixed; z-index: 9999; inset: 0; display: grid; place-items: center; color: #fff; background: #050505; }
+      .loading-screen__content { display: grid; justify-items: center; gap: 20px; padding: 24px; }
+      .loading-screen__mark { width: 104px; height: 104px; }
+      .loading-screen__mark line { stroke: currentColor; stroke-width: 8; stroke-linecap: round; }
+      .loading-screen__mark circle { fill: currentColor; }
+      .loading-screen__brand { margin: 0; font: 15px Arial, sans-serif; letter-spacing: .35em; text-indent: .35em; }
+      .loading-screen__track { width: min(220px, 64vw); height: 2px; overflow: hidden; background: #333; }
+      .loading-screen__track span { display: block; width: 0; height: 100%; background: #fff; }
+      .loading-screen__status { margin: 0; color: #aaa; font: 11px Arial, sans-serif; letter-spacing: .2em; }
+    </style>
   </head>
-  <body>
+  <body class="site-loading">
+    <div class="loading-screen" role="status" aria-live="polite" aria-label="Preparing Nodeworks 3D scene">
+      <div class="loading-screen__content">
+        <svg class="loading-screen__mark" viewBox="0 0 120 120" aria-hidden="true">
+          <g><line x1="60" y1="60" x2="60" y2="17"/><circle cx="60" cy="17" r="10"/></g>
+          <g transform="rotate(60 60 60)"><line x1="60" y1="60" x2="60" y2="17"/><circle cx="60" cy="17" r="10"/></g>
+          <g transform="rotate(120 60 60)"><line x1="60" y1="60" x2="60" y2="17"/><circle cx="60" cy="17" r="10"/></g>
+          <g transform="rotate(180 60 60)"><line x1="60" y1="60" x2="60" y2="17"/><circle cx="60" cy="17" r="10"/></g>
+          <g transform="rotate(240 60 60)"><line x1="60" y1="60" x2="60" y2="17"/><circle cx="60" cy="17" r="10"/></g>
+          <g transform="rotate(300 60 60)"><line x1="60" y1="60" x2="60" y2="17"/><circle cx="60" cy="17" r="10"/></g>
+        </svg>
+        <p class="loading-screen__brand">NODEWORKS</p>
+        <div class="loading-screen__track" aria-hidden="true"><span></span></div>
+        <p class="loading-screen__status">PREPARING 3D SCENE · <span>0%</span></p>
+      </div>
+    </div>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

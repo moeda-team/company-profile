@@ -428,6 +428,50 @@ if (contactRoot) {
 const canvas = document.querySelector<HTMLCanvasElement>(".hero-canvas");
 if (!canvas) throw new Error("Hero canvas not found");
 const cleanups: Array<() => void> = [];
+const loadingScreen = document.querySelector<HTMLElement>(".loading-screen");
+const loadingBar = loadingScreen?.querySelector<HTMLElement>(".loading-screen__track span");
+const loadingStatus = loadingScreen?.querySelector<HTMLElement>(".loading-screen__status");
+const loadingPercentage = loadingStatus?.querySelector<HTMLElement>("span");
+const siteShell = document.querySelector<HTMLElement>(".site-shell");
+let loadingFinished = false;
+document.body.classList.add("site-loading");
+if (siteShell) siteShell.inert = true;
+
+function finishLoading(state: "ready" | "error") {
+  if (loadingFinished || !loadingScreen) return;
+  loadingFinished = true;
+  window.clearTimeout(loadingFallback);
+  loadingScreen.dataset.state = state;
+  if (loadingStatus && state === "error") loadingStatus.childNodes[0].textContent = "OPENING SITE · ";
+  loadingBar?.style.setProperty("width", "100%");
+  if (loadingPercentage) loadingPercentage.textContent = "100%";
+  const removeLoadingScreen = (event: TransitionEvent) => {
+    if (event.target !== loadingScreen || event.propertyName !== "opacity") return;
+    loadingScreen.removeEventListener("transitionend", removeLoadingScreen);
+    loadingScreen.remove();
+  };
+  loadingScreen.addEventListener("transitionend", removeLoadingScreen);
+  window.setTimeout(() => {
+    loadingScreen.classList.add("is-hidden");
+    document.body.classList.remove("site-loading");
+    if (siteShell) siteShell.inert = false;
+    syncScrollLock();
+  }, state === "ready" ? 350 : 150);
+  window.setTimeout(() => loadingScreen.remove(), 1200);
+}
+
+function updateLoading(progress: number, state: "loading" | "ready" | "error" = "loading") {
+  if (loadingFinished) return;
+  const percentage = state === "ready" || state === "error"
+    ? 100
+    : Math.min(95, Math.max(0, Math.floor(progress)));
+  loadingBar?.style.setProperty("width", `${percentage}%`);
+  if (loadingPercentage) loadingPercentage.textContent = `${percentage}%`;
+  if (state !== "loading") finishLoading(state);
+}
+
+// Never let a device or network failure trap visitors behind the initial gate.
+const loadingFallback = window.setTimeout(() => finishLoading("error"), 30000);
 
 const menuToggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
 const mobileNav = document.querySelector<HTMLElement>(".mobile-nav");
@@ -454,7 +498,7 @@ const reduceMotion = window.matchMedia(
 ).matches;
 let lenis: Lenis | undefined;
 function syncScrollLock() {
-  if (document.body.classList.contains("menu-open")) lenis?.stop();
+  if (document.body.classList.contains("menu-open") || document.body.classList.contains("site-loading")) lenis?.stop();
   else lenis?.start();
 }
 const scrollEasing = (t: number) => 1 - Math.pow(1 - t, 4);
@@ -465,6 +509,7 @@ lenis = new Lenis({
   wheelMultiplier: 0.9,
   respectReducedMotion: true,
 });
+syncScrollLock();
 lenis.on("scroll", ScrollTrigger.update);
 const tickSmoothScroll = (time: number) => lenis?.raf(time * 1000);
 gsap.ticker.add(tickSmoothScroll);
@@ -576,7 +621,7 @@ heroLayoutObserver.observe(document.querySelector(".hero")!);
 
 // The hero is the only WebGL canvas; project previews are static local images.
 const cancelSceneInitialization = whenScrollIdle(() =>
-  cleanups.push(mountFactoryScene(canvas)),
+  cleanups.push(mountFactoryScene(canvas, updateLoading)),
 );
 
 import.meta.hot?.dispose(() => {
