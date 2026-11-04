@@ -36,6 +36,12 @@ The [deploy workflow](.github/workflows/deploy.yml) builds a production image, s
 
 Install Docker Engine and Compose v2 on the VPS and give the SSH user access to Docker. The workflow creates `~/company-profile/frontend` and the shared `nodeworks` Docker network. The web container is bound to `127.0.0.1:8081` on the VPS. Point your HTTPS reverse proxy's website virtual host to that address, and configure the backend's `CORS_ORIGIN` to the website's exact HTTPS origin. Nginx serves the built static files and forwards `/api/` requests to `api:8080` on the shared network. Deploy the backend before testing forms and booking availability.
 
+### Public domain through host Nginx
+
+The [HTTP bootstrap config](deploy/nginx/nodeworks.co.id.conf) assumes `nodeworks.co.id` and `www.nodeworks.co.id` both point to this VPS. Use it when the site does not yet have a certificate, validate it with `sudo nginx -t`, and reload Nginx. Obtain a certificate containing both hostnames with your existing certificate manager or Certbot's Nginx plugin (`sudo certbot --nginx --cert-name nodeworks.co.id -d nodeworks.co.id -d www.nodeworks.co.id`). If an apex-only certificate already exists, expand that certificate to include `www`. Keep ports 80 and 443 reachable for certificate issuance and visitors.
+
+After the certificate exists, replace the bootstrap config with the [HTTPS config](deploy/nginx/nodeworks.co.id.https.conf), checking its certificate paths against `sudo certbot certificates`. It redirects both HTTP hostnames and HTTPS `www` to `https://nodeworks.co.id$request_uri`; HTTPS apex traffic is proxied to the frontend container on `127.0.0.1:8081`, which forwards `/api/` to the backend on the Docker network. Validate with `sudo nginx -t` before reloading. Set backend `CORS_ORIGIN` and `PUBLIC_SITE_URL` to `https://nodeworks.co.id` in the GitHub `BACKEND_ENV_FILE` secret.
+
 ## Contact and booking integration
 
 The API client is in [`src/contact-api.ts`](src/contact-api.ts). It handles the standard API envelope (`success`, `data`, `error`) and provides calls to:
