@@ -46,26 +46,27 @@ app.innerHTML = `
   <div class="site-shell">
     <div class="scroll-progress" aria-hidden="true"></div>
 
+    <header class="site-header container">
+      <a class="wordmark" href="#top" aria-label="Nodeworks home"><img src="${import.meta.env.BASE_URL}nodeworks-mark.svg" width="44" height="44" alt="" />Nodeworks</a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#top" class="active">Home</a>
+        <a href="#services">Solutions</a>
+        <a href="#work">Works</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="header-cta" href="#contact">Build Your System ${arrow}</a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <span></span><span></span>
+      </button>
+    </header>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+      <a href="#top">Home</a><a href="#services">Solutions</a><a href="#work">Works</a><a href="#about">About</a><a href="#contact">Build Your System ${arrow}</a>
+    </nav>
+
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-halo" aria-hidden="true"></div>
-      <header class="site-header container">
-        <a class="wordmark" href="#top" aria-label="Nodeworks home"><img src="${import.meta.env.BASE_URL}nodeworks-mark.svg" width="44" height="44" alt="" />Nodeworks</a>
-        <nav class="desktop-nav" aria-label="Main navigation">
-          <a href="#top" class="active">Home</a>
-          <a href="#services">Solutions</a>
-          <a href="#work">Works</a>
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <a class="header-cta" href="#contact">Build Your System ${arrow}</a>
-        <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-          <span></span><span></span>
-        </button>
-      </header>
-
-      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
-        <a href="#top">Home</a><a href="#services">Solutions</a><a href="#work">Works</a><a href="#about">About</a><a href="#contact">Build Your System ${arrow}</a>
-      </nav>
 
       <div class="hero-content container">
         <div class="hero-copy">
@@ -532,6 +533,7 @@ if (heroAsset.complete) {
 
 const menuToggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
 const mobileNav = document.querySelector<HTMLElement>(".mobile-nav");
+const siteHeader = document.querySelector<HTMLElement>(".site-header");
 function setMenu(open: boolean) {
   if (!menuToggle || !mobileNav) return;
   menuToggle.setAttribute("aria-expanded", String(open));
@@ -567,7 +569,14 @@ lenis = new Lenis({
   respectReducedMotion: true,
 });
 syncScrollLock();
-lenis.on("scroll", ScrollTrigger.update);
+function updateStickyHeader(scroll: number) {
+  siteHeader?.classList.toggle("is-sticky", scroll > 56);
+}
+updateStickyHeader(window.scrollY);
+lenis.on("scroll", ({ scroll }) => {
+  ScrollTrigger.update();
+  updateStickyHeader(scroll);
+});
 const tickSmoothScroll = (time: number) => lenis?.raf(time * 1000);
 gsap.ticker.add(tickSmoothScroll);
 gsap.ticker.lagSmoothing(0);
