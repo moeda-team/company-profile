@@ -147,6 +147,10 @@ html[data-theme="dark"] .detail-focus { color: #e9efff; background: #0c1a36; }
 html[data-theme="dark"] .detail-next { background: #0c1a36; }
 html[data-theme="dark"] .detail-focus-list > div { background: #1b3768; }
 html[data-theme="dark"] .detail-gallery-frame { border-color: #5574ad; color: #aec2ee; background: #14284a; }
+html[data-theme="dark"] .detail-gallery--screenshots figcaption strong { color: #e9efff; }
+html[data-theme="dark"] .detail-gallery-count { color: #aebfdf; }
+html[data-theme="dark"] .detail-gallery-controls button { border-color: #5574ad; color: #e9efff; background: #14284a; }
+html[data-theme="dark"] .detail-gallery-controls button:hover:not(:disabled) { border-color: #9ab8ff; color: #0c1a36; background: #9ab8ff; }
 html[data-theme="dark"] .detail-not-found h1 { color: #e9efff; }
 
 @media (max-width: 440px) {

@@ -47,7 +47,7 @@ const translations: Record<string, string> = {
   '01 / Overview': '01 / Gambaran umum', 'Built around': 'Dibangun untuk', 'real work.': 'pekerjaan nyata.',
   '02 / The problem': '02 / Permasalahan', 'From scattered to': 'Dari terpisah menjadi', 'connected.': 'terhubung.', 'The challenge': 'Tantangan', 'The approach': 'Pendekatan',
   '03 / Focus areas': '03 / Area fokus', 'What the system': 'Hal yang disatukan', 'brings together.': 'oleh sistem.',
-  '04 / The system': '04 / Sistem', 'Inside the ': 'Di dalam ', 'workspace.': 'ruang kerja.', 'Explore more': 'Jelajahi lainnya', 'Next project / ': 'Proyek berikutnya / ', 'View project ↗': 'Lihat proyek ↗',
+  '02 / The system': '02 / Sistem', '04 / The system': '04 / Sistem', 'Inside the ': 'Di dalam ', 'workspace.': 'ruang kerja.', 'Explore more': 'Jelajahi lainnya', 'Next project / ': 'Proyek berikutnya / ', 'View project ↗': 'Lihat proyek ↗',
   'Have a project in mind?': 'Punya rencana proyek?',
   'Project not found.': 'Proyek tidak ditemukan.', 'Back to selected works ': 'Kembali ke karya pilihan ', 'Work not found | Nodeworks': 'Karya tidak ditemukan | Nodeworks',
   'Times shown in Asia/Jakarta': 'Waktu ditampilkan dalam zona Asia/Jakarta', 'Previous month': 'Bulan sebelumnya', 'Next month': 'Bulan berikutnya',

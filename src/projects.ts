@@ -22,14 +22,14 @@ const indonesianProjects: Project[] = [
     title: "LowkeyThings",
     category: "Event platform",
     description:
-      "Platform untuk menemukan event, mendaftar, membayar, dan menerima tiket dalam satu alur yang mudah diikuti.",
+      "Platform event yang menghubungkan pencarian dan pendaftaran peserta dengan pengelolaan event, keuangan, dan check-in.",
     overview:
-      "LowkeyThings mempertemukan peserta dan penyelenggara event di seluruh Indonesia. Peserta dapat menjelajahi event dan mendaftar, sementara penyelenggara mengelola peserta, pembayaran, komunikasi, dan laporan dari satu platform.",
+      "LowkeyThings mempertemukan peserta dan penyelenggara event. Peserta dapat mencari event dan mengisi formulir pendaftaran, sementara penyelenggara mengelola halaman event, peserta, perlengkapan, keuangan, dan check-in dari satu platform.",
     challenge:
       "Informasi event, pendaftaran, pembayaran, dan pengelolaan peserta perlu terhubung agar pengalaman kedua pihak tetap jelas.",
     approach:
-      "Bangun alur event dari pencarian hingga tiket dan berikan penyelenggara dasbor untuk memantau peserta serta performa event.",
-    focus: ["Penemuan dan pencarian event", "Pendaftaran, pembayaran, dan tiket", "Pengelolaan peserta dan laporan"],
+      "Hubungkan katalog dan formulir pendaftaran dengan dasbor penyelenggara untuk memantau peserta, keuangan, pengambilan perlengkapan, dan check-in.",
+    focus: ["Katalog dan pendaftaran event", "Pengelolaan peserta dan perlengkapan", "Keuangan dan check-in"],
     access: { status: "public", url: "https://www.lowkeythings.my.id/" },
   },
   {
@@ -122,14 +122,14 @@ const indonesianProjects: Project[] = [
 const englishCopy: Pick<Project, "category" | "description" | "overview" | "challenge" | "approach" | "focus">[] = [
   {
     category: "Event platform",
-    description: "A platform to discover events, register, pay, and receive tickets in one simple flow.",
+    description: "An event platform connecting discovery and registration with event management, finances, and check-in.",
     overview:
-      "LowkeyThings connects attendees and event organizers across Indonesia. Attendees can explore and register for events, while organizers manage participants, payments, communication, and reporting from one platform.",
+      "LowkeyThings connects attendees and event organizers. Attendees can find events and complete registration forms, while organizers manage event pages, participants, race kits, finances, and check-in from one platform.",
     challenge:
       "Event information, registration, payment, and attendee management needed to work together to keep the experience clear for everyone.",
     approach:
-      "Build an event journey from discovery to ticketing, with a dashboard for organizers to track attendees and event performance.",
-    focus: ["Event discovery and search", "Registration, payments, and tickets", "Attendee management and reporting"],
+      "Connect the event catalog and registration forms to an organizer dashboard for tracking participants, finances, race kit pickup, and check-in.",
+    focus: ["Event catalog and registration", "Participants and race kit management", "Finances and check-in"],
   },
   {
     category: "Project management",
