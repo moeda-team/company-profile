@@ -14,9 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg>`;
 
-type ProjectKey = "operations" | "dashboard" | "location";
 type Project = {
-  key: ProjectKey;
+  image: string;
   number: string;
   title: string;
   category: string;
@@ -25,7 +24,7 @@ type Project = {
 
 const projects: Project[] = [
   {
-    key: "operations",
+    image: "operations.webp",
     number: "01",
     title: "Operational Management System",
     category: "Connected operations",
@@ -33,7 +32,7 @@ const projects: Project[] = [
       "Satu ruang kerja untuk menyederhanakan alur operasional, koordinasi tim, dan keputusan harian.",
   },
   {
-    key: "dashboard",
+    image: "dashboard.webp",
     number: "02",
     title: "Business Dashboard Platform",
     category: "Data & intelligence",
@@ -41,12 +40,28 @@ const projects: Project[] = [
       "Dashboard terukur yang mengubah data bisnis menjadi insight yang jelas dan siap ditindaklanjuti.",
   },
   {
-    key: "location",
+    image: "location.webp",
     number: "03",
     title: "Location Data Management System",
     category: "Location intelligence",
     description:
       "Sistem data lokasi untuk memetakan aset, memantau area, dan menjaga informasi tetap akurat.",
+  },
+  {
+    image: "inventory.svg",
+    number: "04",
+    title: "Inventory & Asset Platform",
+    category: "Asset management",
+    description:
+      "Platform untuk melacak stok dan aset secara real time, dari pembaruan data hingga laporan yang siap digunakan.",
+  },
+  {
+    image: "portal.svg",
+    number: "05",
+    title: "Client Service Portal",
+    category: "Customer experience",
+    description:
+      "Portal layanan yang memudahkan pelanggan mengajukan permintaan, memantau progres, dan terhubung dengan tim.",
   },
 ];
 
@@ -132,7 +147,7 @@ app.innerHTML = `
                   <p>${project.category}</p>
                 </header>
                 <div class="project-card-body">
-                  <img src="${import.meta.env.BASE_URL}images/work/${project.key}.webp" width="1320" height="760" loading="lazy" decoding="async" alt="Preview ${project.title}" />
+                  <img src="${import.meta.env.BASE_URL}images/work/${project.image}" width="1320" height="760" loading="lazy" decoding="async" alt="Preview ${project.title}" />
                   <div class="project-card-shade"></div>
                   <div class="project-card-copy">
                     <p class="project-category">Selected work ${project.number}</p>
@@ -894,26 +909,25 @@ function setActiveProject(index: number) {
 }
 
 if (!reduceMotion && projectCards.length > 1) {
+  const collapsedHeight = () => (window.innerWidth <= 600 ? 46 : 52);
   const activeHeight = () =>
     Math.max(
-      260,
+      180,
       Math.min(
         window.innerHeight * (window.innerWidth <= 600 ? 0.46 : 0.48),
-        540,
+        window.innerHeight -
+          (window.innerWidth <= 600 ? 140 : 170) -
+          (projectCards.length - 1) *
+            (collapsedHeight() + (window.innerWidth <= 600 ? 9 : 12)),
       ),
     );
-  const collapsedHeight = () => (window.innerWidth <= 600 ? 58 : 68);
-  const widths = [
-    [100, 75, 55],
-    [82, 100, 75],
-    [70, 82, 100],
-  ];
   const workTimeline = gsap.timeline({
     defaults: { duration: 1, ease: "none" },
     scrollTrigger: {
       trigger: ".work-pin",
       start: "top top",
-      end: () => `+=${Math.max(window.innerHeight * 2.2, 1500)}`,
+      end: () =>
+        `+=${Math.max(window.innerHeight * 1.1 * (projectCards.length - 1), 1500)}`,
       pin: true,
       scrub: 0.65,
       anticipatePin: 1,
@@ -935,7 +949,7 @@ if (!reduceMotion && projectCards.length > 1) {
       workTimeline.to(
         card,
         {
-          width: `${widths[state][index]}%`,
+          width: `${window.innerWidth <= 600 ? 100 : Math.max(60, 100 - Math.abs(index - state) * 10)}%`,
           height: index === state ? activeHeight : collapsedHeight,
           borderRadius: index === state ? 28 : 999,
         },

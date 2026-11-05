@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 760" role="img" aria-label="Inventory and asset tracking interface illustration">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#dceaff"/><stop offset="1" stop-color="#a8c5f2"/></linearGradient>
+    <linearGradient id="screen" x2="1" y2="1"><stop stop-color="#103d98"/><stop offset="1" stop-color="#061f65"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-40%" width="170%" height="190%"><feDropShadow dx="20" dy="28" stdDeviation="24" flood-color="#17488a" flood-opacity=".28"/></filter>
+  </defs>
+  <rect width="1320" height="760" fill="url(#bg)"/>
+  <circle cx="1115" cy="140" r="210" fill="#edf5ff" opacity=".42"/>
+  <circle cx="180" cy="680" r="270" fill="#f3f8ff" opacity=".36"/>
+  <path d="M0 635 608 333l712 305v122H0Z" fill="#eef5ff" opacity=".5"/>
+  <g filter="url(#shadow)">
+    <rect x="185" y="112" width="950" height="505" rx="28" fill="url(#screen)"/>
+    <rect x="185" y="112" width="950" height="62" rx="28" fill="#164da8"/>
+    <path d="M185 146h950v28H185Z" fill="#164da8"/>
+    <circle cx="224" cy="143" r="7" fill="#9ac7ff"/><circle cx="247" cy="143" r="7" fill="#6da8f4"/><circle cx="270" cy="143" r="7" fill="#4c89e9"/>
+    <text x="319" y="150" fill="#d9ebff" font-family="Arial,sans-serif" font-size="21" font-weight="700">Asset overview</text>
+    <rect x="222" y="207" width="206" height="154" rx="15" fill="#225ab6"/>
+    <rect x="448" y="207" width="206" height="154" rx="15" fill="#225ab6"/>
+    <rect x="674" y="207" width="206" height="154" rx="15" fill="#225ab6"/>
+    <rect x="900" y="207" width="198" height="154" rx="15" fill="#225ab6"/>
+    <g fill="#a9cdff" font-family="Arial,sans-serif" font-size="15"><text x="244" y="242">TOTAL ASSETS</text><text x="470" y="242">IN USE</text><text x="696" y="242">AVAILABLE</text><text x="922" y="242">NEEDS REVIEW</text></g>
+    <g fill="#fff" font-family="Arial,sans-serif" font-size="52" font-weight="700"><text x="242" y="312">1,284</text><text x="468" y="312">986</text><text x="694" y="312">274</text><text x="920" y="312">24</text></g>
+    <rect x="222" y="386" width="876" height="196" rx="15" fill="#f5f9ff"/>
+    <text x="248" y="423" fill="#16418d" font-family="Arial,sans-serif" font-size="22" font-weight="700">Recent assets</text>
+    <g fill="#6785b5" font-family="Arial,sans-serif" font-size="14"><text x="248" y="457">ASSET</text><text x="616" y="457">LOCATION</text><text x="892" y="457">STATUS</text></g>
+    <path d="M248 470h824M248 520h824" stroke="#dce7f8" stroke-width="2"/>
+    <g fill="#204b91" font-family="Arial,sans-serif" font-size="18"><text x="248" y="502">Workstation 024</text><text x="616" y="502">Head office</text><text x="892" y="502">In use</text><text x="248" y="552">Display unit 017</text><text x="616" y="552">Warehouse A</text><text x="892" y="552">Available</text></g>
+  </g>
+</svg>

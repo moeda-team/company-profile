@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 760" role="img" aria-label="Customer service portal interface illustration">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#c8dcfb"/><stop offset="1" stop-color="#e7f1ff"/></linearGradient>
+    <linearGradient id="panel" x2="1" y2="1"><stop stop-color="#174da7"/><stop offset="1" stop-color="#092b79"/></linearGradient>
+    <filter id="shadow" x="-30%" y="-40%" width="170%" height="190%"><feDropShadow dx="17" dy="28" stdDeviation="24" flood-color="#1f4c99" flood-opacity=".25"/></filter>
+  </defs>
+  <rect width="1320" height="760" fill="url(#bg)"/>
+  <path d="M100 670 540 180l690 390" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+  <circle cx="1140" cy="132" r="190" fill="#fff" opacity=".28"/>
+  <g filter="url(#shadow)">
+    <rect x="230" y="118" width="860" height="516" rx="28" fill="#f8fbff"/>
+    <path d="M258 118h170v516H258q-28 0-28-28V146q0-28 28-28Z" fill="url(#panel)"/>
+    <circle cx="273" cy="164" r="16" fill="#81b6ff"/>
+    <text x="301" y="171" fill="#fff" font-family="Arial,sans-serif" font-size="22" font-weight="700">Portal</text>
+    <g fill="#b8d5ff" font-family="Arial,sans-serif" font-size="18"><text x="270" y="258">Overview</text><text x="270" y="320">Requests</text><text x="270" y="382">Messages</text><text x="270" y="444">Documents</text></g>
+    <rect x="253" y="284" width="152" height="52" rx="11" fill="#3d75cf" opacity=".7"/>
+    <text x="270" y="319" fill="#fff" font-family="Arial,sans-serif" font-size="18" font-weight="700">Requests</text>
+    <text x="468" y="184" fill="#123c88" font-family="Arial,sans-serif" font-size="34" font-weight="700">Service requests</text>
+    <text x="468" y="216" fill="#6d83ac" font-family="Arial,sans-serif" font-size="17">Track every conversation in one place</text>
+    <rect x="468" y="252" width="580" height="98" rx="15" fill="#e4efff"/>
+    <circle cx="506" cy="301" r="19" fill="#3f84ef"/>
+    <path d="m498 301 6 6 11-13" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="541" y="291" fill="#163e88" font-family="Arial,sans-serif" font-size="20" font-weight="700">Website integration</text>
+    <text x="541" y="320" fill="#6a83ac" font-family="Arial,sans-serif" font-size="16">Update received · Today</text>
+    <rect x="468" y="369" width="580" height="98" rx="15" fill="#edf4ff"/>
+    <circle cx="506" cy="418" r="19" fill="#7daaf1"/>
+    <path d="M496 418h20M506 408v20" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <text x="541" y="408" fill="#163e88" font-family="Arial,sans-serif" font-size="20" font-weight="700">Account setup</text>
+    <text x="541" y="437" fill="#6a83ac" font-family="Arial,sans-serif" font-size="16">In progress · Yesterday</text>
+    <rect x="468" y="490" width="580" height="96" rx="15" fill="#f2f7ff" stroke="#c9dbf7" stroke-width="2" stroke-dasharray="8 7"/>
+    <text x="548" y="546" fill="#3567b6" font-family="Arial,sans-serif" font-size="20" font-weight="700">+ Create a new request</text>
+  </g>
+</svg>
