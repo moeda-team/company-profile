@@ -59,14 +59,14 @@ const indonesianProjects: Project[] = [
     title: "SPRIN RUN 2027",
     category: "Charity event",
     description:
-      "Situs charity run yang menghubungkan pendaftaran lari 5K dan 10K dengan kampanye kesehatan perempuan Indonesia.",
+      "Situs charity run 5K dan 10K yang memperkenalkan kampanye kesehatan perempuan, rute, manfaat peserta, race kit, dan pendaftaran.",
     overview:
-      "SPRIN RUN 2027 adalah inisiatif POGI Semarang melalui program Selamatkan Perempuan Indonesia. Situsnya memperkenalkan tujuan kegiatan, kategori lari, rute, manfaat peserta, serta informasi pendaftaran dan donasi.",
+      "SPRIN RUN 2027 adalah inisiatif POGI Semarang melalui program Selamatkan Perempuan Indonesia. Situs ini menyatukan pesan kampanye, informasi bagi tenaga kesehatan, rute 5K dan 10K, manfaat peserta, race kit, FAQ, serta jalur menuju pendaftaran.",
     challenge:
-      "Peserta membutuhkan satu sumber untuk memahami tujuan sosial acara, memilih kategori lari, dan mengikuti informasi pendaftaran.",
+      "Calon peserta perlu memahami tujuan sosial acara sekaligus menemukan informasi praktis tentang kategori, rute, perlengkapan, dan pendaftaran tanpa mencari di banyak tempat.",
     approach:
-      "Susun informasi kampanye, kategori 5K dan 10K, rute, race kit, dan pendaftaran dalam pengalaman event yang mudah dijelajahi.",
-    focus: ["Kampanye kesehatan perempuan", "Informasi kategori dan rute lari", "Pendaftaran peserta dan donasi"],
+      "Susun halaman yang membawa pengunjung dari pesan kampanye ke pilihan rute, manfaat, race kit, FAQ, dan ajakan mendaftar yang mudah ditemukan.",
+    focus: ["Kampanye kesehatan perempuan", "Rute dan manfaat 5K serta 10K", "Race kit, FAQ, dan pendaftaran"],
     access: { status: "public", url: "https://www.sprinrun.com/" },
   },
   {
@@ -148,17 +148,17 @@ const englishCopy: Pick<Project, "category" | "description" | "overview" | "chal
   },
   {
     category: "Charity event",
-    description: "A charity run website connecting 5K and 10K registration with an Indonesian women’s health campaign.",
+    description: "A 5K and 10K charity run website presenting the women's health campaign, routes, participant benefits, race kits, and registration.",
     overview:
-      "SPRIN RUN 2027 is an initiative by POGI Semarang through the Selamatkan Perempuan Indonesia program. Its website presents the campaign, race categories, routes, participant benefits, registration, and donation information.",
+      "SPRIN RUN 2027 is an initiative by POGI Semarang through the Selamatkan Perempuan Indonesia program. The site brings together the campaign message, information for healthcare workers, 5K and 10K routes, participant benefits, race kits, FAQs, and a path to registration.",
     challenge:
-      "Participants needed one place to understand the cause, choose a race category, and follow registration updates.",
+      "Prospective participants need to understand the cause and find practical details about categories, routes, race kits, and registration without searching across multiple sources.",
     approach:
-      "Present the campaign, 5K and 10K categories, routes, race kits, and registration in an easy to explore event experience.",
+      "Guide visitors from the campaign message through route choices, benefits, race kits, FAQs, and clearly placed registration calls to action.",
     focus: [
       "Women’s health campaign",
-      "Race categories and route information",
-      "Participant registration and donations",
+      "5K and 10K routes and benefits",
+      "Race kits, FAQs, and registration",
     ],
   },
   {

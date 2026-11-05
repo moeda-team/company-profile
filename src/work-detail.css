@@ -98,7 +98,7 @@
 .detail-gallery--screenshots::-webkit-scrollbar { display: none; }
 .detail-gallery--screenshots .detail-gallery-item { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
 .detail-gallery--screenshots .detail-gallery-frame { display: block; aspect-ratio: 2544 / 1327; overflow: hidden; border: 1px solid #d7e1f7; background: #e9eef8; }
-.detail-gallery--dagora .detail-gallery-frame { aspect-ratio: 2559 / 1324; }
+.detail-gallery--wide .detail-gallery-frame { aspect-ratio: 2559 / 1324; }
 .detail-gallery--screenshots .detail-gallery-frame:focus-visible { outline: 3px solid #2458f2; outline-offset: 3px; }
 .detail-gallery--screenshots .detail-gallery-frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .detail-gallery--screenshots figcaption { display: grid; gap: 8px; margin-top: 18px; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.6; }
