@@ -73,17 +73,17 @@ const indonesianProjects: Project[] = [
     slug: "chandradimuka",
     image: "chandradimuka.webp",
     number: "04",
-    title: "Inventory Replenishment",
+    title: "Dagora",
     category: "Retail operations",
     description:
-      "Sistem internal untuk memantau stok, penjualan, perpindahan barang antar gudang, dan penutupan kas lintas cabang.",
+      "Sistem operasional ritel untuk mengelola POS, pesanan, stok, penutupan kas, dan laporan penjualan dalam satu tempat.",
     overview:
-      "Inventory Replenishment memberi tim operasional satu tempat untuk mengikuti penjualan, permintaan stok, selisih penerimaan, transfer gudang, dan closing kas. Akses sistem memerlukan akun dari administrator bisnis.",
+      "Dagora menyatukan pekerjaan toko dan gudang dalam satu sistem berbasis akun. Tim dapat memproses transaksi lewat POS, meninjau pesanan dan refund, memantau stok per gudang serta display toko, lalu menutup kas dan membaca laporan penjualan dari dasbor yang sama.",
     challenge:
-      "Pergerakan stok dan kas di beberapa cabang perlu tercatat jelas agar tim dapat menindaklanjuti selisih dan permintaan barang.",
+      "Penjualan, pesanan, stok, dan kas perlu tercatat konsisten di setiap cabang agar tim dapat melihat kondisi operasional dan menelusuri selisih tanpa berpindah antar sistem.",
     approach:
-      "Hubungkan proses POS, replenishment, transfer gudang, dan kontrol kas dalam satu sistem operasional berbasis akun.",
-    focus: ["Penjualan dan permintaan stok", "Transfer gudang dan selisih penerimaan", "Kontrol serta penutupan kas"],
+      "Hubungkan POS dan riwayat pesanan dengan inventori per gudang, rekonsiliasi cash closing, dan laporan yang dapat difilter serta diekspor.",
+    focus: ["POS dan riwayat pesanan", "Inventori toko dan gudang", "Cash closing dan laporan penjualan"],
     access: { status: "private" },
   },
   {
@@ -163,14 +163,14 @@ const englishCopy: Pick<Project, "category" | "description" | "overview" | "chal
   },
   {
     category: "Retail operations",
-    description: "An internal system to track stock, sales, warehouse transfers, and cash closing across branches.",
+    description: "A retail operations system for managing POS, orders, inventory, cash closing, and sales reports in one place.",
     overview:
-      "Inventory Replenishment gives operations teams one place to follow sales, stock requests, receiving discrepancies, warehouse transfers, and cash closing. Access requires an account from the business administrator.",
+      "Dagora brings store and warehouse work together in one account-based system. Teams can process sales through POS, review orders and refunds, track warehouse and store display stock, close cash, and read sales reports from the same dashboard.",
     challenge:
-      "Stock and cash movements across branches needed clear records so teams could address discrepancies and replenishment requests.",
+      "Sales, orders, inventory, and cash need consistent records across branches so teams can understand operations and trace discrepancies without switching between systems.",
     approach:
-      "Connect POS, replenishment, warehouse transfers, and cash control in one account based operations system.",
-    focus: ["Sales and stock requests", "Warehouse transfers and receiving discrepancies", "Cash control and closing"],
+      "Connect POS and order history with warehouse inventory, cash closing reconciliation, and sales reports that can be filtered and exported.",
+    focus: ["POS and order history", "Store and warehouse inventory", "Cash closing and sales reports"],
   },
   {
     category: "Event photo sharing",

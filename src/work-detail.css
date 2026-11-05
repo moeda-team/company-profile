@@ -67,8 +67,8 @@
 .detail-problem-card:first-child { border: 2px dashed #b9cbfb; background: transparent; }
 .detail-problem-card span { color: #526fb3; font-family: var(--condensed); font-size: 14px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .detail-problem-card p { max-width: 510px; margin: 14px 0 0; color: #526793; font-size: 15px; line-height: 1.6; }
-.detail-problem--lowkeythings .detail-problem-card span { font-size: 18px; }
-.detail-problem--lowkeythings .detail-problem-card p { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.65; }
+.detail-problem--screenshots .detail-problem-card span { font-size: 18px; }
+.detail-problem--screenshots .detail-problem-card p { font-size: clamp(17px, 1.5vw, 20px); line-height: 1.65; }
 
 .detail-focus { padding: 86px 0 99px; color: #0a205e; background: #f4f7ff; }
 .detail-focus .detail-section-label { color: #526fb3; }
@@ -98,6 +98,7 @@
 .detail-gallery--screenshots::-webkit-scrollbar { display: none; }
 .detail-gallery--screenshots .detail-gallery-item { flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always; }
 .detail-gallery--screenshots .detail-gallery-frame { display: block; aspect-ratio: 2544 / 1327; overflow: hidden; border: 1px solid #d7e1f7; background: #e9eef8; }
+.detail-gallery--dagora .detail-gallery-frame { aspect-ratio: 2559 / 1324; }
 .detail-gallery--screenshots .detail-gallery-frame:focus-visible { outline: 3px solid #2458f2; outline-offset: 3px; }
 .detail-gallery--screenshots .detail-gallery-frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .detail-gallery--screenshots figcaption { display: grid; gap: 8px; margin-top: 18px; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.6; }
