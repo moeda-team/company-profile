@@ -34,6 +34,15 @@
 .detail-button-outline:hover { color: #fff; background: #1746ba; }
 .detail-hero-visual { display: grid; place-items: center; min-height: 340px; overflow: hidden; margin: 0; border-radius: 24px; background: #0b236c; }
 .detail-hero-visual img { display: block; width: 100%; height: 100%; min-height: 340px; object-fit: cover; }
+.detail-image-open { position: relative; display: block; width: 100%; height: 100%; min-height: inherit; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.detail-image-open:focus-visible { outline: 3px solid #fff; outline-offset: -6px; }
+.detail-zoom-hint { position: absolute; right: 16px; bottom: 16px; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: #0b236c; background: rgba(255,255,255,.94); box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+.detail-zoom-hint svg { width: 21px; height: 21px; }
+.detail-image-dialog { width: min(95vw, 1500px); max-width: none; max-height: calc(100dvh - 40px); padding: 0; overflow: hidden; border: 0; border-radius: 16px; background: #08133c; box-shadow: 0 24px 90px rgba(0,0,0,.35); }
+.detail-image-dialog::backdrop { background: rgba(4,10,28,.82); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.detail-image-dialog img { display: block; width: 100%; height: auto; max-height: calc(100dvh - 40px); object-fit: contain; }
+.detail-image-close { position: absolute; z-index: 1; top: 12px; right: 12px; display: grid; place-items: center; width: 42px; height: 42px; padding: 0; border: 0; border-radius: 50%; color: #0b236c; background: #fff; font-size: 30px; line-height: 1; cursor: pointer; }
+.detail-image-close:focus-visible { outline: 3px solid #2458f2; outline-offset: 2px; }
 
 .detail-facts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; padding-top: 28px; padding-bottom: 31px; border-top: 1px solid #d4dff4; border-bottom: 1px solid #d4dff4; }
 .detail-facts > div { min-width: 0; }
@@ -107,7 +116,6 @@
 @media (max-width: 700px) {
   .detail-page .container { width: calc(100% - 40px); }
   .detail-header nav { gap: 16px; }
-  .detail-header nav a:nth-child(2), .detail-header nav a:nth-child(3) { display: none; }
   .detail-hero { padding-top: 20px; }
   .detail-back { margin-bottom: 28px; }
   .detail-hero-grid, .detail-story-grid, .detail-problem-grid { grid-template-columns: 1fr; }

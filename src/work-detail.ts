@@ -31,7 +31,7 @@ if (!project) {
     <div class="detail-page">
       <header class="detail-header container">
         <a class="detail-wordmark" href="${baseUrl}" aria-label="Nodeworks home"><img src="${baseUrl}nodeworks-mark.svg" alt="" width="40" height="40" />Nodeworks</a>
-        <nav aria-label="Work navigation"><a href="${baseUrl}#work">All works</a><a href="${baseUrl}#services">Services</a><a href="${baseUrl}#about">About</a><a class="detail-nav-cta" href="${baseUrl}#contact">Start a project <span aria-hidden="true">↗</span></a>${languageSwitch()}</nav>
+        <nav aria-label="Work navigation"><a href="${baseUrl}#work">All works</a><a class="detail-nav-cta" href="${baseUrl}#contact">Start a project <span aria-hidden="true">↗</span></a>${languageSwitch()}</nav>
       </header>
 
       <main>
@@ -44,9 +44,11 @@ if (!project) {
               <p class="detail-lead">${project.description}</p>
               <div class="detail-hero-actions">${project.access.status === "public" ? productLink : `<div class="detail-private-access">${accessBadge}${privateNote}</div>`}<a class="detail-button detail-button-outline" href="${baseUrl}#contact">Start a conversation <span aria-hidden="true">↗</span></a></div>
             </div>
-            <figure class="detail-hero-visual"><img src="${baseUrl}images/work/${project.image}" width="1320" height="760" alt="Preview ${project.title}" /></figure>
+            <figure class="detail-hero-visual"><button class="detail-image-open" type="button" aria-haspopup="dialog" aria-label="${getLocale() === 'id' ? 'Perbesar gambar proyek' : 'Enlarge project image'}"><img src="${baseUrl}images/work/${project.image}" width="1320" height="760" alt="Preview ${project.title}" /><span class="detail-zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10.5h5M10.5 8v5"/></svg></span></button></figure>
           </div>
         </section>
+
+        <dialog class="detail-image-dialog" aria-label="${getLocale() === 'id' ? `Gambar proyek ${project.title}` : `Project image ${project.title}`}"><button class="detail-image-close" type="button" aria-label="${getLocale() === 'id' ? 'Tutup gambar' : 'Close image'}">×</button><img src="${baseUrl}images/work/${project.image}" width="1320" height="760" alt="Preview ${project.title}" /></dialog>
 
         <div class="detail-facts container" aria-label="Project details">
           <div><span class="detail-fact-label">Project</span><strong>${project.number} / 05</strong></div>
@@ -96,6 +98,13 @@ if (!project) {
       </main>
       ${renderSiteFooter(baseUrl)}
     </div>`;
+
+  const imageDialog = app.querySelector<HTMLDialogElement>('.detail-image-dialog')!;
+  app.querySelector<HTMLButtonElement>('.detail-image-open')!.addEventListener('click', () => imageDialog.showModal());
+  app.querySelector<HTMLButtonElement>('.detail-image-close')!.addEventListener('click', () => imageDialog.close());
+  imageDialog.addEventListener('click', (event) => {
+    if (event.target === imageDialog) imageDialog.close();
+  });
 }
 
 localizeDOM(app);
