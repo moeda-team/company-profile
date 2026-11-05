@@ -3,6 +3,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { whenScrollIdle } from "./scroll-idle";
+import { projects, projectUrl } from "./projects";
+import { renderSiteFooter } from "./footer";
 import "./style.css";
 import {
   getAvailableSlots,
@@ -13,57 +15,6 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg>`;
-
-type Project = {
-  image: string;
-  number: string;
-  title: string;
-  category: string;
-  description: string;
-};
-
-const projects: Project[] = [
-  {
-    image: "operations.webp",
-    number: "01",
-    title: "Operational Management System",
-    category: "Connected operations",
-    description:
-      "Satu ruang kerja untuk menyederhanakan alur operasional, koordinasi tim, dan keputusan harian.",
-  },
-  {
-    image: "dashboard.webp",
-    number: "02",
-    title: "Business Dashboard Platform",
-    category: "Data & intelligence",
-    description:
-      "Dashboard terukur yang mengubah data bisnis menjadi insight yang jelas dan siap ditindaklanjuti.",
-  },
-  {
-    image: "location.webp",
-    number: "03",
-    title: "Location Data Management System",
-    category: "Location intelligence",
-    description:
-      "Sistem data lokasi untuk memetakan aset, memantau area, dan menjaga informasi tetap akurat.",
-  },
-  {
-    image: "inventory.svg",
-    number: "04",
-    title: "Inventory & Asset Platform",
-    category: "Asset management",
-    description:
-      "Platform untuk melacak stok dan aset secara real time, dari pembaruan data hingga laporan yang siap digunakan.",
-  },
-  {
-    image: "portal.svg",
-    number: "05",
-    title: "Client Service Portal",
-    category: "Customer experience",
-    description:
-      "Portal layanan yang memudahkan pelanggan mengajukan permintaan, memantau progres, dan terhubung dengan tim.",
-  },
-];
 
 const app = document.querySelector<HTMLDivElement>("#app");
 if (!app) throw new Error("App root not found");
@@ -76,8 +27,8 @@ app.innerHTML = `
       <a class="wordmark" href="#top" aria-label="Nodeworks home"><img src="${import.meta.env.BASE_URL}nodeworks-mark.svg" width="44" height="44" alt="" />Nodeworks</a>
       <nav class="desktop-nav" aria-label="Main navigation">
         <a href="#top" class="active">Home</a>
-        <a href="#services">Solutions</a>
         <a href="#work">Works</a>
+        <a href="#services">Solutions</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -88,7 +39,7 @@ app.innerHTML = `
     </header>
 
     <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
-      <a href="#top">Home</a><a href="#services">Solutions</a><a href="#work">Works</a><a href="#about">About</a><a href="#contact">Build Your System ${arrow}</a>
+      <a href="#top">Home</a><a href="#work">Works</a><a href="#services">Solutions</a><a href="#about">About</a><a href="#contact">Build Your System ${arrow}</a>
     </nav>
 
     <section class="hero" id="top" aria-labelledby="hero-title">
@@ -143,14 +94,14 @@ app.innerHTML = `
                 (project, index) => `
               <article class="project-card${index === 0 ? " is-active" : ""}" data-project-index="${index}">
                 <header class="project-card-header">
-                  <h3><span>${project.number} /</span> ${project.title}</h3>
-                  <p>${project.category}</p>
+                  <h3><a href="${projectUrl(project)}"><span>${project.number} /</span> ${project.title}</a></h3>
+                  <a class="project-detail-link" href="${projectUrl(project)}">View project ${arrow}</a>
                 </header>
                 <div class="project-card-body">
                   <img src="${import.meta.env.BASE_URL}images/work/${project.image}" width="1320" height="760" loading="lazy" decoding="async" alt="Preview ${project.title}" />
                   <div class="project-card-shade"></div>
                   <div class="project-card-copy">
-                    <p class="project-category">Selected work ${project.number}</p>
+                    <p class="project-category">${project.category} / ${project.number}</p>
                     <h4>${project.title}</h4>
                     <p>${project.description}</p>
                   </div>
@@ -297,15 +248,7 @@ app.innerHTML = `
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="container footer-links">
-        <div class="footer-brand"><a class="footer-brand-link" href="#top" aria-label="Nodeworks home"><img src="${import.meta.env.BASE_URL}nodeworks-mark.svg" width="44" height="44" alt="" /><span>Nodeworks</span></a><p class="footer-tagline">We design and build digital solutions that help real businesses work smarter, move faster, and grow with confidence.</p></div>
-        <div class="footer-link-group"><h3>Services</h3><a href="#services">Strategy</a><a href="#services">Design</a><a href="#services">Technology</a></div>
-        <div class="footer-link-group"><h3>Studio</h3><a href="#work">Work</a><a href="#about">About</a><a href="#contact">Contact</a></div>
-        <div class="footer-link-group"><h3>Connect</h3><a href="mailto:admin@nodeworks.co.id">Email</a><a href="https://www.linkedin.com/">LinkedIn</a></div>
-      </div>
-      <div class="container footer-bottom"><span>© ${new Date().getFullYear()} Nodeworks.</span><a href="#top">Back to top ↑</a></div>
-    </footer>
+    ${renderSiteFooter(import.meta.env.BASE_URL, true)}
   </div>
 
 
@@ -996,10 +939,33 @@ const sectionObserver = new IntersectionObserver(
   { rootMargin: "-30% 0px -60% 0px" },
 );
 document
-  .querySelectorAll<HTMLElement>("main section[id]")
+  .querySelectorAll<HTMLElement>(".hero[id], main section[id]")
   .forEach((section) => sectionObserver.observe(section));
 
-window.addEventListener("load", () => ScrollTrigger.refresh(), { once: true });
+function finishInitialNavigation() {
+  ScrollTrigger.refresh();
+  const hash = window.location.hash;
+  if (!hash) return;
+  const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+  if (!target || !lenis) return;
+
+  // The home page is rendered by a dynamic import, so native hash scrolling
+  // can run before the target exists. Start from the top after layout settles.
+  lenis.scrollTo(0, { immediate: true, force: true });
+  lenis.resize();
+  lenis.scrollTo(target, {
+    duration: 1.6,
+    easing: scrollEasing,
+    immediate: reduceMotion,
+    force: true,
+  });
+}
+
+if (document.readyState === "complete") {
+  requestAnimationFrame(finishInitialNavigation);
+} else {
+  window.addEventListener("load", finishInitialNavigation, { once: true });
+}
 
 // Keep smooth-scroll measurements aligned with the responsive hero asset.
 let cancelLayoutRefresh = () => {};

@@ -3,6 +3,10 @@
   "framework": "vite",
   "buildCommand": "pnpm build",
   "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/work/:slug", "destination": "/index.html" },
+    { "source": "/work/:slug/", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
