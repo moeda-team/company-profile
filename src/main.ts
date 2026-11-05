@@ -902,7 +902,7 @@ if (!reduceMotion && projectCards.length > 1) {
       workTimeline.to(
         card,
         {
-          width: `${window.innerWidth <= 600 ? 100 : Math.max(60, 100 - Math.abs(index - state) * 10)}%`,
+          width: `${window.innerWidth <= 600 ? 100 : Math.max(50, 100 - Math.abs(index - state) * 10)}%`,
           height: index === state ? activeHeight : collapsedHeight,
           borderRadius: index === state ? 28 : 999,
         },
