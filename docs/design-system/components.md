@@ -1,66 +1,40 @@
-# Components and page patterns
+# Komponen dan pola halaman
 
-The page is rendered from the template in `src/main.ts`; styling lives in `src/style.css`. Keep section-specific styles scoped by their existing class names.
+[Kembali ke indeks design system](../../DESIGN_SYSTEM.md)
 
-## Header and navigation
+Halaman utama dirender di `src/main.ts` dan ditata di `src/style.css`. Halaman detail karya menggunakan `src/work-detail.ts` dan `src/work-detail.css`.
 
-- Use the Nodeworks mark and wordmark at left, centered section links on wide layouts, and an outlined “Let’s talk” action at right.
-- At narrower widths the section links collapse into a circular menu control and a full-width mobile navigation panel.
-- The current section receives a blue label and short underline.
+## Header dan hero
 
-## Hero
+Header tetap di bagian atas sebagai panel putih transparan berbentuk pil. Wordmark berada di kiri; navigasi section, CTA, dan pemilih bahasa `EN`/`ID` berada di kanan. Pada lebar `1100px` ke bawah, navigasi diganti tombol menu dan panel seluler. Tautan section aktif memiliki gaya tersendiri.
 
-- Use a pale radial blue field and centered introductory copy.
-- Keep the main statement concise and use blue emphasis for the key phrase.
-- The interactive 3D studio is the dominant visual. Place its controls close to the canvas and retain the “drag to explore” affordance on pointer layouts.
-- Provide a filled primary action and a quieter secondary action beneath the scene.
+Hero memadukan eyebrow, judul display, deskripsi singkat, CTA menuju kontak, statistik ringkas, dan diorama SVG. Teks dan ilustrasi berdampingan di desktop, lalu bertumpuk pada layar sempit. Orbit dan sorot hijau adalah dekorasi. Diorama adalah gambar statis.
 
-## Section headings
+## Karya pilihan dan halaman detail
 
-Section titles are unnumbered. Display headings use Barlow Condensed and uppercase treatment; short supporting copy stays in DM Sans. Numbering inside individual service stages, approach steps, and project cards remains part of those component patterns.
+`#work` memakai `.project-accordion`: satu kartu karya terbuka, kartu lain berupa baris pil. Scroll mengubah kartu aktif, ukuran kartu, dan penghitung karya. Setiap kartu memuat judul serta tautan halaman detail, gambar, kategori, dan ringkasan. Pada reduced motion, semua kartu terbuka agar isinya tetap dapat dibaca.
 
-## Selected work cards
+Halaman detail menampilkan ringkasan, status akses **public/private**, masalah, pendekatan, area fokus, pratinjau sistem, karya berikutnya, dan CTA kontak. Produk publik memiliki tautan keluar; produk privat diberi keterangan akses. Gambar utama dapat dibuka dalam dialog pembesar. Bingkai galeri sistem saat ini merupakan placeholder berlabel; jangan menggambarkannya sebagai tangkapan layar produk.
 
-Use a three-column project grid on wide screens. Each card combines a large image, ordinal number, status label, category, title, and short case-study status. The current project cards are previews marked “Coming soon”; do not imply completed case studies until their content is ready.
+## Section konten
 
-## Service cards
+- **Layanan (`#services`):** tiga kartu Discover, Design, Build pada latar navy. Setiap kartu memiliki simbol dekoratif, indeks, judul, deskripsi, dan daftar kemampuan singkat. Grid tiga kolom menjadi dua pada tablet dan satu pada ponsel.
+- **Pendekatan (`#about`):** pengantar sticky di desktop, tiga langkah bernomor, dan motif blueprint. Layout berubah menjadi grid lalu satu kolom.
+- **Insights (`#insights`):** dua kartu editorial berisi indeks, artwork CSS abstrak, gagasan utama, dan penjelasan singkat. Artwork bersifat dekoratif.
 
-The services section uses three equal cards for Discover, Design, and Build. Each card has a simple decorative symbol, a stage label, a short title, one concise explanation, and a compact list of capabilities.
+## Kontak
 
-## Approach section
+Section kontak berlatar biru tua dengan ajakan dan tautan langsung di kiri serta kartu formulir abu terang di kanan. Kedua bagian bertumpuk pada layar sempit. Kartu berisi dua tab:
 
-Pair a sticky introductory column with a sequence of three steps and a decorative blueprint motif. The copy should explain how the studio works in practical terms. Keep decorative shapes hidden from assistive technology.
+| Tab | Alur |
+| --- | --- |
+| **Book a call** | Pilih tanggal tersedia → slot waktu → nama, email, dan topik → konfirmasi. Ringkasan tanggal/waktu dapat dipilih lagi untuk mengubah pilihan. |
+| **Send a brief** | Isi nama, email, perusahaan opsional, kebutuhan, timeline, dan detail proyek. Pilihan “Other” membuka field penjelasan. |
 
-## Insight cards
+Tanggal dan slot berasal dari API. Hari tanpa slot dan waktu yang terisi dinonaktifkan. Pengiriman memakai API booking/brief; state konfirmasi muncul sesudah respons berhasil. Error ditampilkan dekat tombol kirim. Kartu setinggi `640px` pada desktop dan `680px` pada lebar `520px` ke bawah.
 
-Use a two-column set of editorial cards. Each card combines a small index, abstract CSS artwork, a principle-led heading, and a short explanation.
-
-## Contact form card
-
-The contact panel sits beside an invitation and direct email/LinkedIn links on desktop; the left column matches the card height. On compact screens the content stacks naturally. It has two accessible tabs:
-
-- **Book a call:** calendar date selection, available time slots, name, email, a topic choice, and optional file attachments.
-- **Send a brief:** name, email, company, need categories (including a free-text “Other” choice), timeline, project details, and optional file attachments. Both forms use a custom file control that centers its empty or selected-file status.
-
-The card uses a cool gray surface, segmented tabs, rounded controls, and a full-width blue submit action. In “Book a call,” choosing a day collapses the calendar into a selected-date summary and reveals time slots. Choosing a time collapses the slots into a selected-time summary and reveals the contact fields. Each summary can be selected to revise that choice. Card height stays fixed at `640px` across both tabs on desktop and `680px` on small screens, including during booking step changes. The brief form uses compact field spacing so all fields fit without an inner scroll area. Confirmation replaces the form with a response state.
-
-The current calendar, file attachment field, and form confirmations are front-end demo behavior in `src/main.ts`. There is no availability API, file upload, email delivery, or booking integration connected yet.
+Kedua form saat ini mengirim JSON dan tidak mempunyai kontrol unggah berkas. Jangan menambahkan janji lampiran tanpa dukungan frontend dan API.
 
 ## Footer
 
-The footer is a compact link area on a pale gray background. It contains the brand summary, service links, studio links, connect links, copyright, and a back-to-top link. The former large footer call-to-action is intentionally absent.
-
-## Responsive behavior
-
-The stylesheet uses several breakpoints because sections have different layout needs:
-
-| Width | Typical behavior |
-| --- | --- |
-| `1180px` | Tighten wide layouts and grids |
-| `1040px` | Contact switches to a stacked layout |
-| `900px` | Header/navigation and multi-column sections adapt for tablet |
-| `600px` | Compact mobile spacing and card arrangements |
-| `520px` | Contact card fields stack; time slots use three columns |
-| `375px` | Small-phone refinements |
-
-When adding a new breakpoint, first check whether the existing layout can adapt with fluid sizing, wrapping, or grid behavior.
+Footer berlatar abu pucat memuat ringkasan merek, tautan layanan/studio/kontak, copyright, dan tautan kembali ke atas. Komponen bersama dirender oleh `src/footer.ts`.

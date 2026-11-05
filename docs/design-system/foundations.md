@@ -1,64 +1,63 @@
-# Foundations
+# Fondasi visual
 
-## Color
+[Kembali ke indeks design system](../../DESIGN_SYSTEM.md)
 
-The main site palette is bright blue, deep navy, and cool pale blue. Use blue for actions and emphasis, navy for strong reading contrast, and pale blue surfaces to support the 3D studio imagery.
+## Warna
 
-| Role | Value | Use |
+Gunakan variabel CSS di `src/style.css` ketika menambah elemen dengan peran yang sama. Biru menandai tindakan dan penekanan, navy untuk teks utama serta latar layanan.
+
+| Token | Nilai | Peran |
 | --- | --- | --- |
-| Primary blue | `#0847f7` | Main links, buttons, progress indicator, and emphasis |
-| Deep blue | `#073bdd` | Darker primary interaction states |
-| Navy | `#071344` | Main headings and high contrast text |
-| Muted blue | `#566b9e` | Supporting text on light surfaces |
-| Ice | `#edf4ff` | Light blue surface foundation |
-| White | `#ffffff` | Content surfaces and reversed text |
-| Approach surface | `#f5f8fe` | Alternating section background |
-| Footer surface | `#f1f3f8` | Footer background |
+| `--blue` | `#0847f7` | Aksen dan tindakan pada permukaan terang |
+| `--blue-deep` | `#073bdd` | Biru yang lebih gelap |
+| `--navy` | `#071344` | Teks utama dan latar layanan |
+| `--muted` | `#566b9e` | Teks pendukung |
+| `--ice` | `#edf4ff` | Dasar permukaan biru muda |
+| `--contact-blue` | `#2542b0` | Latar kontak dan tombol formulir |
+| `--contact-blue-hover` | `#1b3191` | Hover tombol formulir |
+| `--contact-ink` | `#1b2a6b` | Teks kartu formulir |
+| `--contact-muted` | `#5d668f` | Label formulir |
+| `--contact-paper` | `#e6e8f0` | Latar kartu formulir |
+| `--contact-paper-border` | `#d5d9e6` | Batas field dan tab |
 
-The contact area has its own darker palette to distinguish the conversion section. These values are defined as `--contact-*` properties in `src/style.css`: `#2542b0` (background/action), `#1b3191` (hover), `#1b2a6b` (form ink), `#5d668f` (form muted text), `#ffffff` (main heading), `#c3caea` (heading accent), `#98a6d6` (other accents), `#e6e8f0` (form card), and `#d5d9e6` (form borders). Keep the contact palette scoped to the contact components.
+Token kontak lainnya: `--contact-accent: #98a6d6`, `--contact-heading: #ffffff`, dan `--contact-heading-accent: #c3caea`. Section pendekatan memakai `#f5f8fe`; karya memakai gradasi biru pucat. Sorot hijau di hero bersifat dekoratif.
 
-## Typography
+## Tipografi
 
-Two Google Fonts are loaded in `index.html`:
+| Font | Pemakaian |
+| --- | --- |
+| **DM Sans** | Teks isi, deskripsi, dan sebagian besar kontrol formulir |
+| **Barlow Condensed** | Judul display, eyebrow, indeks, dan label tindakan padat; tersedia sebagai `--condensed` |
+| **Plus Jakarta Sans** | Wordmark, navigasi, dan CTA header |
 
-- **DM Sans** is the body and interface face. Use it for paragraphs, labels, navigation copy, and form fields.
-- **Barlow Condensed** is the display face (`--condensed`). Use uppercase styling for section headings, eyebrows, button labels, and compact metadata.
+Ketiganya dimuat dari Google Fonts di `index.html`. Judul display memakai tinggi baris rapat dan ukuran responsif melalui `clamp()`; teks penjelas memakai tinggi baris sekitar `1.5–1.6`. Jaga hierarki semantik `h1` untuk halaman, `h2` untuk section, dan `h3` untuk kartu/subbagian.
 
-Fallbacks are system sans-serif for body text and Impact / Arial Narrow for display text. Headings use tight line-height and restrained tracking; body text favors comfortable line-height around 1.5.
+## Layout dan jarak
 
-## Layout and spacing
+- `.container`: lebar maksimum `1356px`, margin sisi cair `12%` pada desktop; total margin berubah menjadi `80px`, `56px`, lalu `40px` pada breakpoint `1180px`, `900px`, dan `600px`.
+- `.site-header`: panel tetap berbentuk pil, lebar maksimum `1120px`.
+- `.contact-wrap`: maksimum `1240px`, kolom `1fr 520px`; bertumpuk pada `1040px` ke bawah.
+- Section memakai jarak vertikal yang lapang, sekitar `80–130px`, kemudian dipadatkan pada ponsel.
+- Gunakan grid untuk komposisi besar dan flex untuk kelompok kontrol. Prioritaskan ukuran cair dan pembungkusan sebelum menambah breakpoint.
 
-- Standard content uses `.container`: up to `1356px` wide with fluid side margins.
-- The header uses a slightly wider `1420px` maximum width.
-- The contact layout uses a `1240px` maximum width and a two-column composition, with a `520px` form card.
-- Favor generous vertical section padding and clear separation between headings and content.
-- Use grid for major page layouts and cards; use flex for aligned controls and compact groups.
-- Corners are generally modest on cards and controls. The hero and contact sections may use a larger corner radius as a distinctive silhouette.
+Belum ada skala spacing numerik global. Ambil jarak dari pola komponen yang sejenis, tanpa menganggap angka CSS yang belum ditokenkan sebagai token desain.
 
-## Shape, depth, and imagery
+## Bentuk dan aset
 
-The visual language combines clean surfaces, fine borders, soft shadows, and circular orbit motifs. Keep decorative effects low contrast so they do not compete with content. The hero's interactive 3D studio is the main visual centerpiece; project previews are static images under `public/images/work/`.
+Header dan kartu karya tertutup berbentuk pil. Kartu terbuka, layanan, kontak, dan detail karya memakai sudut membulat. Border tipis, bayangan biru lembut, orbit, dan grid dekoratif memberi kedalaman.
 
-## Global implementation tokens
+Hero memakai ilustrasi statis `public/images/work/nodeworks_blue_diorama.svg`. Gambar karya berasal dari `public/images/work/` dan metadatanya dari `src/projects.ts`. Gambar informatif memerlukan teks alternatif; ornamen murni disembunyikan dari teknologi bantu.
 
-Current global custom properties in `src/style.css`:
+## Breakpoint utama
 
-```css
---blue: #0847f7;
---blue-deep: #073bdd;
---navy: #071344;
---muted: #566b9e;
---ice: #edf4ff;
---contact-blue: #2542b0;
---contact-blue-hover: #1b3191;
---contact-ink: #1b2a6b;
---contact-muted: #5d668f;
---contact-accent: #98a6d6;
---contact-heading: #ffffff;
---contact-heading-accent: #c3caea;
---contact-paper: #e6e8f0;
---contact-paper-border: #d5d9e6;
---condensed: 'Barlow Condensed', Impact, 'Arial Narrow', sans-serif;
-```
+| Lebar maksimum | Perubahan |
+| --- | --- |
+| `1180px` | Container dan hero menyempit |
+| `1100px` | Navigasi desktop menjadi menu seluler |
+| `1040px` | Kontak menjadi satu kolom |
+| `900px` | Hero bertumpuk; grid layanan dan pendekatan menyesuaikan |
+| `600px` | Kartu dan section menjadi susunan ponsel |
+| `520px` | Field kontak bertumpuk; slot waktu tiga kolom |
+| `375px` | Penyesuaian ponsel kecil |
 
-Prefer these properties for new components. The services section uses the shared `--navy` value so the dark blue foundation stays consistent across the site.
+Periksa `src/work-detail.css` untuk aturan responsif khusus halaman detail karya.

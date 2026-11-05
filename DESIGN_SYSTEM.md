@@ -1,24 +1,24 @@
-# Nodeworks website design system
+# Design system Nodeworks
 
-This document set describes the visual language and interface patterns used by the Nodeworks company profile website. It records the current implementation so that future edits stay consistent across sections and screen sizes.
+Dokumentasi ini mencatat bahasa visual dan pola antarmuka yang saat ini dipakai pada situs company profile Nodeworks. Gunakan bersama kode sumber saat menambah komponen, halaman, dan konten.
 
-## Documents
+## Dokumen
 
-- [Foundations](docs/design-system/foundations.md): color, typography, layout, and spacing.
-- [Components and page patterns](docs/design-system/components.md): site sections, reusable components, and responsive behavior.
-- [Interaction and accessibility](docs/design-system/interaction-accessibility.md): motion, navigation, forms, keyboard use, and reduced motion.
+- [Fondasi](docs/design-system/foundations.md): warna, tipografi, layout, dan aset.
+- [Komponen dan pola halaman](docs/design-system/components.md): navigasi, section, karya, dan formulir.
+- [Interaksi dan aksesibilitas](docs/design-system/interaction-accessibility.md): gerak, keyboard, bahasa, tema, dan status API.
 
-## Source of truth
+## Prinsip
 
-The live implementation is in `src/style.css` and `src/main.ts`. The page shell and global font loading are in `index.html`. If this documentation and the code differ, update the documentation to match intentional code changes.
+1. **Jelas sejak pandangan pertama.** Judul besar, deskripsi ringkas, dan tindakan utama menunjukkan tujuan halaman.
+2. **Sistem yang terhubung.** Konten mengaitkan strategi, desain, pengembangan, dan operasi.
+3. **Tepat dan hangat.** Grid rapi dan biru tegas dipadukan dengan permukaan terang dan ilustrasi studio.
+4. **Interaksi dapat dikenali.** Setiap tautan, tombol, pilihan, dan pesan hasil memiliki umpan balik yang jelas.
 
-## Design principles
+## Cakupan dan sumber acuan
 
-1. **Make complex work feel clear.** Use direct language, strong hierarchy, and a small number of purposeful visual accents.
-2. **Connect the system.** Treat strategy, design, technology, data, and operations as related parts of one digital product.
-3. **Balance precision with warmth.** Pair structured layouts and technical imagery with soft blue light, rounded details, and human copy.
-4. **Keep actions legible.** Primary actions use filled blue controls; secondary actions use text or outlined treatments.
+Halaman utama berurutan `#top` → `#work` → `#services` → `#about` → `#insights` → `#contact`, lalu footer. Karya memiliki halaman detail tersendiri.
 
-## Page map
+Implementasi utama: [style.css](src/style.css), [main.ts](src/main.ts), [work-detail.css](src/work-detail.css), [work-detail.ts](src/work-detail.ts), dan [projects.ts](src/projects.ts). Font dimuat di [index.html](index.html). Bila implementasi berubah secara sengaja, perbarui dokumentasi ini.
 
-The single-page experience is ordered as: hero and navigation, selected work, services, approach, insights, contact, and footer. Section anchors are `#top`, `#work`, `#services`, `#about`, `#insights`, and `#contact`.
+Kontrak backend dijelaskan di [referensi API](../docs/api.md) dan [ketersediaan booking](../docs/booking-availability.md).

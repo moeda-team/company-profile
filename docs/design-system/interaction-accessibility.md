@@ -1,37 +1,37 @@
-# Interaction and accessibility
+# Interaksi dan aksesibilitas
 
-## Navigation and scrolling
+[Kembali ke indeks design system](../../DESIGN_SYSTEM.md)
 
-- All page navigation uses in-page anchors so the site remains understandable as a single-page profile.
-- The mobile menu exposes its state with `aria-expanded`, closes when a link is selected, and closes on Escape.
-- Lenis provides smooth scrolling and GSAP ScrollTrigger updates scroll-linked effects. Anchor navigation also updates the URL hash.
-- A thin fixed progress bar indicates page scroll position.
+## Navigasi dan scroll
 
-## Motion
+Navigasi halaman utama memakai anchor `#top`, `#work`, `#services`, `#about`, `#insights`, dan `#contact`. Menu seluler memakai `aria-expanded` dan menutup saat tautan dipilih atau Escape ditekan. State navigasi aktif mengikuti section. Bar progres scroll disembunyikan dari pembaca layar.
 
-- Reveal animations are used for major content groups as they enter view; keep them short and restrained.
-- Hover transitions should clarify affordance, such as a small lift or color change, rather than shift layout.
-- The stylesheet disables transitions for `prefers-reduced-motion: reduce`; the entrance animations are also skipped when reduced motion is requested.
-- Preserve usable controls if animation or WebGL is unavailable.
+Lenis menghaluskan scroll dan GSAP ScrollTrigger mengatur animasi masuk serta pergantian kartu karya. Tautan tetap harus berfungsi saat efek gerak tidak tersedia.
 
-## Keyboard and focus
+## Gerak
 
-- Use semantic links for navigation and buttons for actions.
-- Maintain a clearly visible `:focus-visible` outline. Do not remove it without an equally visible replacement.
-- The contact tabs support Left and Right Arrow keys and maintain `aria-selected`, `tabIndex`, and panel relationships.
-- Calendar dates and time slots are real buttons with accessible labels and pressed state.
-- Form fields have visible labels; validation errors use alert regions and the booking summary is announced politely.
-- Decorative imagery and CSS artwork should remain hidden from assistive technology when it adds no content.
+Gunakan animasi masuk singkat dan hover yang menjelaskan tindakan. Saat `prefers-reduced-motion: reduce`, transisi serta animasi dipersingkat, animasi masuk dilewati, dan semua kartu karya ditampilkan terbuka tanpa pinning. Periksa keadaan ini setelah mengubah pola scroll.
 
-## Forms and content behavior
+## Keyboard, fokus, dan semantik
 
-- Preserve native input types, `required` constraints, autocomplete hints, and fieldset/legend groupings.
-- Keep validation messages direct and near the form that needs attention.
-- Confirmation messages should summarize the user's selected action without implying a backend action that has not occurred.
-- The current contact forms are prototypes. Connect them to scheduling and delivery services before treating submissions as real bookings or received briefs.
+- Pakai tautan untuk navigasi dan tombol untuk tindakan. Pertahankan outline `:focus-visible` global (`3px solid #7aabff`, offset `4px`) atau pengganti yang sama jelasnya.
+- Tab kontak menggunakan `tablist`, `tab`, `tabpanel`, `aria-selected`, `aria-controls`, dan tombol panah kiri/kanan. Panel yang tidak aktif memakai `hidden`.
+- Tanggal serta slot waktu adalah tombol dengan label ketersediaan dan `aria-pressed`; pilihan tidak tersedia memakai `disabled`.
+- Field formulir mempunyai label terlihat; pilihan berkelompok memakai `fieldset`/`legend`. Error memakai `role="alert"`.
+- Dialog gambar karya memiliki tombol penutup. Ornamen CSS/SVG tanpa makna diberi `aria-hidden="true"`.
 
-## Contrast and touch
+## Bahasa dan tema
 
-- Keep text readable against its surface; the contact card's dark ink and muted labels are designed for its light background, while the outer contact copy uses pale text on deep blue.
-- Interactive targets should remain comfortably tappable on touch layouts. The scene exposes larger controls for coarse pointers.
-- Do not rely on color alone for selected or disabled form states; retain pressed, disabled, and focus semantics.
+Situs mendukung bahasa Inggris dan Indonesia. Pemilih bahasa menyimpan pilihan di `localStorage`, menambah `?lang=`, dan memperbarui atribut `lang`, judul, serta metadata dokumen. Teks baru perlu padanan kedua bahasa, termasuk label aksesibilitas dan pesan hasil yang dibuat di JavaScript. Implementasi bahasa ada di `src/i18n.ts`.
+
+Halaman detail karya memiliki tombol tema dari `src/theme.ts`. Saat menambah elemen detail, periksa keterbacaan kedua tema di `src/work-detail.css`.
+
+## Formulir dan API
+
+Pertahankan tipe input native, `required`, autocomplete, dan validasi sebelum pengiriman. Booking mengambil `GET /api/slots?month=YYYY-MM`, lalu mengirim `POST /api/bookings` dengan timestamp RFC 3339 dari API. Brief dikirim melalui `POST /api/briefs`. Jadwal ditampilkan dalam `Asia/Jakarta`; zona pengunjung dikirim sebagai metadata opsional. Bila slot berubah saat booking, muat ulang ketersediaan dan minta pengguna memilih ulang.
+
+Tampilkan pesan berhasil hanya setelah respons API berhasil. Jika API gagal, pertahankan isian dan tampilkan pesan error. Rincian kontrak ada di [referensi API](../../../docs/api.md) dan [panduan booking](../../../docs/booking-availability.md).
+
+## Kontras dan target sentuh
+
+Jaga teks gelap pada kartu terang dan teks pucat pada section navy/kontak tetap terbaca. Status terpilih harus tampak lewat bentuk atau state semantik selain warna. Kontrol menu, CTA, tanggal, dan slot harus mudah disentuh pada layar kecil.

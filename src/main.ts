@@ -6,7 +6,9 @@ import { whenScrollIdle } from "./scroll-idle";
 import { projects, projectUrl } from "./projects";
 import { renderSiteFooter } from "./footer";
 import { getLocale, languageSwitch, localizeDOM, mountLanguageSwitch, t } from './i18n';
+import { mountThemeToggle, themeToggle } from './theme';
 import "./style.css";
+import "./theme.css";
 import {
   getAvailableSlots,
   submitContact,
@@ -35,6 +37,7 @@ app.innerHTML = `
       </nav>
       <a class="header-cta" href="#contact">Build Your System ${arrow}</a>
       ${languageSwitch()}
+      ${themeToggle()}
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
         <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h14M4 15h14"/></svg>
       </button>
@@ -259,6 +262,7 @@ app.innerHTML = `
 
 localizeDOM(app);
 mountLanguageSwitch();
+mountThemeToggle();
 
 // Contact section: live booking availability and contact submissions.
 const contactRoot = document.querySelector<HTMLElement>(".contact-section");
