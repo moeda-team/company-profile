@@ -101,6 +101,22 @@ const indonesianProjects: Project[] = [
     focus: ["Unggahan tamu melalui QR", "Galeri foto dan video bersama", "Pengelolaan serta unduhan media"],
     access: { status: "public", url: "https://momentoku.my.id/" },
   },
+  {
+    slug: "empatrima",
+    image: "empatrima.webp",
+    number: "06",
+    title: "Empatrima",
+    category: "Interactive quiz",
+    description: "Platform kuis langsung yang mengajak peserta menjawab melalui perangkat mereka dan mengikuti skor secara real time.",
+    overview:
+      "Empatrima menghadirkan kuis bersama untuk acara dan komunitas. Pembawa acara menampilkan pertanyaan, peserta memilih jawaban dari perangkat masing-masing, lalu hasil dan papan peringkat membuat permainan mudah diikuti bersama.",
+    challenge:
+      "Kuis untuk banyak peserta membutuhkan cara menjawab yang sederhana serta hasil yang dapat diikuti seluruh ruangan.",
+    approach:
+      "Satukan tampilan pertanyaan, pilihan jawaban di perangkat peserta, skor, dan papan peringkat dalam satu pengalaman kuis langsung.",
+    focus: ["Jawaban peserta melalui perangkat", "Skor dan papan peringkat", "Pengalaman kuis untuk acara bersama"],
+    access: { status: "public", url: "https://www.empatrima.my.id/auth/login" },
+  },
 ];
 
 const englishCopy: Pick<Project, "category" | "description" | "overview" | "challenge" | "approach" | "focus">[] = [
@@ -165,6 +181,17 @@ const englishCopy: Pick<Project, "category" | "description" | "overview" | "chal
     approach:
       "Give each event a unique album and QR code so guest uploads collect in a gallery that is easy to share and download.",
     focus: ["Guest uploads through QR codes", "Shared photo and video gallery", "Media management and downloads"],
+  },
+  {
+    category: "Interactive quiz",
+    description: "A live quiz platform where participants answer on their devices and follow scores in real time.",
+    overview:
+      "Empatrima brings shared quizzes to events and communities. A host presents questions, participants choose answers on their own devices, and results and a leaderboard keep the game easy to follow together.",
+    challenge:
+      "Quizzes with many participants need a simple way to answer and results the whole room can follow.",
+    approach:
+      "Bring questions, answers on participant devices, scores, and a leaderboard into one live quiz experience.",
+    focus: ["Answers on participant devices", "Scores and leaderboard", "Shared event quiz experience"],
   },
 ];
 

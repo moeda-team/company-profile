@@ -104,7 +104,7 @@ app.innerHTML = `
                   <a class="project-detail-link" href="${projectUrl(project)}">View project ${arrow}</a>
                 </header>
                 <div class="project-card-body">
-                  <img src="${import.meta.env.BASE_URL}images/work/${project.image}" width="1320" height="760" loading="lazy" decoding="async" alt="Preview ${project.title}" />
+                  <img src="${import.meta.env.BASE_URL}images/work/${project.image}" width="1320" height="737" loading="lazy" decoding="async" alt="Preview ${project.title}" />
                   <div class="project-card-shade"></div>
                   <div class="project-card-copy">
                     <p class="project-category">${project.category} / ${project.number}</p>

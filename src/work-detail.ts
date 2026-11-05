@@ -46,14 +46,14 @@ if (!project) {
               <p class="detail-lead">${project.description}</p>
               <div class="detail-hero-actions">${project.access.status === "public" ? productLink : `<div class="detail-private-access">${accessBadge}${privateNote}</div>`}<a class="detail-button detail-button-outline" href="${baseUrl}#contact">Start a conversation <span aria-hidden="true">↗</span></a></div>
             </div>
-            <figure class="detail-hero-visual"><button class="detail-image-open" type="button" aria-haspopup="dialog" aria-label="${getLocale() === 'id' ? 'Perbesar gambar proyek' : 'Enlarge project image'}"><img src="${baseUrl}images/work/${project.image}" width="1320" height="760" alt="Preview ${project.title}" /><span class="detail-zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10.5h5M10.5 8v5"/></svg></span></button></figure>
+            <figure class="detail-hero-visual"><button class="detail-image-open" type="button" aria-haspopup="dialog" aria-label="${getLocale() === 'id' ? 'Perbesar gambar proyek' : 'Enlarge project image'}"><img src="${baseUrl}images/work/${project.image}" width="1320" height="737" alt="Preview ${project.title}" /><span class="detail-zoom-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5M8 10.5h5M10.5 8v5"/></svg></span></button></figure>
           </div>
         </section>
 
-        <dialog class="detail-image-dialog" aria-label="${getLocale() === 'id' ? `Gambar proyek ${project.title}` : `Project image ${project.title}`}"><button class="detail-image-close" type="button" aria-label="${getLocale() === 'id' ? 'Tutup gambar' : 'Close image'}">×</button><img src="${baseUrl}images/work/${project.image}" width="1320" height="760" alt="Preview ${project.title}" /></dialog>
+        <dialog class="detail-image-dialog" aria-label="${getLocale() === 'id' ? `Gambar proyek ${project.title}` : `Project image ${project.title}`}"><button class="detail-image-close" type="button" aria-label="${getLocale() === 'id' ? 'Tutup gambar' : 'Close image'}">×</button><img src="${baseUrl}images/work/${project.image}" width="1320" height="737" alt="Preview ${project.title}" /></dialog>
 
         <div class="detail-facts container" aria-label="Project details">
-          <div><span class="detail-fact-label">Project</span><strong>${project.number} / 05</strong></div>
+          <div><span class="detail-fact-label">Project</span><strong>${project.number} / ${String(projects.length).padStart(2, "0")}</strong></div>
           <div><span class="detail-fact-label">Category</span><strong>${project.category}</strong></div>
           <div><span class="detail-fact-label">Focus areas</span><strong>${String(project.focus.length).padStart(2, "0")} core areas</strong></div>
           <div><span class="detail-fact-label">Solution</span><strong>Digital platform</strong></div>
@@ -68,32 +68,34 @@ if (!project) {
           </div>
         </section>
 
+        <section class="detail-system container" id="system" aria-labelledby="detail-system-title">
+          <div class="detail-section-label">02 / The system</div>
+          <div class="detail-system-heading"><h2 id="detail-system-title">Inside the <em>workspace.</em></h2><div class="detail-system-access">${accessBadge}${project.access.status === "public" ? productLink : privateNote}</div></div>
+          <div class="detail-gallery">${Array.from({ length: 6 }, (_, index) => `<figure class="detail-gallery-item"><div class="detail-gallery-frame"><span>Screen preview ${String(index + 1).padStart(2, "0")}</span></div><figcaption>${project.focus[index % project.focus.length]}</figcaption></figure>`).join("")}</div>
+        </section>
+
         <section class="detail-problem container" aria-labelledby="detail-problem-title">
-          <div class="detail-section-label">02 / The problem</div>
+          <div class="detail-section-label">03 / The problem</div>
           <h2 id="detail-problem-title">From scattered to<br /><em>connected.</em></h2>
           <div class="detail-problem-grid"><div class="detail-problem-card"><span>The challenge</span><p>${project.challenge}</p></div><div class="detail-problem-card"><span>The approach</span><p>${project.approach}</p></div></div>
         </section>
 
         <section class="detail-focus" aria-labelledby="detail-focus-title">
           <div class="container">
-            <div class="detail-section-label">03 / Focus areas</div>
+            <div class="detail-section-label">04 / Focus areas</div>
             <h2 id="detail-focus-title">What the system<br />brings together.</h2>
             <div class="detail-focus-list">${project.focus.map((item, index) => `<div><span>0${index + 1}</span><h3>${item}</h3></div>`).join("")}</div>
           </div>
         </section>
 
-        <section class="detail-system container" id="system" aria-labelledby="detail-system-title">
-          <div class="detail-section-label">04 / The system</div>
-          <div class="detail-system-heading"><h2 id="detail-system-title">Inside the <em>workspace.</em></h2><div class="detail-system-access">${accessBadge}${project.access.status === "public" ? productLink : privateNote}</div></div>
-          <div class="detail-gallery">${Array.from({ length: 6 }, (_, index) => `<figure class="detail-gallery-item"><div class="detail-gallery-frame"><span>Screen preview ${String(index + 1).padStart(2, "0")}</span></div><figcaption>${project.focus[index % project.focus.length]}</figcaption></figure>`).join("")}</div>
-        </section>
-
-        <section class="detail-next container" aria-labelledby="detail-next-title">
-          <div class="detail-section-label">Explore more</div>
-          <a class="detail-next-card" href="${projectUrl(nextProject)}">
-            <div><p>Next project / ${nextProject.number}</p><h2 id="detail-next-title">${nextProject.title}</h2><span>View project ↗</span></div>
-            <img src="${baseUrl}images/work/${nextProject.image}" width="1320" height="760" loading="lazy" alt="" />
-          </a>
+        <section class="detail-next" aria-labelledby="detail-next-title">
+          <div class="container">
+            <div class="detail-section-label">Explore more</div>
+            <a class="detail-next-card" href="${projectUrl(nextProject)}">
+              <div><p>Next project / ${nextProject.number}</p><h2 id="detail-next-title">${nextProject.title}</h2><span>View project ↗</span></div>
+              <img src="${baseUrl}images/work/${nextProject.image}" width="1320" height="737" loading="lazy" alt="" />
+            </a>
+          </div>
         </section>
 
         <section class="detail-contact"><div class="container"><div><p>Have a project in mind?</p><h2>Let’s build <br/>what’s next.</h2></div><a href="${baseUrl}#contact">Start a conversation  <span aria-hidden="true">↗</span></a></div></section>
