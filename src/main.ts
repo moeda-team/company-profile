@@ -4,7 +4,11 @@ import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { whenScrollIdle } from "./scroll-idle";
 import "./style.css";
-import { getAvailableSlots, submitContact, type AvailableSlot } from "./contact-api";
+import {
+  getAvailableSlots,
+  submitContact,
+  type AvailableSlot,
+} from "./contact-api";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +20,7 @@ type Project = {
   number: string;
   title: string;
   category: string;
+  description: string;
 };
 
 const projects: Project[] = [
@@ -24,18 +29,24 @@ const projects: Project[] = [
     number: "01",
     title: "Operational Management System",
     category: "Connected operations",
+    description:
+      "Satu ruang kerja untuk menyederhanakan alur operasional, koordinasi tim, dan keputusan harian.",
   },
   {
     key: "dashboard",
     number: "02",
     title: "Business Dashboard Platform",
     category: "Data & intelligence",
+    description:
+      "Dashboard terukur yang mengubah data bisnis menjadi insight yang jelas dan siap ditindaklanjuti.",
   },
   {
     key: "location",
     number: "03",
     title: "Location Data Management System",
     category: "Location intelligence",
+    description:
+      "Sistem data lokasi untuk memetakan aset, memantau area, dan menjaga informasi tetap akurat.",
   },
 ];
 
@@ -103,27 +114,32 @@ app.innerHTML = `
 
     <main>
       <section class="work-section section" id="work" aria-labelledby="work-heading">
-        <div class="container">
-          <div class="section-heading work-heading reveal">
-            <h2 id="work-heading">Selected works</h2>
-            <p class="section-intro">A preview of what’s in progress.<br />Full case studies coming soon.</p>
-            <span class="work-availability">Coming soon</span>
+        <div class="container work-pin">
+          <div class="work-heading reveal">
+            <div>
+              <p class="work-kicker">What we’ve built</p>
+              <h2 id="work-heading">Selected Works.</h2>
+            </div>
+            <p class="work-counter" aria-live="polite"><span>01</span> / ${String(projects.length).padStart(2, "0")}</p>
           </div>
-          <div class="project-grid" id="all-projects">
+          <div class="project-accordion" id="all-projects">
             ${projects
               .map(
-                (project) => `
-              <article class="project-card reveal">
-                <div class="project-visual project-visual-${project.key}">
-                  <img src="${import.meta.env.BASE_URL}images/work/${project.key}.webp" width="880" height="852" loading="lazy" decoding="async" alt="" />
-                  <span class="project-number">${project.number}</span>
-                  <span class="project-status">Coming soon</span>
-                  <div class="project-info">
-                    <p class="project-category">${project.category}</p>
-                    <h3 class="project-title">${project.title}</h3>
+                (project, index) => `
+              <article class="project-card${index === 0 ? " is-active" : ""}" data-project-index="${index}">
+                <header class="project-card-header">
+                  <h3><span>${project.number} /</span> ${project.title}</h3>
+                  <p>${project.category}</p>
+                </header>
+                <div class="project-card-body">
+                  <img src="${import.meta.env.BASE_URL}images/work/${project.key}.webp" width="1320" height="760" loading="lazy" decoding="async" alt="Preview ${project.title}" />
+                  <div class="project-card-shade"></div>
+                  <div class="project-card-copy">
+                    <p class="project-category">Selected work ${project.number}</p>
+                    <h4>${project.title}</h4>
+                    <p>${project.description}</p>
                   </div>
                 </div>
-                <p class="project-meta">Case study in progress</p>
               </article>
             `,
               )
@@ -285,11 +301,19 @@ const contactRoot = document.querySelector<HTMLElement>(".contact-section");
 if (contactRoot) {
   const $contact = <T extends HTMLElement>(selector: string) =>
     contactRoot.querySelector<T>(selector)!;
-  const monthFormat = new Intl.DateTimeFormat("en", { month: "long", year: "numeric" });
-  const dayFormat = new Intl.DateTimeFormat("en", { weekday: "long", day: "numeric", month: "long" });
+  const monthFormat = new Intl.DateTimeFormat("en", {
+    month: "long",
+    year: "numeric",
+  });
+  const dayFormat = new Intl.DateTimeFormat("en", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+  });
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   $contact("#contact-tz").textContent = "Times shown in Asia/Jakarta";
-  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
   let viewedMonth = new Date(monthStart);
   let selectedDate: Date | null = null;
@@ -299,7 +323,9 @@ if (contactRoot) {
   const callForm = $contact<HTMLFormElement>("#contact-p-call");
   const briefForm = $contact<HTMLFormElement>("#contact-p-brief");
   const callFields = $contact<HTMLElement>("#contact-call-fields");
-  const otherNeedToggle = $contact<HTMLInputElement>("#contact-other-need-toggle");
+  const otherNeedToggle = $contact<HTMLInputElement>(
+    "#contact-other-need-toggle",
+  );
   const otherNeedField = $contact<HTMLElement>("#contact-other-need-field");
   const otherNeedInput = $contact<HTMLInputElement>("#contact-other-need");
   const dateContent = $contact<HTMLElement>("#contact-date-content");
@@ -309,52 +335,111 @@ if (contactRoot) {
   const timeSummary = $contact<HTMLButtonElement>("#contact-time-summary");
   let dateExpanded = true;
   let timeExpanded = true;
-  const tabs = [$contact<HTMLButtonElement>("#contact-t-call"), $contact<HTMLButtonElement>("#contact-t-brief")];
+  const tabs = [
+    $contact<HTMLButtonElement>("#contact-t-call"),
+    $contact<HTMLButtonElement>("#contact-t-brief"),
+  ];
   const panels = [callForm, briefForm];
   const renderCalendar = () => {
     $contact("#contact-month").textContent = monthFormat.format(viewedMonth);
-    $contact<HTMLButtonElement>("#contact-prev").disabled = viewedMonth <= monthStart;
-    const first = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth(), 1);
-    const total = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() + 1, 0).getDate();
-    const grid = $contact("#contact-days"); grid.replaceChildren();
+    $contact<HTMLButtonElement>("#contact-prev").disabled =
+      viewedMonth <= monthStart;
+    const first = new Date(
+      viewedMonth.getFullYear(),
+      viewedMonth.getMonth(),
+      1,
+    );
+    const total = new Date(
+      viewedMonth.getFullYear(),
+      viewedMonth.getMonth() + 1,
+      0,
+    ).getDate();
+    const grid = $contact("#contact-days");
+    grid.replaceChildren();
     for (let i = 0; i < (first.getDay() + 6) % 7; i++) {
-      const blank = document.createElement("span"); blank.className = "contact-blank"; grid.append(blank);
+      const blank = document.createElement("span");
+      blank.className = "contact-blank";
+      grid.append(blank);
     }
     for (let n = 1; n <= total; n++) {
-      const date = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth(), n);
+      const date = new Date(
+        viewedMonth.getFullYear(),
+        viewedMonth.getMonth(),
+        n,
+      );
       const button = document.createElement("button");
-      button.type = "button"; button.className = "contact-day"; button.textContent = String(n);
+      button.type = "button";
+      button.className = "contact-day";
+      button.textContent = String(n);
       const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(n).padStart(2, "0")}`;
-      const hasAvailableSlots = availableSlots.some((slot) => slot.startsAt.startsWith(key) && slot.available);
+      const hasAvailableSlots = availableSlots.some(
+        (slot) => slot.startsAt.startsWith(key) && slot.available,
+      );
       button.disabled = loadingSlots || date < today || !hasAvailableSlots;
-      button.setAttribute("aria-pressed", String(!!selectedDate && +selectedDate === +date));
-      button.setAttribute("aria-label", `${dayFormat.format(date)}, ${hasAvailableSlots ? "available" : "unavailable"}`);
+      button.setAttribute(
+        "aria-pressed",
+        String(!!selectedDate && +selectedDate === +date),
+      );
+      button.setAttribute(
+        "aria-label",
+        `${dayFormat.format(date)}, ${hasAvailableSlots ? "available" : "unavailable"}`,
+      );
       if (!hasAvailableSlots) button.title = "No available times";
       if (+date === +today) button.classList.add("today");
-      button.addEventListener("click", () => { selectedDate = date; selectedTime = null; dateExpanded = false; timeExpanded = true; renderCalendar(); renderTimes(); updateBookingSteps(); void loadMonth(); });
+      button.addEventListener("click", () => {
+        selectedDate = date;
+        selectedTime = null;
+        dateExpanded = false;
+        timeExpanded = true;
+        renderCalendar();
+        renderTimes();
+        updateBookingSteps();
+        void loadMonth();
+      });
       grid.append(button);
     }
   };
   const renderTimes = () => {
-    const grid = $contact("#contact-slots"); grid.replaceChildren();
+    const grid = $contact("#contact-slots");
+    grid.replaceChildren();
     if (!selectedDate) return;
     if (loadingSlots) {
-      const hint = document.createElement("p"); hint.className = "contact-hint"; hint.textContent = "Checking available times…"; grid.append(hint);
+      const hint = document.createElement("p");
+      hint.className = "contact-hint";
+      hint.textContent = "Checking available times…";
+      grid.append(hint);
       return;
     }
     const key = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
-    const times = availableSlots.filter((slot) => slot.startsAt.startsWith(key));
+    const times = availableSlots.filter((slot) =>
+      slot.startsAt.startsWith(key),
+    );
     if (!times.length) {
-      const hint = document.createElement("p"); hint.className = "contact-hint"; hint.textContent = "No times are available on this day."; grid.append(hint);
+      const hint = document.createElement("p");
+      hint.className = "contact-hint";
+      hint.textContent = "No times are available on this day.";
+      grid.append(hint);
     }
     times.forEach((slot) => {
       const time = slot.startsAt.slice(11, 16);
-      const button = document.createElement("button"); button.type = "button"; button.className = "contact-slot"; button.textContent = time;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "contact-slot";
+      button.textContent = time;
       button.disabled = !slot.available;
-      button.setAttribute("aria-label", `${time}, ${slot.available ? "available" : "unavailable"}`);
+      button.setAttribute(
+        "aria-label",
+        `${time}, ${slot.available ? "available" : "unavailable"}`,
+      );
       button.setAttribute("aria-pressed", String(selectedTime === time));
       if (!slot.available) button.title = "This time is unavailable";
-      button.addEventListener("click", () => { selectedTime = time; timeExpanded = false; renderTimes(); updateBookingSteps(); }); grid.append(button);
+      button.addEventListener("click", () => {
+        selectedTime = time;
+        timeExpanded = false;
+        renderTimes();
+        updateBookingSteps();
+      });
+      grid.append(button);
     });
   };
   const updateBookingSteps = () => {
@@ -363,8 +448,13 @@ if (contactRoot) {
     dateSummary.hidden = !dateCollapsed;
     dateSummary.replaceChildren();
     if (selectedDate) {
-      const action = document.createElement("span"); action.className = "contact-stage-summary-action"; action.textContent = "Change day";
-      dateSummary.append(document.createTextNode(dayFormat.format(selectedDate)), action);
+      const action = document.createElement("span");
+      action.className = "contact-stage-summary-action";
+      action.textContent = "Change day";
+      dateSummary.append(
+        document.createTextNode(dayFormat.format(selectedDate)),
+        action,
+      );
     }
     timeStage.hidden = !selectedDate;
     const timeCollapsed = !!selectedTime && !timeExpanded;
@@ -372,48 +462,101 @@ if (contactRoot) {
     timeSummary.hidden = !timeCollapsed;
     timeSummary.replaceChildren();
     if (selectedTime) {
-      const action = document.createElement("span"); action.className = "contact-stage-summary-action"; action.textContent = "Change time";
+      const action = document.createElement("span");
+      action.className = "contact-stage-summary-action";
+      action.textContent = "Change time";
       timeSummary.append(document.createTextNode(selectedTime), action);
     }
     callFields.hidden = !selectedTime || timeExpanded;
   };
   dateSummary.addEventListener("click", () => {
-    dateExpanded = true; timeExpanded = true; selectedTime = null;
-    renderTimes(); updateBookingSteps();
+    dateExpanded = true;
+    timeExpanded = true;
+    selectedTime = null;
+    renderTimes();
+    updateBookingSteps();
   });
-  timeSummary.addEventListener("click", () => { timeExpanded = true; updateBookingSteps(); });
+  timeSummary.addEventListener("click", () => {
+    timeExpanded = true;
+    updateBookingSteps();
+  });
   let availabilityRequest = 0;
   const loadMonth = async () => {
     const requestId = ++availabilityRequest;
     const month = `${viewedMonth.getFullYear()}-${String(viewedMonth.getMonth() + 1).padStart(2, "0")}`;
-    loadingSlots = true; renderCalendar();
+    loadingSlots = true;
+    renderCalendar();
     try {
       const slots = await getAvailableSlots(month);
       if (requestId !== availabilityRequest) return;
       availableSlots = slots;
       if (selectedDate) {
         const key = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
-        if (!availableSlots.some((slot) => slot.startsAt.startsWith(key) && slot.available)) selectedTime = null;
+        if (
+          !availableSlots.some(
+            (slot) => slot.startsAt.startsWith(key) && slot.available,
+          )
+        )
+          selectedTime = null;
       }
       $contact("#contact-err-call").textContent = "";
     } catch (error) {
       if (requestId !== availabilityRequest) return;
       availableSlots = [];
-      $contact("#contact-err-call").textContent = error instanceof Error ? error.message : "Could not load available times.";
+      $contact("#contact-err-call").textContent =
+        error instanceof Error
+          ? error.message
+          : "Could not load available times.";
     } finally {
-      if (requestId === availabilityRequest) { loadingSlots = false; renderCalendar(); renderTimes(); updateBookingSteps(); }
+      if (requestId === availabilityRequest) {
+        loadingSlots = false;
+        renderCalendar();
+        renderTimes();
+        updateBookingSteps();
+      }
     }
   };
-  $contact("#contact-prev").addEventListener("click", () => { viewedMonth = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() - 1, 1); selectedDate = null; selectedTime = null; renderCalendar(); updateBookingSteps(); void loadMonth(); });
-  $contact("#contact-next").addEventListener("click", () => { viewedMonth = new Date(viewedMonth.getFullYear(), viewedMonth.getMonth() + 1, 1); selectedDate = null; selectedTime = null; renderCalendar(); updateBookingSteps(); void loadMonth(); });
+  $contact("#contact-prev").addEventListener("click", () => {
+    viewedMonth = new Date(
+      viewedMonth.getFullYear(),
+      viewedMonth.getMonth() - 1,
+      1,
+    );
+    selectedDate = null;
+    selectedTime = null;
+    renderCalendar();
+    updateBookingSteps();
+    void loadMonth();
+  });
+  $contact("#contact-next").addEventListener("click", () => {
+    viewedMonth = new Date(
+      viewedMonth.getFullYear(),
+      viewedMonth.getMonth() + 1,
+      1,
+    );
+    selectedDate = null;
+    selectedTime = null;
+    renderCalendar();
+    updateBookingSteps();
+    void loadMonth();
+  });
   const showTab = (index: number) => {
-    tabs.forEach((tab, i) => { tab.setAttribute("aria-selected", String(i === index)); tab.tabIndex = i === index ? 0 : -1; panels[i].hidden = i !== index; });
-    $contact("#contact-done").hidden = true; $contact(".contact-card-header").hidden = false;
+    tabs.forEach((tab, i) => {
+      tab.setAttribute("aria-selected", String(i === index));
+      tab.tabIndex = i === index ? 0 : -1;
+      panels[i].hidden = i !== index;
+    });
+    $contact("#contact-done").hidden = true;
+    $contact(".contact-card-header").hidden = false;
   };
   tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => showTab(index));
     tab.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowRight" || event.key === "ArrowLeft") { const next = 1 - index; showTab(next); tabs[next].focus(); }
+      if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        const next = 1 - index;
+        showTab(next);
+        tabs[next].focus();
+      }
     });
   });
   otherNeedToggle.addEventListener("change", () => {
@@ -429,108 +572,111 @@ if (contactRoot) {
     });
   });
   const finish = (title: string, message: string) => {
-    panels.forEach((panel) => { panel.hidden = true; });
+    panels.forEach((panel) => {
+      panel.hidden = true;
+    });
     $contact(".contact-card-header").hidden = true;
     $contact("#contact-done-title").textContent = title;
     $contact("#contact-done-text").textContent = message;
     $contact("#contact-done").hidden = false;
   };
   $contact("#contact-again").addEventListener("click", () => {
-    panels.forEach((panel) => panel.reset()); selectedDate = null; selectedTime = null; dateExpanded = true; timeExpanded = true;
-    renderCalendar(); renderTimes(); updateBookingSteps(); showTab(0); void loadMonth();
+    panels.forEach((panel) => panel.reset());
+    selectedDate = null;
+    selectedTime = null;
+    dateExpanded = true;
+    timeExpanded = true;
+    renderCalendar();
+    renderTimes();
+    updateBookingSteps();
+    showTab(0);
+    void loadMonth();
   });
   callForm.addEventListener("submit", async (event) => {
-    event.preventDefault(); const data = new FormData(callForm); const email = String(data.get("email") ?? "");
+    event.preventDefault();
+    const data = new FormData(callForm);
+    const email = String(data.get("email") ?? "");
     const error = $contact("#contact-err-call");
-    if (!selectedDate || !selectedTime) { error.textContent = "Pick a day and a time first."; return; }
-    if (!callForm.checkValidity()) { error.textContent = "Add your name and a valid email."; return; }
+    if (!selectedDate || !selectedTime) {
+      error.textContent = "Pick a day and a time first.";
+      return;
+    }
+    if (!callForm.checkValidity()) {
+      error.textContent = "Add your name and a valid email.";
+      return;
+    }
     const day = `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, "0")}-${String(selectedDate.getDate()).padStart(2, "0")}`;
-    const selectedSlot = availableSlots.find((slot) => slot.startsAt.startsWith(`${day}T${selectedTime}`) && slot.available);
-    if (!selectedSlot) { error.textContent = "That time is no longer available. Please choose another."; await loadMonth(); return; }
+    const selectedSlot = availableSlots.find(
+      (slot) =>
+        slot.startsAt.startsWith(`${day}T${selectedTime}`) && slot.available,
+    );
+    if (!selectedSlot) {
+      error.textContent =
+        "That time is no longer available. Please choose another.";
+      await loadMonth();
+      return;
+    }
     try {
-      await submitContact("booking", { name: String(data.get("name") ?? ""), email, startsAt: selectedSlot.startsAt, timezone, topic: String(data.get("topic") ?? ""), website: String(data.get("website") ?? "") });
-      error.textContent = ""; finish("You’re booked", `${dayFormat.format(selectedDate)} at ${selectedTime} (Asia/Jakarta). We’ll be in touch at ${email}.`);
-    } catch (submissionError) { error.textContent = submissionError instanceof Error ? submissionError.message : "Could not submit your booking."; if (error.textContent.includes("already booked")) await loadMonth(); }
+      await submitContact("booking", {
+        name: String(data.get("name") ?? ""),
+        email,
+        startsAt: selectedSlot.startsAt,
+        timezone,
+        topic: String(data.get("topic") ?? ""),
+        website: String(data.get("website") ?? ""),
+      });
+      error.textContent = "";
+      finish(
+        "You’re booked",
+        `${dayFormat.format(selectedDate)} at ${selectedTime} (Asia/Jakarta). We’ll be in touch at ${email}.`,
+      );
+    } catch (submissionError) {
+      error.textContent =
+        submissionError instanceof Error
+          ? submissionError.message
+          : "Could not submit your booking.";
+      if (error.textContent.includes("already booked")) await loadMonth();
+    }
   });
   briefForm.addEventListener("submit", async (event) => {
-    event.preventDefault(); const data = new FormData(briefForm);
+    event.preventDefault();
+    const data = new FormData(briefForm);
     const error = $contact("#contact-err-brief");
-    if (!briefForm.checkValidity()) { error.textContent = "Add your name, a valid email and a few details."; return; }
+    if (!briefForm.checkValidity()) {
+      error.textContent = "Add your name, a valid email and a few details.";
+      return;
+    }
     try {
       await submitContact("brief", {
-        name: String(data.get("name") ?? ""), email: String(data.get("email") ?? ""),
-        company: String(data.get("company") ?? ""), need: data.getAll("need").map(String),
-        needOther: String(data.get("needOther") ?? ""), timeline: String(data.get("timeline") ?? ""),
+        name: String(data.get("name") ?? ""),
+        email: String(data.get("email") ?? ""),
+        company: String(data.get("company") ?? ""),
+        need: data.getAll("need").map(String),
+        needOther: String(data.get("needOther") ?? ""),
+        timeline: String(data.get("timeline") ?? ""),
         message: String(data.get("message") ?? ""),
         website: String(data.get("website") ?? ""),
       });
-      error.textContent = ""; finish("Brief received", `Thanks ${String(data.get("name")).split(" ")[0]}. We will reply to ${String(data.get("email"))} within 2 working days.`);
-    } catch (submissionError) { error.textContent = submissionError instanceof Error ? submissionError.message : "Could not submit your brief."; }
+      error.textContent = "";
+      finish(
+        "Brief received",
+        `Thanks ${String(data.get("name")).split(" ")[0]}. We will reply to ${String(data.get("email"))} within 2 working days.`,
+      );
+    } catch (submissionError) {
+      error.textContent =
+        submissionError instanceof Error
+          ? submissionError.message
+          : "Could not submit your brief.";
+    }
   });
-  renderCalendar(); renderTimes(); updateBookingSteps(); void loadMonth();
+  renderCalendar();
+  renderTimes();
+  updateBookingSteps();
+  void loadMonth();
 }
 
 const heroAsset = document.querySelector<HTMLImageElement>(".hero-asset");
 if (!heroAsset) throw new Error("Hero asset not found");
-const loadingScreen = document.querySelector<HTMLElement>(".loading-screen");
-const loadingBar = loadingScreen?.querySelector<HTMLElement>(".loading-screen__track span");
-const loadingStatus = loadingScreen?.querySelector<HTMLElement>(".loading-screen__status");
-const loadingPercentage = loadingStatus?.querySelector<HTMLElement>("span");
-const siteShell = document.querySelector<HTMLElement>(".site-shell");
-let loadingFinished = false;
-document.body.classList.add("site-loading");
-if (siteShell) siteShell.inert = true;
-
-function finishLoading(state: "ready" | "error") {
-  if (loadingFinished || !loadingScreen) return;
-  loadingFinished = true;
-  window.clearTimeout(loadingFallback);
-  loadingScreen.dataset.state = state;
-  if (loadingStatus && state === "error") loadingStatus.childNodes[0].textContent = "OPENING SITE · ";
-  loadingBar?.style.setProperty("width", "100%");
-  if (loadingPercentage) loadingPercentage.textContent = "100%";
-  const removeLoadingScreen = (event: TransitionEvent) => {
-    if (event.target !== loadingScreen || event.propertyName !== "opacity") return;
-    loadingScreen.removeEventListener("transitionend", removeLoadingScreen);
-    loadingScreen.remove();
-  };
-  loadingScreen.addEventListener("transitionend", removeLoadingScreen);
-  const revealSite = () => {
-    loadingScreen.classList.add("is-hidden");
-    document.body.classList.remove("site-loading");
-    if (siteShell) siteShell.inert = false;
-    syncScrollLock();
-    if (document.hidden) loadingScreen.remove();
-  };
-  if (document.hidden) revealSite();
-  else window.setTimeout(revealSite, state === "ready" ? 350 : 150);
-  if (!document.hidden) window.setTimeout(() => loadingScreen.remove(), 1200);
-}
-
-function updateLoading(progress: number, state: "loading" | "ready" | "error" = "loading") {
-  if (loadingFinished) return;
-  const percentage = state === "ready" || state === "error"
-    ? 100
-    : Math.min(95, Math.max(0, Math.floor(progress)));
-  loadingBar?.style.setProperty("width", `${percentage}%`);
-  if (loadingPercentage) loadingPercentage.textContent = `${percentage}%`;
-  if (state !== "loading") finishLoading(state);
-}
-
-// Never let a device or network failure trap visitors behind the initial gate.
-const loadingFallback = window.setTimeout(() => finishLoading("error"), 30000);
-
-const handleHeroReady = () => updateLoading(100, "ready");
-const handleHeroError = () => updateLoading(100, "error");
-updateLoading(40);
-if (heroAsset.complete) {
-  if (heroAsset.naturalWidth > 0) handleHeroReady();
-  else handleHeroError();
-} else {
-  heroAsset.addEventListener("load", handleHeroReady, { once: true });
-  heroAsset.addEventListener("error", handleHeroError, { once: true });
-}
-
 const menuToggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
 const mobileNav = document.querySelector<HTMLElement>(".mobile-nav");
 const siteHeader = document.querySelector<HTMLElement>(".site-header");
@@ -556,11 +702,88 @@ const reduceMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
 ).matches;
 let lenis: Lenis | undefined;
+let workSnapTrigger: ScrollTrigger | undefined;
+let workSnapTimer = 0;
+let workSnapInProgress = false;
 function syncScrollLock() {
-  if (document.body.classList.contains("menu-open") || document.body.classList.contains("site-loading")) lenis?.stop();
+  if (document.body.classList.contains("menu-open")) lenis?.stop();
   else lenis?.start();
 }
 const scrollEasing = (t: number) => 1 - Math.pow(1 - t, 4);
+function scrollToWorkCard(targetIndex: number) {
+  if (!workSnapTrigger || !lenis || workSnapInProgress) return;
+  const { start, end } = workSnapTrigger;
+  const targetScroll =
+    start + (targetIndex / (projects.length - 1)) * (end - start);
+  workSnapInProgress = true;
+  lenis.scrollTo(targetScroll, {
+    duration: 0.62,
+    easing: scrollEasing,
+    lock: true,
+    force: true,
+    onComplete: () => {
+      workSnapInProgress = false;
+      setActiveProject(targetIndex);
+    },
+  });
+}
+
+function scheduleWorkSnap(scroll: number, direction: number) {
+  window.clearTimeout(workSnapTimer);
+  if (!workSnapTrigger || workSnapInProgress || direction === 0) return;
+  const { start, end } = workSnapTrigger;
+  if (scroll <= start + 1 || scroll >= end - 1) return;
+
+  workSnapTimer = window.setTimeout(() => {
+    if (!workSnapTrigger || workSnapInProgress || !lenis) return;
+    const cardCount = projects.length;
+    const rawIndex = workSnapTrigger.progress * (cardCount - 1);
+    const nearestIndex = Math.round(rawIndex);
+    const isAtCard = Math.abs(rawIndex - nearestIndex) < 0.08;
+    const targetIndex = Math.max(
+      0,
+      Math.min(
+        cardCount - 1,
+        isAtCard
+          ? nearestIndex + Math.sign(direction)
+          : direction > 0
+            ? Math.ceil(rawIndex)
+            : Math.floor(rawIndex),
+      ),
+    );
+    scrollToWorkCard(targetIndex);
+  }, 110);
+}
+
+function onWorkWheel(event: WheelEvent) {
+  if (
+    reduceMotion ||
+    !workSnapTrigger ||
+    Math.abs(event.deltaY) < 6 ||
+    event.ctrlKey
+  )
+    return;
+  const { start, end } = workSnapTrigger;
+  const scroll = window.scrollY;
+  if (scroll < start - 2 || scroll > end + 2) return;
+  if (workSnapInProgress) {
+    event.preventDefault();
+    return;
+  }
+  const direction = Math.sign(event.deltaY);
+  const currentIndex = Math.round(
+    workSnapTrigger.progress * (projects.length - 1),
+  );
+  const targetIndex = Math.max(
+    0,
+    Math.min(projects.length - 1, currentIndex + direction),
+  );
+  if (targetIndex === currentIndex) return;
+  event.preventDefault();
+  window.clearTimeout(workSnapTimer);
+  scrollToWorkCard(targetIndex);
+}
+
 lenis = new Lenis({
   duration: 1.45,
   easing: scrollEasing,
@@ -569,13 +792,18 @@ lenis = new Lenis({
   respectReducedMotion: true,
 });
 syncScrollLock();
+window.addEventListener("wheel", onWorkWheel, {
+  passive: false,
+  capture: true,
+});
 function updateStickyHeader(scroll: number) {
   siteHeader?.classList.toggle("is-sticky", scroll > 56);
 }
 updateStickyHeader(window.scrollY);
-lenis.on("scroll", ({ scroll }) => {
+lenis.on("scroll", ({ scroll, direction }) => {
   ScrollTrigger.update();
   updateStickyHeader(scroll);
+  if (!reduceMotion) scheduleWorkSnap(scroll, direction);
 });
 const tickSmoothScroll = (time: number) => lenis?.raf(time * 1000);
 gsap.ticker.add(tickSmoothScroll);
@@ -647,6 +875,91 @@ if (!reduceMotion) {
   });
 }
 
+const projectCards = gsap.utils.toArray<HTMLElement>(".project-card");
+const workCounter = document.querySelector<HTMLElement>(".work-counter span");
+const projectBodies = projectCards.map(
+  (card) => card.querySelector<HTMLElement>(".project-card-body")!,
+);
+const projectCopies = projectCards.map(
+  (card) => card.querySelector<HTMLElement>(".project-card-copy")!,
+);
+
+function setActiveProject(index: number) {
+  projectCards.forEach((card, cardIndex) => {
+    const active = cardIndex === index;
+    card.classList.toggle("is-active", active);
+    card.setAttribute("aria-current", active ? "true" : "false");
+  });
+  if (workCounter) workCounter.textContent = String(index + 1).padStart(2, "0");
+}
+
+if (!reduceMotion && projectCards.length > 1) {
+  const activeHeight = () =>
+    Math.max(
+      260,
+      Math.min(
+        window.innerHeight * (window.innerWidth <= 600 ? 0.46 : 0.48),
+        540,
+      ),
+    );
+  const collapsedHeight = () => (window.innerWidth <= 600 ? 58 : 68);
+  const widths = [
+    [100, 75, 55],
+    [82, 100, 75],
+    [70, 82, 100],
+  ];
+  const workTimeline = gsap.timeline({
+    defaults: { duration: 1, ease: "none" },
+    scrollTrigger: {
+      trigger: ".work-pin",
+      start: "top top",
+      end: () => `+=${Math.max(window.innerHeight * 2.2, 1500)}`,
+      pin: true,
+      scrub: 0.65,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      onUpdate: (self) =>
+        setActiveProject(
+          Math.min(
+            projectCards.length - 1,
+            Math.round(self.progress * (projectCards.length - 1)),
+          ),
+        ),
+    },
+  });
+  workSnapTrigger = workTimeline.scrollTrigger;
+
+  for (let state = 1; state < projectCards.length; state += 1) {
+    const position = state - 1;
+    projectCards.forEach((card, index) => {
+      workTimeline.to(
+        card,
+        {
+          width: `${widths[state][index]}%`,
+          height: index === state ? activeHeight : collapsedHeight,
+          borderRadius: index === state ? 28 : 999,
+        },
+        position,
+      );
+      workTimeline.to(
+        projectBodies[index],
+        {
+          autoAlpha: index === state ? 1 : 0,
+        },
+        position,
+      );
+      workTimeline.to(
+        projectCopies[index],
+        {
+          autoAlpha: index === state ? 1 : 0,
+          y: index === state ? 0 : 20,
+        },
+        position,
+      );
+    });
+  }
+}
+
 const progress = document.querySelector<HTMLElement>(".scroll-progress");
 ScrollTrigger.create({
   start: 0,
@@ -686,10 +999,10 @@ const heroLayoutObserver = new ResizeObserver(() => {
 heroLayoutObserver.observe(document.querySelector(".hero")!);
 
 import.meta.hot?.dispose(() => {
+  window.clearTimeout(workSnapTimer);
+  window.removeEventListener("wheel", onWorkWheel, { capture: true });
   cancelLayoutRefresh();
   heroLayoutObserver.disconnect();
-  heroAsset.removeEventListener("load", handleHeroReady);
-  heroAsset.removeEventListener("error", handleHeroError);
   gsap.ticker.remove(tickSmoothScroll);
   document.removeEventListener("click", onAnchorClick);
   lenis?.destroy();
