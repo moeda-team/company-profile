@@ -1,3 +1,5 @@
+import { getLocale } from './i18n';
+
 export type Project = {
   slug: string;
   image: string;
@@ -12,7 +14,7 @@ export type Project = {
   access: { status: "public"; url: string } | { status: "private" };
 };
 
-export const projects: Project[] = [
+const indonesianProjects: Project[] = [
   {
     slug: "lowkeythings",
     image: "lowkeythings.webp",
@@ -79,6 +81,53 @@ export const projects: Project[] = [
     access: { status: "public", url: "https://momentoku.my.id/" },
   },
 ];
+
+const englishCopy: Pick<Project, 'category' | 'description' | 'overview' | 'challenge' | 'approach' | 'focus'>[] = [
+  {
+    category: 'Event platform',
+    description: 'A platform to discover events, register, pay, and receive tickets in one simple flow.',
+    overview: 'LowkeyThings connects attendees and event organizers across Indonesia. Attendees can explore and register for events, while organizers manage participants, payments, communication, and reporting from one platform.',
+    challenge: 'Event information, registration, payment, and attendee management needed to work together to keep the experience clear for everyone.',
+    approach: 'Build an event journey from discovery to ticketing, with a dashboard for organizers to track attendees and event performance.',
+    focus: ['Event discovery and search', 'Registration, payments, and tickets', 'Attendee management and reporting'],
+  },
+  {
+    category: 'Project management',
+    description: 'A team workspace to plan projects, manage tasks, and track progress through Kanban, list, and timeline views.',
+    overview: 'PapanClip brings workspaces, boards, tasks, and team access together. Different views help teams follow work, KPIs show member contributions, and AI helps draft plans that users can review.',
+    challenge: 'Tasks, deadlines, documents, and team responsibilities needed to remain easy to find as projects grew.',
+    approach: 'Bring work into one workspace with Kanban, list, and Gantt views, plus role based access for each team member.',
+    focus: ['Project boards, tasks, and timelines', 'Team roles and access control', 'Member KPIs and AI planning assistance'],
+  },
+  {
+    category: 'Charity event',
+    description: 'A charity run website connecting 5K and 10K registration with an Indonesian women’s health campaign.',
+    overview: 'SPRIN RUN 2027 is an initiative by POGI Semarang through the Selamatkan Perempuan Indonesia program. Its website presents the campaign, race categories, routes, participant benefits, registration, and donation information.',
+    challenge: 'Participants needed one place to understand the cause, choose a race category, and follow registration updates.',
+    approach: 'Present the campaign, 5K and 10K categories, routes, race kits, and registration in an easy to explore event experience.',
+    focus: ['Women’s health campaign', 'Race categories and route information', 'Participant registration and donations'],
+  },
+  {
+    category: 'Retail operations',
+    description: 'An internal system to track stock, sales, warehouse transfers, and cash closing across branches.',
+    overview: 'Inventory Replenishment gives operations teams one place to follow sales, stock requests, receiving discrepancies, warehouse transfers, and cash closing. Access requires an account from the business administrator.',
+    challenge: 'Stock and cash movements across branches needed clear records so teams could address discrepancies and replenishment requests.',
+    approach: 'Connect POS, replenishment, warehouse transfers, and cash control in one account based operations system.',
+    focus: ['Sales and stock requests', 'Warehouse transfers and receiving discrepancies', 'Cash control and closing'],
+  },
+  {
+    category: 'Event photo sharing',
+    description: 'A shared digital album that collects guest photos and videos through a single QR code.',
+    overview: 'Momentoku lets guests open an event album through a QR code or link and upload media from their phones without installing an app. Event owners can organize the gallery, download media, and keep memories from many points of view.',
+    challenge: 'Event photos and videos were often scattered across guests’ devices and conversations.',
+    approach: 'Give each event a unique album and QR code so guest uploads collect in a gallery that is easy to share and download.',
+    focus: ['Guest uploads through QR codes', 'Shared photo and video gallery', 'Media management and downloads'],
+  },
+];
+
+export const projects: Project[] = indonesianProjects.map((project, index) =>
+  getLocale() === 'en' ? { ...project, ...englishCopy[index] } : project,
+);
 
 export const projectUrl = (project: Project) =>
   `${import.meta.env.BASE_URL}work/${project.slug}/`;

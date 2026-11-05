@@ -5,6 +5,7 @@ import "lenis/dist/lenis.css";
 import { whenScrollIdle } from "./scroll-idle";
 import { projects, projectUrl } from "./projects";
 import { renderSiteFooter } from "./footer";
+import { getLocale, languageSwitch, localizeDOM, mountLanguageSwitch, t } from './i18n';
 import "./style.css";
 import {
   getAvailableSlots,
@@ -23,8 +24,8 @@ app.innerHTML = `
   <div class="site-shell">
     <div class="scroll-progress" aria-hidden="true"></div>
 
-    <header class="site-header container">
-      <a class="wordmark" href="#top" aria-label="Nodeworks home"><img src="${import.meta.env.BASE_URL}nodeworks-mark.svg" width="44" height="44" alt="" />Nodeworks</a>
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Nodeworks home"><span class="wordmark-icon" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="14" cy="14" r="2.4" fill="currentColor"/><path d="M14 4v6M14 18v6M5.3 9l5.2 3M17.5 16l5.2 3M5.3 19l5.2-3M17.5 12l5.2-3"/><circle cx="14" cy="4" r="1.6" fill="currentColor"/><circle cx="14" cy="24" r="1.6" fill="currentColor"/><circle cx="5.3" cy="9" r="1.6" fill="currentColor"/><circle cx="22.7" cy="19" r="1.6" fill="currentColor"/><circle cx="5.3" cy="19" r="1.6" fill="currentColor"/><circle cx="22.7" cy="9" r="1.6" fill="currentColor"/></svg></span>Nodeworks</a>
       <nav class="desktop-nav" aria-label="Main navigation">
         <a href="#top" class="active">Home</a>
         <a href="#work">Works</a>
@@ -33,14 +34,16 @@ app.innerHTML = `
         <a href="#contact">Contact</a>
       </nav>
       <a class="header-cta" href="#contact">Build Your System ${arrow}</a>
+      ${languageSwitch()}
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-        <span></span><span></span>
+        <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h14M4 15h14"/></svg>
       </button>
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+        <a href="#top" class="active">Home</a><a href="#work">Works</a><a href="#services">Solutions</a><a href="#about">About</a><a href="#contact">Contact</a>
+        <a class="mobile-cta" href="#contact">Build Your System ${arrow}</a>
+        ${languageSwitch()}
+      </nav>
     </header>
-
-    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
-      <a href="#top">Home</a><a href="#work">Works</a><a href="#services">Solutions</a><a href="#about">About</a><a href="#contact">Build Your System ${arrow}</a>
-    </nav>
 
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-halo" aria-hidden="true"></div>
@@ -49,10 +52,10 @@ app.innerHTML = `
         <div class="hero-copy">
           <p class="eyebrow hero-eyebrow">Software development partner</p>
           <h1 id="hero-title"><span class="hero-title-line">Build</span> <span class="hero-title-line">Your System</span> <span class="hero-title-line">with <span class="text-blue">Nodeworks.</span></span></h1>
-          <p class="hero-description">Membantu bisnis dan instansi membangun solusi digital yang tepat, terukur, dan siap berkembang.</p>
+          <p class="hero-description">${getLocale() === 'id' ? 'Membantu bisnis dan instansi membangun solusi digital yang tepat, terukur, dan siap berkembang.' : 'Helping businesses and institutions build digital solutions that fit, scale, and grow.'}</p>
           <a class="hero-brief-cta" href="#contact">
             <span class="hero-brief-icon" aria-hidden="true">&lt;/&gt;</span>
-            <span>Ceritakan kebutuhan Anda</span>
+            <span>${getLocale() === 'id' ? 'Ceritakan kebutuhan Anda' : 'Tell us what you need'}</span>
             <span class="hero-brief-arrow">${arrow}</span>
           </a>
           <dl class="hero-stats" aria-label="Nodeworks highlights">
@@ -254,22 +257,25 @@ app.innerHTML = `
 
 `;
 
+localizeDOM(app);
+mountLanguageSwitch();
+
 // Contact section: live booking availability and contact submissions.
 const contactRoot = document.querySelector<HTMLElement>(".contact-section");
 if (contactRoot) {
   const $contact = <T extends HTMLElement>(selector: string) =>
     contactRoot.querySelector<T>(selector)!;
-  const monthFormat = new Intl.DateTimeFormat("en", {
+  const monthFormat = new Intl.DateTimeFormat(getLocale() === 'id' ? 'id-ID' : 'en', {
     month: "long",
     year: "numeric",
   });
-  const dayFormat = new Intl.DateTimeFormat("en", {
+  const dayFormat = new Intl.DateTimeFormat(getLocale() === 'id' ? 'id-ID' : 'en', {
     weekday: "long",
     day: "numeric",
     month: "long",
   });
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  $contact("#contact-tz").textContent = "Times shown in Asia/Jakarta";
+  $contact("#contact-tz").textContent = t("Times shown in Asia/Jakarta");
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -585,8 +591,10 @@ if (contactRoot) {
       });
       error.textContent = "";
       finish(
-        "You’re booked",
-        `${dayFormat.format(selectedDate)} at ${selectedTime} (Asia/Jakarta). We’ll be in touch at ${email}.`,
+        t("You’re booked"),
+        getLocale() === 'id'
+          ? `${dayFormat.format(selectedDate)} pukul ${selectedTime} (Asia/Jakarta). Kami akan menghubungi Anda melalui ${email}.`
+          : `${dayFormat.format(selectedDate)} at ${selectedTime} (Asia/Jakarta). We’ll be in touch at ${email}.`,
       );
     } catch (submissionError) {
       error.textContent =
@@ -617,8 +625,10 @@ if (contactRoot) {
       });
       error.textContent = "";
       finish(
-        "Brief received",
-        `Thanks ${String(data.get("name")).split(" ")[0]}. We will reply to ${String(data.get("email"))} within 2 working days.`,
+        t("Brief received"),
+        getLocale() === 'id'
+          ? `Terima kasih, ${String(data.get("name")).split(" ")[0]}. Kami akan membalas ke ${String(data.get("email"))} dalam 2 hari kerja.`
+          : `Thanks ${String(data.get("name")).split(" ")[0]}. We will reply to ${String(data.get("email"))} within 2 working days.`,
       );
     } catch (submissionError) {
       error.textContent =
@@ -643,8 +653,6 @@ function setMenu(open: boolean) {
   menuToggle.setAttribute("aria-expanded", String(open));
   menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
   mobileNav.hidden = !open;
-  document.body.classList.toggle("menu-open", open);
-  syncScrollLock();
 }
 menuToggle?.addEventListener("click", () =>
   setMenu(menuToggle.getAttribute("aria-expanded") !== "true"),
@@ -655,6 +663,9 @@ mobileNav
 window.addEventListener("keydown", (event) => {
   if (event.key === "Escape") setMenu(false);
 });
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 1100) setMenu(false);
+});
 
 const reduceMotion = window.matchMedia(
   "(prefers-reduced-motion: reduce)",
@@ -663,10 +674,6 @@ let lenis: Lenis | undefined;
 let workSnapTrigger: ScrollTrigger | undefined;
 let workSnapTimer = 0;
 let workSnapInProgress = false;
-function syncScrollLock() {
-  if (document.body.classList.contains("menu-open")) lenis?.stop();
-  else lenis?.start();
-}
 const scrollEasing = (t: number) => 1 - Math.pow(1 - t, 4);
 function scrollToWorkCard(targetIndex: number) {
   if (!workSnapTrigger || !lenis || workSnapInProgress) return;
@@ -749,7 +756,6 @@ lenis = new Lenis({
   wheelMultiplier: 0.9,
   respectReducedMotion: true,
 });
-syncScrollLock();
 window.addEventListener("wheel", onWorkWheel, {
   passive: false,
   capture: true,
@@ -926,14 +932,17 @@ ScrollTrigger.create({
   },
 });
 
-const navLinks = document.querySelectorAll<HTMLAnchorElement>(".desktop-nav a");
+const navLinks = document.querySelectorAll<HTMLAnchorElement>(".desktop-nav a, .mobile-nav a:not(.mobile-cta)");
 const sectionObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      navLinks.forEach((link) =>
-        link.classList.toggle("active", link.hash === `#${entry.target.id}`),
-      );
+      navLinks.forEach((link) => {
+        const active = link.hash === `#${entry.target.id}`;
+        link.classList.toggle("active", active);
+        if (active) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      });
     });
   },
   { rootMargin: "-30% 0px -60% 0px" },

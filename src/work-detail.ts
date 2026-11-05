@@ -1,5 +1,6 @@
 import { projects, projectUrl } from "./projects";
 import { renderSiteFooter } from "./footer";
+import { getLocale, languageSwitch, localizeDOM, mountLanguageSwitch } from './i18n';
 import "./style.css";
 import "./work-detail.css";
 
@@ -12,7 +13,7 @@ const app = document.querySelector<HTMLDivElement>("#app");
 if (!app) throw new Error("App root not found");
 
 if (!project) {
-  document.title = "Work not found | Nodeworks";
+  document.title = getLocale() === 'id' ? 'Karya tidak ditemukan | Nodeworks' : 'Work not found | Nodeworks';
   app.innerHTML = `<main class="detail-not-found"><a class="detail-wordmark" href="${baseUrl}"><img src="${baseUrl}nodeworks-mark.svg" alt="" width="40" height="40" />Nodeworks</a><p>404 / Work</p><h1>Project not found.</h1><a class="detail-button" href="${baseUrl}#work">Back to selected works <span aria-hidden="true">↗</span></a></main>`;
 } else {
   const nextProject = projects[(projectIndex + 1) % projects.length];
@@ -30,7 +31,7 @@ if (!project) {
     <div class="detail-page">
       <header class="detail-header container">
         <a class="detail-wordmark" href="${baseUrl}" aria-label="Nodeworks home"><img src="${baseUrl}nodeworks-mark.svg" alt="" width="40" height="40" />Nodeworks</a>
-        <nav aria-label="Work navigation"><a href="${baseUrl}#work">All works</a><a href="${baseUrl}#services">Services</a><a href="${baseUrl}#about">About</a><a class="detail-nav-cta" href="${baseUrl}#contact">Start a project <span aria-hidden="true">↗</span></a></nav>
+        <nav aria-label="Work navigation"><a href="${baseUrl}#work">All works</a><a href="${baseUrl}#services">Services</a><a href="${baseUrl}#about">About</a><a class="detail-nav-cta" href="${baseUrl}#contact">Start a project <span aria-hidden="true">↗</span></a>${languageSwitch()}</nav>
       </header>
 
       <main>
@@ -96,3 +97,6 @@ if (!project) {
       ${renderSiteFooter(baseUrl)}
     </div>`;
 }
+
+localizeDOM(app);
+mountLanguageSwitch();
