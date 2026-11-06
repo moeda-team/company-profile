@@ -6,6 +6,7 @@ import { whenScrollIdle } from "./scroll-idle";
 import { renderSiteFooter } from "./footer";
 import { getLocale, languageSwitch, localizeDOM, mountLanguageSwitch, t } from './i18n';
 import { mountThemeToggle, themeToggle } from './theme';
+import { projects as projectDetails } from './projects';
 import "./style.css";
 import "./theme.css";
 import {
@@ -25,6 +26,7 @@ const showcaseProjects = [
     category: "Event Platform",
     image: "lowkeythings.webp",
     slug: "lowkeythings",
+    description: projectDetails[0].description,
   },
   {
     number: "00.02",
@@ -32,6 +34,7 @@ const showcaseProjects = [
     category: "Collaborative Project Management",
     image: "papanclip.webp",
     slug: "papanclip",
+    description: projectDetails[1].description,
   },
   {
     number: "00.03",
@@ -39,6 +42,7 @@ const showcaseProjects = [
     category: "Charity Run Experience",
     image: "sprin-run-home.png",
     slug: "sprin-run",
+    description: projectDetails[2].description,
   },
   {
     number: "00.04",
@@ -46,6 +50,7 @@ const showcaseProjects = [
     category: "Connected Retail Operations",
     image: "dagora-login.png",
     slug: "chandradimuka",
+    description: projectDetails[3].description,
   },
   {
     number: "00.05",
@@ -53,6 +58,7 @@ const showcaseProjects = [
     category: "Shared Event Memories",
     image: "momentoku-home.png",
     slug: "momentoku",
+    description: projectDetails[4].description,
   },
   {
     number: "00.06",
@@ -60,6 +66,7 @@ const showcaseProjects = [
     category: "Live Interactive Quiz",
     image: "empatrima.webp",
     slug: "empatrima",
+    description: projectDetails[5].description,
   },
 ] as const;
 
@@ -132,8 +139,9 @@ app.innerHTML = `
       <section class="work-section section" id="work" aria-labelledby="work-heading">
         <div class="container work-pin">
           <div class="work-heading">
-            <p class="work-kicker">What we’ve built</p>
+            <p class="work-kicker">01 / What we’ve built</p>
             <h2 id="work-heading"><span>Selected</span><span>Works.</span></h2>
+            <p class="work-intro">A selection of digital products<br />and systems we’ve brought to life.</p>
           </div>
           <div class="work-counter" aria-live="polite" aria-atomic="true">
             <span class="work-counter-value">00.01</span>
@@ -147,10 +155,15 @@ app.innerHTML = `
                 <div class="project-visual">
                   <img src="${import.meta.env.BASE_URL}images/work/${project.image}" width="2559" height="1324" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" alt="Preview ${project.title}" />
                 </div>
-                <a class="project-detail-link project-scene-link" href="${import.meta.env.BASE_URL}work/${project.slug}/">View project ${arrow}</a>
                 <div class="project-scene-copy">
                   <p class="project-category">${project.category}</p>
-                  <h3>${project.title}</h3>
+                  <div class="project-meta-row">
+                    <div class="project-title-group">
+                      <h3>${project.title}</h3>
+                      <a class="project-detail-link project-scene-link" href="${import.meta.env.BASE_URL}work/${project.slug}/">View project ${arrow}</a>
+                    </div>
+                    <p class="project-description">${project.description}</p>
+                  </div>
                 </div>
               </article>
             `,
@@ -881,6 +894,7 @@ const projectCopies = projectScenes.map(
 const projectTitles = projectScenes.map(
   (scene) => scene.querySelector<HTMLElement>("h3")!,
 );
+const projectTrack = document.querySelector<HTMLElement>(".project-track");
 const workCounter = document.querySelector<HTMLElement>(".work-counter-value");
 const workProgressItems = gsap.utils.toArray<HTMLElement>(".work-progress-item");
 const previousProject = document.querySelector<HTMLButtonElement>(".work-previous");
@@ -896,7 +910,8 @@ function setActiveProject(index: number) {
     scene.setAttribute("aria-hidden", String(!active));
   });
   workProgressItems.forEach((item, itemIndex) =>
-    item.classList.toggle("is-active", itemIndex === index),
+    (item.classList.toggle("is-active", itemIndex === index),
+    item.classList.toggle("is-past", itemIndex < index)),
   );
   if (workCounter) workCounter.textContent = showcaseProjects[index].number;
   if (previousProject) previousProject.disabled = index === 0;
@@ -904,8 +919,8 @@ function setActiveProject(index: number) {
 }
 
 if (!reduceMotion && projectScenes.length > 1) {
-  gsap.set(projectScenes, { autoAlpha: 0, yPercent: 110, zIndex: 1 });
-  gsap.set(projectScenes[0], { autoAlpha: 1, yPercent: 0, zIndex: 2 });
+  gsap.set(projectScenes, { autoAlpha: 0, clipPath: "inset(100% 0 0 0)", zIndex: 1 });
+  gsap.set(projectScenes[0], { autoAlpha: 1, clipPath: "inset(0% 0 0 0)", zIndex: 2 });
   gsap.set(projectImages, { scale: 1.08, yPercent: 0 });
   gsap.set(projectCopies.slice(1), { yPercent: 55 });
 
@@ -943,7 +958,7 @@ if (!reduceMotion && projectScenes.length > 1) {
       .set(incomingScene, { zIndex: 3 }, position)
       .to(
         outgoingScene,
-        { yPercent: -112, autoAlpha: 0, duration: 1 },
+        { clipPath: "inset(0 0 100% 0)", autoAlpha: 1, duration: 1 },
         position,
       )
       .to(
@@ -958,8 +973,8 @@ if (!reduceMotion && projectScenes.length > 1) {
       )
       .fromTo(
         incomingScene,
-        { yPercent: 112, autoAlpha: 1 },
-        { yPercent: 0, autoAlpha: 1, duration: 1 },
+        { clipPath: "inset(100% 0 0 0)", autoAlpha: 1 },
+        { clipPath: "inset(0% 0 0 0)", autoAlpha: 1, duration: 1 },
         position,
       )
       .fromTo(
@@ -991,6 +1006,28 @@ if (!reduceMotion && projectScenes.length > 1) {
   }
 }
 
+let magneticScene: HTMLElement | null = null;
+const magneticX = projectVisuals.map((visual) => gsap.quickTo(visual, "x", { duration: .55, ease: "power3.out" }));
+const magneticY = projectVisuals.map((visual) => gsap.quickTo(visual, "y", { duration: .55, ease: "power3.out" }));
+function onProjectPointerMove(event: PointerEvent) {
+  if (reduceMotion || event.pointerType === "touch" || !projectTrack) return;
+  const scene = projectScenes[activeProjectIndex];
+  if (!scene) return;
+  const rect = projectTrack.getBoundingClientRect();
+  magneticScene = scene;
+  magneticX[activeProjectIndex](((event.clientX - rect.left) / rect.width - .5) * 18);
+  magneticY[activeProjectIndex](((event.clientY - rect.top) / rect.height - .5) * 14);
+}
+function resetProjectMagnet() {
+  if (!magneticScene) return;
+  const index = projectScenes.indexOf(magneticScene);
+  magneticX[index]?.(0);
+  magneticY[index]?.(0);
+  magneticScene = null;
+}
+projectTrack?.addEventListener("pointermove", onProjectPointerMove, { passive: true });
+projectTrack?.addEventListener("pointerleave", resetProjectMagnet);
+
 previousProject?.addEventListener("click", () => {
   if (!workSnapInProgress) scrollToWorkCard(Math.max(0, activeProjectIndex - 1));
 });
@@ -999,6 +1036,13 @@ nextProject?.addEventListener("click", () => {
     scrollToWorkCard(Math.min(projectScenes.length - 1, activeProjectIndex + 1));
 });
 setActiveProject(0);
+
+ScrollTrigger.create({
+  trigger: ".work-section",
+  start: "top 35%",
+  end: "bottom 35%",
+  onToggle: (self) => siteHeader?.classList.toggle("is-work-compact", self.isActive),
+});
 
 const progress = document.querySelector<HTMLElement>(".scroll-progress");
 ScrollTrigger.create({
@@ -1070,6 +1114,8 @@ import.meta.hot?.dispose(() => {
   heroLayoutObserver.disconnect();
   gsap.ticker.remove(tickSmoothScroll);
   document.removeEventListener("click", onAnchorClick);
+  projectTrack?.removeEventListener("pointermove", onProjectPointerMove);
+  projectTrack?.removeEventListener("pointerleave", resetProjectMagnet);
   lenis?.destroy();
   sectionObserver.disconnect();
   ScrollTrigger.getAll().forEach((trigger) => trigger.kill());

@@ -111,6 +111,16 @@ svg { width: 20px; height: 20px; flex: none; }
   -webkit-backdrop-filter: blur(22px) saturate(1.5);
   backdrop-filter: blur(22px) saturate(1.5);
 }
+.site-header.is-work-compact {
+  width: min(720px, calc(100% - 32px));
+  min-height: 58px;
+  padding-block: 7px;
+}
+.site-header.is-work-compact .wordmark-icon { width: 38px; height: 38px; }
+.site-header.is-work-compact .desktop-nav a { padding-inline: 13px; font-size: 13px; }
+.site-header.is-work-compact .header-cta,
+.site-header.is-work-compact > .language-switch,
+.site-header.is-work-compact > .theme-toggle { display: none; }
 .wordmark {
   flex: none;
   color: #101528;
@@ -445,7 +455,7 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
 .work-side-ticks { position: absolute; top: 64%; left: calc(100% + 28px); display: grid; gap: 10px; }
 .work-side-ticks span { display: block; width: 25px; height: 3px; background: #0b47ef; }
 
-/* Cinematic Selected Works */
+/* Selected Works — reference-led split composition */
 .work-section {
   min-height: 100svh;
   overflow: hidden;
@@ -465,44 +475,46 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
 .work-heading {
   position: absolute;
   z-index: 10;
-  top: clamp(84px, 10vh, 112px);
-  left: clamp(28px, 5vw, 84px);
+  top: clamp(140px, 18vh, 190px);
+  left: clamp(38px, 4.2vw, 68px);
   display: block;
   margin: 0;
   pointer-events: none;
 }
-.work-kicker { margin: 0 0 8px; color: #1552fa; font-size: 11px; }
+.work-kicker { margin: 0 0 26px; color: #1552fa; font-size: clamp(11px, .92vw, 14px); font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
 .work-heading h2 {
   display: block;
   color: #081743;
-  font-size: clamp(34px, 3.2vw, 54px);
-  line-height: .86;
+  font-size: clamp(52px, 4.8vw, 78px);
+  line-height: .88;
   white-space: normal;
 }
 .work-heading h2 span { display: block; }
 .work-heading h2 span:last-child { color: #1552fa; }
+.work-intro { margin: 30px 0 0; color: #56627e; font-size: clamp(14px, 1.15vw, 18px); line-height: 1.45; }
+.work-intro::after { content: ''; display: block; width: 58px; height: 4px; margin-top: 20px; border-radius: 99px; background: #1552fa; }
 .work-counter {
   position: absolute;
   z-index: 10;
-  top: 48%;
-  left: clamp(28px, 5vw, 84px);
+  top: 55%;
+  left: clamp(38px, 4.2vw, 68px);
   display: grid;
   gap: 14px;
   margin: 0;
   color: #081743;
-  font-size: clamp(17px, 1.3vw, 22px);
+  font-size: clamp(24px, 2vw, 34px);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1;
 }
-.work-counter-line { display: block; width: 72px; height: 2px; background: #1552fa; }
+.work-counter-line { display: none; }
 .project-track {
   position: absolute;
   z-index: 2;
-  top: clamp(116px, 14vh, 152px);
-  right: clamp(92px, 9vw, 146px);
-  bottom: clamp(100px, 12vh, 134px);
-  left: clamp(146px, 14vw, 230px);
+  top: clamp(142px, 18vh, 190px);
+  right: clamp(38px, 4.5vw, 72px);
+  bottom: clamp(120px, 16vh, 170px);
+  left: clamp(330px, 27vw, 430px);
   overflow: hidden;
 }
 .project-scene {
@@ -510,25 +522,20 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   inset: 0;
   opacity: 0;
   visibility: hidden;
-  will-change: transform, opacity;
+  will-change: clip-path, opacity;
+  transform: translateZ(0);
 }
 .project-scene:first-child { opacity: 1; visibility: visible; }
 .project-visual {
   position: absolute;
-  inset: 0 0 clamp(58px, 7vh, 78px);
+  inset: 0 0 clamp(178px, 19vh, 210px);
   overflow: hidden;
-  border-radius: clamp(22px, 2.3vw, 38px);
+  will-change: transform;
+  border-radius: clamp(20px, 2vw, 32px);
   background: #d9e5ff;
   box-shadow: 0 30px 80px rgba(8, 23, 67, .12);
-  will-change: transform;
 }
-.project-visual::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(8,23,67,0) 44%, rgba(8,23,67,.26));
-  pointer-events: none;
-}
+.project-visual::after { display: none; }
 .project-visual img {
   display: block;
   width: 100%;
@@ -537,24 +544,23 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   will-change: transform;
 }
 .project-scene-link {
-  position: absolute;
-  z-index: 5;
-  top: clamp(16px, 2vw, 28px);
-  right: clamp(16px, 2vw, 28px);
+  position: static;
+  width: max-content;
+  margin-top: 28px;
   min-height: 42px;
   padding-inline: 17px;
   border-color: rgba(255, 255, 255, .75);
   color: #081743;
   background: rgba(255, 255, 255, .9);
-  box-shadow: 0 10px 28px rgba(8, 23, 67, .13);
+  box-shadow: 0 8px 22px rgba(8, 23, 67, .1);
   backdrop-filter: blur(10px);
 }
 .project-scene-link:hover { border-color: #1552fa; background: #1552fa; }
 .project-scene-copy {
   position: absolute;
   z-index: 3;
-  left: clamp(20px, 3vw, 50px);
-  right: clamp(18px, 2vw, 36px);
+  left: 0;
+  right: 0;
   bottom: 0;
   color: #081743;
   will-change: transform;
@@ -566,48 +572,53 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   font-weight: 700;
   letter-spacing: .13em;
 }
+.project-meta-row { display: grid; grid-template-columns: minmax(280px, 1.05fr) minmax(260px, .95fr); align-items: center; gap: clamp(28px, 3vw, 50px); }
+.project-title-group { min-width: 0; }
 .project-scene-copy h3 {
   max-width: 1050px;
   margin: 0;
   color: #081743;
   font-family: var(--condensed);
-  font-size: clamp(48px, 6.5vw, 108px);
+  font-size: clamp(52px, 5.8vw, 92px);
   font-weight: 800;
   letter-spacing: -.055em;
   line-height: .77;
   text-transform: uppercase;
   will-change: transform;
 }
+.project-description { margin: 0; padding-left: clamp(24px, 2.5vw, 40px); border-left: 1px solid #98a5c2; color: #56627e; font-size: clamp(13px, 1.05vw, 17px); line-height: 1.45; }
 .work-progress {
   position: absolute;
   z-index: 10;
-  top: 50%;
-  right: clamp(28px, 4.5vw, 72px);
-  display: grid;
-  gap: 12px;
-  transform: translateY(-50%);
+  top: calc(55% + 57px);
+  left: clamp(38px, 4.2vw, 68px);
+  display: flex;
+  width: clamp(160px, 14vw, 220px);
+  gap: 0;
 }
 .work-progress-item {
   display: block;
-  width: 25px;
+  width: auto;
   height: 3px;
-  margin-left: auto;
+  flex: 1;
   background: #a8b9df;
-  transform-origin: right center;
-  transition: width .35s ease, background-color .35s ease;
+  transition: background-color .35s ease;
 }
-.work-progress-item.is-active { width: 48px; background: #1552fa; }
+.work-progress-item.is-active,
+.work-progress-item.is-past { background: #1552fa; }
 .work-navigation {
   position: absolute;
   z-index: 10;
-  right: clamp(28px, 5vw, 84px);
-  bottom: clamp(28px, 4vh, 46px);
+  top: calc(55% + 88px);
+  left: clamp(38px, 4.2vw, 68px);
   display: flex;
   gap: 9px;
 }
 .work-navigation-button {
   display: inline-flex;
-  min-height: 44px;
+  width: 58px;
+  min-height: 58px;
+  justify-content: center;
   align-items: center;
   gap: 10px;
   padding: 0 17px;
@@ -621,6 +632,7 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   cursor: pointer;
   transition: color .2s ease, background-color .2s ease, opacity .2s ease;
 }
+.work-navigation-button span:not([aria-hidden]) { display: none; }
 .work-navigation-button:hover:not(:disabled) { color: #fff; background: #1552fa; }
 .work-navigation-button:focus-visible { outline: 3px solid rgba(21,82,250,.35); outline-offset: 3px; }
 .work-navigation-button:disabled { opacity: .32; cursor: default; }
@@ -868,6 +880,11 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   .mobile-nav .language-switch { align-self: flex-start; margin-top: 8px; }
 }
 
+@media (max-width: 760px) {
+  .site-header.is-work-compact { width: calc(100% - 24px); }
+  .site-header.is-work-compact .wordmark { font-size: 0; }
+}
+
 @media (max-width: 900px) {
   .container { width: calc(100% - 56px); }
   .hero-content { display: flex; flex-direction: column; min-height: 0; padding-top: 72px; padding-bottom: 10px; text-align: center; }
@@ -1000,33 +1017,34 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
 
 @media (max-width: 900px) {
   .work-pin { width: 100%; height: 100svh; min-height: 600px; padding: 0; }
-  .work-heading { top: 82px; left: 28px; }
-  .work-heading h2 { font-size: clamp(32px, 6vw, 48px); }
-  .work-counter { top: auto; bottom: 34px; left: 28px; gap: 9px; font-size: 15px; }
-  .work-counter-line { width: 54px; }
-  .project-track { top: 156px; right: 62px; bottom: 94px; left: 28px; }
-  .project-visual { bottom: 70px; border-radius: 24px; }
-  .project-scene-copy { left: 18px; right: 12px; }
-  .project-scene-copy h3 { font-size: clamp(44px, 9.2vw, 78px); }
-  .work-progress { right: 20px; }
-  .work-navigation { right: 28px; bottom: 28px; }
+  .work-heading { top: 92px; left: 28px; }
+  .work-kicker { margin-bottom: 12px; }
+  .work-heading h2 { font-size: clamp(38px, 7vw, 58px); }
+  .work-intro { display: none; }
+  .work-counter { top: auto; bottom: 28px; left: 28px; font-size: 18px; }
+  .project-track { top: 214px; right: 28px; bottom: 96px; left: 28px; }
+  .project-visual { bottom: 150px; border-radius: 24px; }
+  .project-meta-row { grid-template-columns: 1fr; gap: 8px; }
+  .project-scene-copy h3 { font-size: clamp(46px, 9vw, 72px); }
+  .project-description { max-width: 620px; padding-left: 0; border-left: 0; font-size: 12px; }
+  .work-progress { top: auto; bottom: 18px; left: 92px; width: 120px; }
+  .work-navigation { top: auto; right: 28px; bottom: 18px; left: auto; }
+  .work-navigation-button { width: 44px; min-height: 44px; padding: 0; }
 }
 
 @media (max-width: 600px) {
-  .work-pin { min-height: 620px; }
+  .work-pin { min-height: 700px; }
   .work-heading { top: 76px; left: 20px; }
   .work-kicker { font-size: 10px; }
   .work-heading h2 { font-size: 36px; }
-  .project-track { top: 154px; right: 42px; bottom: 104px; left: 20px; }
-  .project-visual { bottom: 90px; border-radius: 20px; }
-  .project-scene-link { top: 12px; right: 12px; min-height: 36px; padding-inline: 11px; font-size: 10px; }
-  .project-scene-copy { left: 12px; }
+  .project-track { top: 170px; right: 20px; bottom: 112px; left: 20px; }
+  .project-visual { bottom: 158px; border-radius: 20px; }
+  .project-scene-link { min-height: 36px; margin-top: 16px; padding-inline: 11px; font-size: 10px; }
   .project-category { margin-bottom: 7px; font-size: 10px; }
-  .project-scene-copy h3 { font-size: clamp(38px, 12vw, 58px); line-height: .8; }
-  .work-progress { right: 12px; gap: 9px; }
-  .work-progress-item { width: 16px; }
-  .work-progress-item.is-active { width: 28px; }
-  .work-counter { bottom: 26px; left: 20px; }
+  .project-scene-copy h3 { font-size: clamp(38px, 12vw, 58px); line-height: .82; }
+  .project-description { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+  .work-progress { bottom: 29px; left: 20px; width: 92px; }
+  .work-counter { bottom: 54px; left: 20px; }
   .work-navigation { right: 20px; bottom: 20px; gap: 6px; }
   .work-navigation-button { min-height: 40px; padding: 0 13px; font-size: 10px; }
   .work-navigation-button span:not([aria-hidden]) { display: none; }
