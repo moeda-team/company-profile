@@ -24,36 +24,42 @@ const showcaseProjects = [
     title: "LowkeyThings",
     category: "Event Platform",
     image: "lowkeythings.webp",
+    slug: "lowkeythings",
   },
   {
     number: "00.02",
     title: "PapanClip",
     category: "Collaborative Project Management",
     image: "papanclip.webp",
+    slug: "papanclip",
   },
   {
     number: "00.03",
     title: "SPRIN RUN 2027",
     category: "Charity Run Experience",
     image: "sprin-run-home.png",
+    slug: "sprin-run",
   },
   {
     number: "00.04",
     title: "Dagora",
     category: "Connected Retail Operations",
     image: "dagora-login.png",
+    slug: "chandradimuka",
   },
   {
     number: "00.05",
     title: "Momentoku",
     category: "Shared Event Memories",
     image: "momentoku-home.png",
+    slug: "momentoku",
   },
   {
     number: "00.06",
     title: "Empatrima",
     category: "Live Interactive Quiz",
     image: "empatrima.webp",
+    slug: "empatrima",
   },
 ] as const;
 
@@ -141,6 +147,7 @@ app.innerHTML = `
                 <div class="project-visual">
                   <img src="${import.meta.env.BASE_URL}images/work/${project.image}" width="2559" height="1324" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" alt="Preview ${project.title}" />
                 </div>
+                <a class="project-detail-link project-scene-link" href="${import.meta.env.BASE_URL}work/${project.slug}/">View project ${arrow}</a>
                 <div class="project-scene-copy">
                   <p class="project-category">${project.category}</p>
                   <h3>${project.title}</h3>
