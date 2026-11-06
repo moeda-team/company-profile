@@ -107,14 +107,14 @@ const indonesianProjects: Project[] = [
     number: "06",
     title: "Empatrima",
     category: "Interactive quiz",
-    description: "Platform kuis langsung yang mengajak peserta menjawab melalui perangkat mereka dan mengikuti skor secara real time.",
+    description: "Platform kuis interaktif untuk membuat soal, mengundang pemain, menjawab dari perangkat, dan melihat hasil bersama.",
     overview:
-      "Empatrima menghadirkan kuis bersama untuk acara dan komunitas. Pembawa acara menampilkan pertanyaan, peserta memilih jawaban dari perangkat masing-masing, lalu hasil dan papan peringkat membuat permainan mudah diikuti bersama.",
+      "Empatrima menghubungkan penyusunan materi dan permainan kuis dalam satu pengalaman. Pengelola memilih atau membuat kuis, mengatur pertanyaan dan waktu, membagikan kode bergabung, lalu memandu sesi langsung. Peserta menjawab dari perangkat masing-masing, sedangkan skor, papan peringkat, dan riwayat sesi menyimpan hasilnya.",
     challenge:
-      "Kuis untuk banyak peserta membutuhkan cara menjawab yang sederhana serta hasil yang dapat diikuti seluruh ruangan.",
+      "Kuis bersama membutuhkan alur yang jelas dari persiapan soal hingga pemain bergabung, menjawab tepat waktu, dan melihat hasil akhir tanpa kehilangan ritme acara.",
     approach:
-      "Satukan tampilan pertanyaan, pilihan jawaban di perangkat peserta, skor, dan papan peringkat dalam satu pengalaman kuis langsung.",
-    focus: ["Jawaban peserta melalui perangkat", "Skor dan papan peringkat", "Pengalaman kuis untuk acara bersama"],
+      "Sediakan katalog dan editor kuis, ruang tunggu dengan kode bergabung, tampilan soal untuk desktop dan ponsel, serta papan peringkat dan riwayat sesi.",
+    focus: ["Katalog dan editor pertanyaan", "Ruang tunggu dan kuis lintas perangkat", "Papan peringkat dan riwayat hasil"],
     access: { status: "public", url: "https://www.empatrima.my.id/auth/login" },
   },
 ];
@@ -184,14 +184,14 @@ const englishCopy: Pick<Project, "category" | "description" | "overview" | "chal
   },
   {
     category: "Interactive quiz",
-    description: "A live quiz platform where participants answer on their devices and follow scores in real time.",
+    description: "An interactive quiz platform to create questions, invite players, answer on devices, and view results together.",
     overview:
-      "Empatrima brings shared quizzes to events and communities. A host presents questions, participants choose answers on their own devices, and results and a leaderboard keep the game easy to follow together.",
+      "Empatrima connects quiz creation and live play in one experience. Organizers choose or build a quiz, set questions and timing, share a join code, and host the session. Players answer on their own devices, while scores, a leaderboard, and session history keep the results available.",
     challenge:
-      "Quizzes with many participants need a simple way to answer and results the whole room can follow.",
+      "A shared quiz needs a clear flow from question preparation to joining, timed answers, and final results without interrupting the event's pace.",
     approach:
-      "Bring questions, answers on participant devices, scores, and a leaderboard into one live quiz experience.",
-    focus: ["Answers on participant devices", "Scores and leaderboard", "Shared event quiz experience"],
+      "Provide a quiz library and editor, a join-code lobby, desktop and mobile question views, and a leaderboard with session history.",
+    focus: ["Quiz library and question editor", "Join-code lobby and cross-device play", "Leaderboard and result history"],
   },
 ];
 
