@@ -3,7 +3,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 import { whenScrollIdle } from "./scroll-idle";
-import { projects, projectUrl } from "./projects";
 import { renderSiteFooter } from "./footer";
 import { getLocale, languageSwitch, localizeDOM, mountLanguageSwitch, t } from './i18n';
 import { mountThemeToggle, themeToggle } from './theme';
@@ -18,6 +17,45 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const arrow = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19 19 5M8 5h11v11"/></svg>`;
+
+const showcaseProjects = [
+  {
+    number: "00.01",
+    title: "LowkeyThings",
+    category: "Event Platform",
+    image: "lowkeythings.webp",
+  },
+  {
+    number: "00.02",
+    title: "PapanClip",
+    category: "Collaborative Project Management",
+    image: "papanclip.webp",
+  },
+  {
+    number: "00.03",
+    title: "SPRIN RUN 2027",
+    category: "Charity Run Experience",
+    image: "sprin-run-home.png",
+  },
+  {
+    number: "00.04",
+    title: "Dagora",
+    category: "Connected Retail Operations",
+    image: "dagora-login.png",
+  },
+  {
+    number: "00.05",
+    title: "Momentoku",
+    category: "Shared Event Memories",
+    image: "momentoku-home.png",
+  },
+  {
+    number: "00.06",
+    title: "Empatrima",
+    category: "Live Interactive Quiz",
+    image: "empatrima.webp",
+  },
+] as const;
 
 const app = document.querySelector<HTMLDivElement>("#app");
 if (!app) throw new Error("App root not found");
@@ -87,35 +125,37 @@ app.innerHTML = `
     <main>
       <section class="work-section section" id="work" aria-labelledby="work-heading">
         <div class="container work-pin">
-          <div class="work-heading reveal">
-            <div>
-              <p class="work-kicker">What we’ve built</p>
-              <h2 id="work-heading">Selected Works.</h2>
-            </div>
-            <p class="work-counter" aria-live="polite"><span>01</span> / ${String(projects.length).padStart(2, "0")}</p>
+          <div class="work-heading">
+            <p class="work-kicker">What we’ve built</p>
+            <h2 id="work-heading"><span>Selected</span><span>Works.</span></h2>
           </div>
-          <div class="project-accordion" id="all-projects">
-            ${projects
+          <div class="work-counter" aria-live="polite" aria-atomic="true">
+            <span class="work-counter-value">00.01</span>
+            <span class="work-counter-line" aria-hidden="true"></span>
+          </div>
+          <div class="project-track" id="all-projects">
+            ${showcaseProjects
               .map(
                 (project, index) => `
-              <article class="project-card${index === 0 ? " is-active" : ""}" data-project-index="${index}">
-                <header class="project-card-header">
-                  <h3><a href="${projectUrl(project)}"><span>${project.number} /</span> ${project.title}</a></h3>
-                  <a class="project-detail-link" href="${projectUrl(project)}">View project ${arrow}</a>
-                </header>
-                <div class="project-card-body">
-                  <img src="${import.meta.env.BASE_URL}images/work/${project.image}" width="1320" height="737" loading="lazy" decoding="async" alt="Preview ${project.title}" />
-                  <div class="project-card-shade"></div>
-                  <div class="project-card-copy">
-                    <p class="project-category">${project.category} / ${project.number}</p>
-                    <h4>${project.title}</h4>
-                    <p>${project.description}</p>
-                  </div>
+              <article class="project-scene${index === 0 ? " is-active" : ""}" data-project-index="${index}" aria-hidden="${index !== 0}">
+                <div class="project-visual">
+                  <img src="${import.meta.env.BASE_URL}images/work/${project.image}" width="2559" height="1324" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" alt="Preview ${project.title}" />
+                </div>
+                <div class="project-scene-copy">
+                  <p class="project-category">${project.category}</p>
+                  <h3>${project.title}</h3>
                 </div>
               </article>
             `,
               )
               .join("")}
+          </div>
+          <div class="work-progress" aria-label="Project progress">
+            ${showcaseProjects.map((project, index) => `<span class="work-progress-item${index === 0 ? " is-active" : ""}" aria-label="${project.number} ${project.title}"></span>`).join("")}
+          </div>
+          <div class="work-navigation" aria-label="Project navigation">
+            <button class="work-navigation-button work-previous" type="button" aria-label="Previous project" disabled><span aria-hidden="true">←</span><span>Previous</span></button>
+            <button class="work-navigation-button work-next" type="button" aria-label="Next project"><span>Next</span><span aria-hidden="true">→</span></button>
           </div>
         </div>
       </section>
@@ -676,52 +716,28 @@ const reduceMotion = window.matchMedia(
 ).matches;
 let lenis: Lenis | undefined;
 let workSnapTrigger: ScrollTrigger | undefined;
-let workSnapTimer = 0;
 let workSnapInProgress = false;
 const scrollEasing = (t: number) => 1 - Math.pow(1 - t, 4);
 function scrollToWorkCard(targetIndex: number) {
   if (!workSnapTrigger || !lenis || workSnapInProgress) return;
   const { start, end } = workSnapTrigger;
   const targetScroll =
-    start + (targetIndex / (projects.length - 1)) * (end - start);
+    start + (targetIndex / (showcaseProjects.length - 1)) * (end - start);
   workSnapInProgress = true;
   lenis.scrollTo(targetScroll, {
-    duration: 0.62,
+    duration: 1.35,
     easing: scrollEasing,
     lock: true,
     force: true,
     onComplete: () => {
+      workSnapTrigger?.animation?.progress(
+        targetIndex / (showcaseProjects.length - 1),
+        false,
+      );
       workSnapInProgress = false;
       setActiveProject(targetIndex);
     },
   });
-}
-
-function scheduleWorkSnap(scroll: number, direction: number) {
-  window.clearTimeout(workSnapTimer);
-  if (!workSnapTrigger || workSnapInProgress || direction === 0) return;
-  const { start, end } = workSnapTrigger;
-  if (scroll <= start + 1 || scroll >= end - 1) return;
-
-  workSnapTimer = window.setTimeout(() => {
-    if (!workSnapTrigger || workSnapInProgress || !lenis) return;
-    const cardCount = projects.length;
-    const rawIndex = workSnapTrigger.progress * (cardCount - 1);
-    const nearestIndex = Math.round(rawIndex);
-    const isAtCard = Math.abs(rawIndex - nearestIndex) < 0.08;
-    const targetIndex = Math.max(
-      0,
-      Math.min(
-        cardCount - 1,
-        isAtCard
-          ? nearestIndex + Math.sign(direction)
-          : direction > 0
-            ? Math.ceil(rawIndex)
-            : Math.floor(rawIndex),
-      ),
-    );
-    scrollToWorkCard(targetIndex);
-  }, 110);
 }
 
 function onWorkWheel(event: WheelEvent) {
@@ -741,15 +757,14 @@ function onWorkWheel(event: WheelEvent) {
   }
   const direction = Math.sign(event.deltaY);
   const currentIndex = Math.round(
-    workSnapTrigger.progress * (projects.length - 1),
+    workSnapTrigger.progress * (showcaseProjects.length - 1),
   );
   const targetIndex = Math.max(
     0,
-    Math.min(projects.length - 1, currentIndex + direction),
+    Math.min(showcaseProjects.length - 1, currentIndex + direction),
   );
   if (targetIndex === currentIndex) return;
   event.preventDefault();
-  window.clearTimeout(workSnapTimer);
   scrollToWorkCard(targetIndex);
 }
 
@@ -771,7 +786,10 @@ updateStickyHeader(window.scrollY);
 lenis.on("scroll", ({ scroll, direction }) => {
   ScrollTrigger.update();
   updateStickyHeader(scroll);
-  if (!reduceMotion) scheduleWorkSnap(scroll, direction);
+  // Wheel input and fixed controls own discrete scene navigation. Keeping the
+  // general Lenis callback passive prevents a completed button transition
+  // from scheduling a second, unintended project change.
+  void direction;
 });
 const tickSmoothScroll = (time: number) => lenis?.raf(time * 1000);
 gsap.ticker.add(tickSmoothScroll);
@@ -843,89 +861,137 @@ if (!reduceMotion) {
   });
 }
 
-const projectCards = gsap.utils.toArray<HTMLElement>(".project-card");
-const workCounter = document.querySelector<HTMLElement>(".work-counter span");
-const projectBodies = projectCards.map(
-  (card) => card.querySelector<HTMLElement>(".project-card-body")!,
+const projectScenes = gsap.utils.toArray<HTMLElement>(".project-scene");
+const projectVisuals = projectScenes.map(
+  (scene) => scene.querySelector<HTMLElement>(".project-visual")!,
 );
-const projectCopies = projectCards.map(
-  (card) => card.querySelector<HTMLElement>(".project-card-copy")!,
+const projectImages = projectScenes.map(
+  (scene) => scene.querySelector<HTMLImageElement>(".project-visual img")!,
 );
+const projectCopies = projectScenes.map(
+  (scene) => scene.querySelector<HTMLElement>(".project-scene-copy")!,
+);
+const projectTitles = projectScenes.map(
+  (scene) => scene.querySelector<HTMLElement>("h3")!,
+);
+const workCounter = document.querySelector<HTMLElement>(".work-counter-value");
+const workProgressItems = gsap.utils.toArray<HTMLElement>(".work-progress-item");
+const previousProject = document.querySelector<HTMLButtonElement>(".work-previous");
+const nextProject = document.querySelector<HTMLButtonElement>(".work-next");
+let activeProjectIndex = 0;
 
 function setActiveProject(index: number) {
-  projectCards.forEach((card, cardIndex) => {
-    const active = cardIndex === index;
-    card.classList.toggle("is-active", active);
-    card.setAttribute("aria-current", active ? "true" : "false");
+  if (index === activeProjectIndex && workCounter?.textContent === showcaseProjects[index].number) return;
+  activeProjectIndex = index;
+  projectScenes.forEach((scene, sceneIndex) => {
+    const active = sceneIndex === index;
+    scene.classList.toggle("is-active", active);
+    scene.setAttribute("aria-hidden", String(!active));
   });
-  if (workCounter) workCounter.textContent = String(index + 1).padStart(2, "0");
+  workProgressItems.forEach((item, itemIndex) =>
+    item.classList.toggle("is-active", itemIndex === index),
+  );
+  if (workCounter) workCounter.textContent = showcaseProjects[index].number;
+  if (previousProject) previousProject.disabled = index === 0;
+  if (nextProject) nextProject.disabled = index === projectScenes.length - 1;
 }
 
-if (!reduceMotion && projectCards.length > 1) {
-  const collapsedHeight = () => (window.innerWidth <= 600 ? 46 : 52);
-  const activeHeight = () =>
-    Math.max(
-      180,
-      Math.min(
-        window.innerHeight * (window.innerWidth <= 600 ? 0.46 : 0.48),
-        window.innerHeight -
-          (window.innerWidth <= 600 ? 140 : 170) -
-          (projectCards.length - 1) *
-            (collapsedHeight() + (window.innerWidth <= 600 ? 9 : 12)),
-      ),
-    );
+if (!reduceMotion && projectScenes.length > 1) {
+  gsap.set(projectScenes, { autoAlpha: 0, yPercent: 110, zIndex: 1 });
+  gsap.set(projectScenes[0], { autoAlpha: 1, yPercent: 0, zIndex: 2 });
+  gsap.set(projectImages, { scale: 1.08, yPercent: 0 });
+  gsap.set(projectCopies.slice(1), { yPercent: 55 });
+
+  const workScrollDistance = () =>
+    `+=${Math.max(window.innerHeight * 1.35 * (projectScenes.length - 1), 1900)}`;
   const workTimeline = gsap.timeline({
-    defaults: { duration: 1, ease: "none" },
+    defaults: { duration: 1, ease: "power3.inOut" },
     scrollTrigger: {
       trigger: ".work-pin",
       start: "top top",
-      end: () =>
-        `+=${Math.max(window.innerHeight * 1.1 * (projectCards.length - 1), 1500)}`,
+      end: workScrollDistance,
       pin: true,
-      scrub: 0.65,
+      scrub: 0.2,
       anticipatePin: 1,
       invalidateOnRefresh: true,
-      onUpdate: (self) =>
+      onUpdate: (self) => {
+        const visualProgress = self.animation?.progress() ?? self.progress;
         setActiveProject(
           Math.min(
-            projectCards.length - 1,
-            Math.round(self.progress * (projectCards.length - 1)),
+            projectScenes.length - 1,
+            Math.round(visualProgress * (projectScenes.length - 1)),
           ),
-        ),
+        );
+      },
     },
   });
   workSnapTrigger = workTimeline.scrollTrigger;
 
-  for (let state = 1; state < projectCards.length; state += 1) {
-    const position = state - 1;
-    projectCards.forEach((card, index) => {
-      workTimeline.to(
-        card,
-        {
-          width: `${window.innerWidth <= 600 ? 100 : Math.max(50, 100 - Math.abs(index - state) * 10)}%`,
-          height: index === state ? activeHeight : collapsedHeight,
-          borderRadius: index === state ? 28 : 999,
-        },
+  for (let index = 1; index < projectScenes.length; index += 1) {
+    const position = index - 1;
+    const outgoingScene = projectScenes[index - 1];
+    const incomingScene = projectScenes[index];
+
+    workTimeline
+      .set(incomingScene, { zIndex: 3 }, position)
+      .to(
+        outgoingScene,
+        { yPercent: -112, autoAlpha: 0, duration: 1 },
         position,
-      );
-      workTimeline.to(
-        projectBodies[index],
-        {
-          autoAlpha: index === state ? 1 : 0,
-        },
+      )
+      .to(
+        projectTitles[index - 1],
+        { yPercent: -95, duration: 0.82, ease: "power3.in" },
         position,
-      );
-      workTimeline.to(
+      )
+      .to(
+        projectImages[index - 1],
+        { yPercent: -16, scale: 1.13, duration: 1 },
+        position,
+      )
+      .fromTo(
+        incomingScene,
+        { yPercent: 112, autoAlpha: 1 },
+        { yPercent: 0, autoAlpha: 1, duration: 1 },
+        position,
+      )
+      .fromTo(
+        projectVisuals[index],
+        { yPercent: 10 },
+        { yPercent: 0, duration: 1 },
+        position,
+      )
+      .fromTo(
+        projectImages[index],
+        { yPercent: 18, scale: 1.14 },
+        { yPercent: 0, scale: 1.08, duration: 1 },
+        position,
+      )
+      .fromTo(
         projectCopies[index],
-        {
-          autoAlpha: index === state ? 1 : 0,
-          y: index === state ? 0 : 20,
-        },
-        position,
-      );
-    });
+        { yPercent: 70 },
+        { yPercent: 0, duration: 0.82, ease: "power3.out" },
+        position + 0.18,
+      )
+      .fromTo(
+        projectTitles[index],
+        { yPercent: 48 },
+        { yPercent: 0, duration: 0.78, ease: "power3.out" },
+        position + 0.22,
+      )
+      .set(outgoingScene, { zIndex: 1 }, position + 1)
+      .set(incomingScene, { zIndex: 2 }, position + 1);
   }
 }
+
+previousProject?.addEventListener("click", () => {
+  if (!workSnapInProgress) scrollToWorkCard(Math.max(0, activeProjectIndex - 1));
+});
+nextProject?.addEventListener("click", () => {
+  if (!workSnapInProgress)
+    scrollToWorkCard(Math.min(projectScenes.length - 1, activeProjectIndex + 1));
+});
+setActiveProject(0);
 
 const progress = document.querySelector<HTMLElement>(".scroll-progress");
 ScrollTrigger.create({
@@ -992,7 +1058,6 @@ const heroLayoutObserver = new ResizeObserver(() => {
 heroLayoutObserver.observe(document.querySelector(".hero")!);
 
 import.meta.hot?.dispose(() => {
-  window.clearTimeout(workSnapTimer);
   window.removeEventListener("wheel", onWorkWheel, { capture: true });
   cancelLayoutRefresh();
   heroLayoutObserver.disconnect();
