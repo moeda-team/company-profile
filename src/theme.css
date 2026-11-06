@@ -2,8 +2,8 @@
   display: grid;
   flex: none;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -13,7 +13,7 @@
   transition: color .2s ease, background .2s ease;
 }
 .theme-toggle:hover { background: rgba(37, 70, 200, .15); }
-.theme-toggle svg { width: 20px; height: 20px; }
+.theme-toggle svg { width: 17px; height: 17px; }
 .theme-icon-sun, html[data-theme="dark"] .theme-icon-moon { display: none; }
 html[data-theme="dark"] .theme-icon-sun { display: block; }
 .detail-not-found-header { display: flex; align-items: center; gap: 20px; }
