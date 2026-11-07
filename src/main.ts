@@ -24,7 +24,7 @@ const showcaseProjects = [
     number: "00.01",
     title: "LowkeyThings",
     category: "Event Platform",
-    image: "lowkeythings.webp",
+    image: "lowkeythings-catalog.png",
     slug: "lowkeythings",
     description: projectDetails[0].description,
   },
@@ -64,7 +64,7 @@ const showcaseProjects = [
     number: "00.06",
     title: "Empatrima",
     category: "Live Interactive Quiz",
-    image: "empatrima.webp",
+    image: "empatrima-lobby.png",
     slug: "empatrima",
     description: projectDetails[5].description,
   },
@@ -921,7 +921,7 @@ function setActiveProject(index: number) {
 if (!reduceMotion && projectScenes.length > 1) {
   gsap.set(projectScenes, { autoAlpha: 0, clipPath: "inset(100% 0 0 0)", zIndex: 1 });
   gsap.set(projectScenes[0], { autoAlpha: 1, clipPath: "inset(0% 0 0 0)", zIndex: 2 });
-  gsap.set(projectImages, { scale: 1.08, yPercent: 0 });
+  gsap.set(projectImages, { scale: 1, yPercent: 0 });
   gsap.set(projectCopies.slice(1), { yPercent: 55 });
 
   const workScrollDistance = () =>
@@ -986,7 +986,7 @@ if (!reduceMotion && projectScenes.length > 1) {
       .fromTo(
         projectImages[index],
         { yPercent: 18, scale: 1.14 },
-        { yPercent: 0, scale: 1.08, duration: 1 },
+        { yPercent: 0, scale: 1, duration: 1 },
         position,
       )
       .fromTo(

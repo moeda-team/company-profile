@@ -419,7 +419,7 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
 }
 .project-card-header h3 { flex: 1; min-width: 0; margin: 0; overflow: hidden; font-size: clamp(20px, 1.65vw, 27px); font-weight: 600; letter-spacing: -.025em; text-overflow: ellipsis; white-space: nowrap; }
 .project-card-header h3 span { color: #0b47ef; font-variant-numeric: tabular-nums; }
-.project-detail-link { display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 7px; padding: 7px 12px; border: 1px solid #8fb0f1; border-radius: 999px; color: #0b48bd; background: #fff; font-family: var(--condensed); font-size: 15px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; transition: border-color .2s ease, color .2s ease, background .2s ease; }
+.project-detail-link { display: inline-flex; flex: none; align-items: center; justify-content: center; gap: 7px; padding: 7px 12px; border: 1px solid #8fb0f1; border-radius: 999px; color: #0b48bd; background: transparent; font-family: var(--condensed); font-size: 15px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; transition: border-color .2s ease, color .2s ease, background .2s ease; }
 .project-detail-link:hover { border-color: var(--blue); color: #fff; background: var(--blue); }
 .project-detail-link svg { width: 16px; height: 16px; }
 .project-card-body {
@@ -508,10 +508,17 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   bottom: clamp(120px, 16vh, 170px);
   left: clamp(330px, 27vw, 430px);
   overflow: hidden;
+  container-type: size;
 }
+/* Visual keeps the 2559:1324 (~1.93:1) screenshot ratio; --visual-gap reserves room for the copy below it. */
 .project-scene {
+  --visual-gap: clamp(186px, 20vh, 220px);
   position: absolute;
-  inset: 0;
+  inset: 0 auto 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.4vh, 28px);
+  width: min(100cqw, calc((100cqh - var(--visual-gap)) * 2559 / 1324));
   opacity: 0;
   visibility: hidden;
   will-change: clip-path, opacity;
@@ -519,20 +526,24 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
 }
 .project-scene:first-child { opacity: 1; visibility: visible; }
 .project-visual {
-  position: absolute;
-  inset: 0 0 clamp(178px, 19vh, 210px);
+  position: relative;
+  flex: none;
+  width: 100%;
+  aspect-ratio: 2559 / 1324;
   overflow: hidden;
   will-change: transform;
   border-radius: clamp(20px, 2vw, 32px);
-  background: #d9e5ff;
-  box-shadow: 0 30px 80px rgba(8, 23, 67, .12);
 }
 .project-visual::after { display: none; }
+/* Show the whole image (contain); non-1.93:1 images get centred with their own rounded corners. */
 .project-visual img {
   display: block;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
   height: 100%;
-  object-fit: cover;
+  margin-inline: auto;
+  border-radius: inherit;
+  object-fit: contain;
   will-change: transform;
 }
 .project-scene-link {
@@ -541,19 +552,13 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   margin-top: 28px;
   min-height: 42px;
   padding-inline: 17px;
-  border-color: rgba(255, 255, 255, .75);
   color: #081743;
-  background: rgba(255, 255, 255, .9);
-  box-shadow: 0 8px 22px rgba(8, 23, 67, .1);
-  backdrop-filter: blur(10px);
+  background: transparent;
 }
 .project-scene-link:hover { border-color: #1552fa; background: #1552fa; }
 .project-scene-copy {
-  position: absolute;
+  position: relative;
   z-index: 3;
-  left: 0;
-  right: 0;
-  bottom: 0;
   color: #081743;
   will-change: transform;
 }
@@ -1010,7 +1015,8 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   .work-intro { display: none; }
   .work-counter { top: auto; bottom: 28px; left: 28px; font-size: 18px; }
   .project-track { top: 214px; right: 28px; bottom: 96px; left: 28px; }
-  .project-visual { bottom: 150px; border-radius: 24px; }
+  .project-scene { --visual-gap: 150px; }
+  .project-visual { border-radius: 24px; }
   .project-meta-row { grid-template-columns: 1fr; gap: 8px; }
   .project-scene-copy h3 { font-size: clamp(46px, 9vw, 72px); }
   .project-description { max-width: 620px; padding-left: 0; border-left: 0; font-size: 12px; }
@@ -1025,7 +1031,8 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   .work-kicker { font-size: 10px; }
   .work-heading h2 { font-size: 36px; }
   .project-track { top: 170px; right: 20px; bottom: 112px; left: 20px; }
-  .project-visual { bottom: 158px; border-radius: 20px; }
+  .project-scene { --visual-gap: 158px; }
+  .project-visual { border-radius: 20px; }
   .project-scene-link { min-height: 36px; margin-top: 16px; padding-inline: 11px; font-size: 10px; }
   .project-category { margin-bottom: 7px; font-size: 10px; }
   .project-scene-copy h3 { font-size: clamp(38px, 12vw, 58px); line-height: .82; }
@@ -1043,7 +1050,6 @@ html[lang="id"] .contact-slot:disabled::after { content: 'Tidak tersedia'; }
   .work-heading, .work-counter, .work-progress, .work-navigation { position: static; }
   .work-heading { margin-bottom: 38px; }
   .work-counter, .work-progress, .work-navigation { display: none; }
-  .project-track { position: static; display: grid; gap: 56px; overflow: visible; }
-  .project-scene, .project-scene:first-child { position: relative; inset: auto; min-height: min(680px, 72vw); opacity: 1; visibility: visible; transform: none !important; }
-  .project-visual { bottom: 80px; }
+  .project-track { position: static; display: grid; gap: 56px; overflow: visible; container-type: normal; }
+  .project-scene, .project-scene:first-child { position: relative; inset: auto; width: auto; opacity: 1; visibility: visible; transform: none !important; }
 }
